@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Production build
+build/
+
+# Docusaurus cache
+.docusaurus/
+
+# Local dev server
+serve_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Env
+.env
+.env.local
