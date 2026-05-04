@@ -2,45 +2,30 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
-// This runs in Node.js - Don't use client-side code here (browser APIs, hooks...)
-
 const config: Config = {
-  title: 'Archway',
-  tagline: 'Documentation du plugin Unreal Engine',
+  title: 'Origama Docs',
+  tagline: 'Documentation des produits Origama',
   favicon: 'img/favicon.ico',
 
-  // Set the production url of your site here
-  url: 'https://docs.origoma.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages: set this to your GitHub repo name
+  url: 'https://docs.origama.com',
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'ZeroOrigoma', // GitHub org
-  projectName: 'archway-doc', // repo name
+  organizationName: 'ZeroOrigama',
+  projectName: 'archway-doc',
 
-  // On uncaught errors you warn when reporting new Crashes to Crashlytics
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is French, you
-  // might want to replace "en" with "fr"
   i18n: {
-    defaultLocale: 'fr',
-    locales: ['fr'],
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
   },
 
   presets: [
     [
       'classic',
       {
-        docs: {
-          sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/ZeroOrigoma/archway-doc/tree/main/',
-          routeBasePath: '/', // serve docs at root URL (no /docs/ prefix)
-        },
+        docs: false, // disable default docs instance; we use custom instances below
         blog: false,
         theme: {
           customCss: './src/css/custom.css',
@@ -49,24 +34,60 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    // --- Archway docs plugin ---
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'archway',
+        path: 'docs/archway',
+        routeBasePath: 'archway',
+        sidebarPath: './sidebars/archway.ts',
+        editUrl: 'https://github.com/ZeroOrigama/archway-doc/tree/main/',
+        editCurrentVersion: false,
+      },
+    ],
+
+    // --- Chronoscope docs plugin (placeholder — enable when ready) ---
+    // [
+    //   '@docusaurus/plugin-content-docs',
+    //   {
+    //     id: 'chronoscope',
+    //     path: 'docs/chronoscope',
+    //     routeBasePath: 'chronoscope',
+    //     sidebarPath: './sidebars/chronoscope.ts',
+    //     editUrl: 'https://github.com/ZeroOrigama/archway-doc/tree/main/',
+    //   },
+    // ],
+  ],
+
   themeConfig: {
-    // Replace with your project's social card
-    // image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'Archway',
+      title: 'Origoma Docs',
       logo: {
-        alt: 'Archway Logo',
+        alt: 'Origoma Logo',
         src: 'img/logo.svg',
       },
       items: [
+        // Product selector
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          type: 'dropdown',
+          label: 'Produits',
           position: 'left',
-          label: 'Documentation',
+          items: [
+            {
+              label: 'Archway',
+              to: '/archway/',
+            },
+            // {
+            //   label: 'Chronoscope',
+            //   to: '/chronoscope/',
+            //   className: 'dropdown__link--disabled',
+            // },
+          ],
         },
         {
-          href: 'https://github.com/ZeroOrigoma/archway-doc',
+          href: 'https://github.com/ZeroOrigama',
           label: 'GitHub',
           position: 'right',
         },
@@ -76,25 +97,19 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Produits',
           items: [
-            {
-              label: 'Documentation',
-              to: '/',
-            },
+            { label: 'Archway', to: '/archway/' },
           ],
         },
         {
-          title: 'Community',
+          title: 'Communauté',
           items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/ZeroOrigoma/archway-doc',
-            },
+            { label: 'GitHub', href: 'https://github.com/ZeroOrigama' },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Origoma. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Origama. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
