@@ -1,0 +1,508 @@
+---
+title: Exposed Functions
+sidebar_position: 7
+---
+
+# Fonctions Exposees
+
+> Reference des fonctions Blueprint utilisables par les developpeurs Archway. Les fonctions sont groupees par theme d'utilisation — de la creation des territoires au rendu visuel, en passant par les interactions joueur et la gestion UI.
+>
+> **Note :** Cette page couvre l'API exposee au Blueprint. L'implementation C++ interne n'est pas documentee ici. Pour la liste complete des 110+ fonctions, voir [Interface C++](./cpp-interface).
+
+## Gestion des Territoires
+
+### Creation et initialisation
+
+#### BatchCreateTerritories
+
+**Signature :** `BatchCreateTerritories(Territories, bClearExisting, bDrawLUTs, bBakeLinearity, SourceResX, SourceResY, bPreWarmHighPrecision)`
+
+**Description :** Cree plusieurs territoires en une seule operation a partir d'un tableau de `FTerritoryData`. Efface optionnellement les territoires existants, bake des LUTs et une linearity map pour le placement des spline meshes le long des borders.
+
+**Exemple Blueprint :**
+```
+// Construire un FTerritoryData pour chaque province
+// Appeler BatchCreateTerritories avec le tableau de donnees
+// Les TerritoryActors sont spawns et les borders rendues automatiquement
+```
+
+#### InitializeWorldDatabase
+
+**Signature :** `InitializeWorldDatabase(WorldData)`
+
+**Description :** Charge la donnee complete des territoires du monde depuis un mapping de landmasses par province. Appele une fois au setup initial du niveau.
+
+#### RegisterTerritoryInstance
+
+**Signature :** `RegisterTerritoryInstance(MapMode, TerritoryID, InstanceOwnerID)`
+
+**Description :** Enregistre une instance de territoire sous un ID proprietaire pour un mode de carte specifie. Permet de gerer plusieurs representations visuelles du meme territoire (politique, relief, etc.).
+
+---
+
+### Transfert de territoire
+
+#### TransferProvince
+
+**Signature :** `TransferProvince(ProvinceID, OldOwnerID, NewOwnerID, MapMode)`
+
+**Description :** Transfere la propriete d'une seule province d'un territoire a un autre. La frontiere est recalculee automatiquement.
+
+#### TransferProvinces
+
+**Signature :** `TransferProvinces(ProvinceIDs, OldOwnerID, NewOwnerID, MapMode)`
+
+**Description :** Version batch — transfere la propriete de plusieurs provinces en une seule operation. Plus efficace pour les changements massifs de frontieres.
+
+#### EnqueueProvinceTransfer
+
+**Signature :** `EnqueueProvinceTransfer(TargetTerritoryID, TargetMapModeByte, NewOwnerID, DestMapModeByte, FrontlineLayerID, SurroundingLayerID, StateRT, MaterialParameters, bSuccess, OutOperationID, OutMessage)`
+
+**Description :** Met en file d'attente une operation de transfert complexe avec gestion de l'etat, triggers de materiaux et suivi. Utilise pour les transferts multi-etape qui necessitent un traitement asynchrone.
+
+**Exemple Blueprint :**
+```
+// 1. Appeler EnqueueProvinceTransfer avec les params du transfert
+// 2. Verifier bSuccess
+// 3. Appeler ExecutePendingTransfer(OperationID) pour appliquer
+// 4. Ou CancelPendingTransfer(OperationID) pour annuler
+```
+
+#### ExecutePendingTransfer
+
+**Signature :** `ExecutePendingTransfer(OperationID, bSuccess, OutMessage)`
+
+**Description :** Execute une operation de transfert precedemment mise en file d'attente.
+
+#### CancelPendingTransfer
+
+**Signature :** `CancelPendingTransfer(OperationID, bSuccess, OutMessage)`
+
+**Description :** Annule une operation de transfert en attente.
+
+#### GetPendingTransferOperationIDs
+
+**Signature :** `GetPendingTransferOperationIDs() -> TArray<FName>`
+
+**Description :** Retourne les IDs de toutes les operations de transfert en attente.
+
+#### IsTransferPending
+
+**Signature :** `IsTransferPending(OperationID) -> bool`
+
+**Description :** Verifie si une operation de transfert specifiee est toujours en attente.
+
+---
+
+### Requêtes sur les territoires
+
+#### GetTerritoryIDForProvince
+
+**Signature :** `GetTerritoryIDForProvince(ProvinceID, MapMode) -> FName`
+
+**Description :** Retourne l'ID du territoire qui possede une province donnee dans un mode de carte.
+
+#### GetBorderingTerritories
+
+**Signature :** `GetBorderingTerritories(TerritoryID, MapMode) -> TArray<FName>`
+
+**Description :** Retourne tous les territoires qui partagent une frontiere avec le territoire donne. Utile pour calculer les voisins diplomatiques.
+
+#### GetTerritoryLandmassCount
+
+**Signature :** `GetTerritoryLandmassCount(TerritoryID, MapMode, bDebugPoints) -> int32`
+
+**Description :** Retourne le nombre de landmasses (boucles de frontiere) d'un territoire. Un territoire avec des iles aura plusieurs landmasses.
+
+#### GetProvincesForTerritory
+
+**Signature :** `GetProvincesForTerritory(TerritoryID, MapMode) -> TArray<FName>`
+
+**Description :** Retourne les IDs de toutes les provinces appartenant a un territoire dans un mode de carte.
+
+#### GetInstanceIDsByMapMode
+
+**Signature :** `GetInstanceIDsByMapMode(MapMode) -> TArray<FName>`
+
+**Description :** Retourne les IDs de toutes les instances de territoire pour un mode de carte donne.
+
+#### GetTerritoryPathLength
+
+**Signature :** `GetTerritoryPathLength(TerritoryID, MapMode) -> float`
+
+**Description :** Retourne la longueur totale du parcours de frontiere d'un territoire.
+
+#### GetAllTerritoriesData
+
+**Signature :** `GetAllTerritoriesData() -> TArray<FTerritoryData>`
+
+**Description :** Retourne la donnee complete de tous les territoires. Utile pour le save/load ou les operations de synchronisation.
+
+#### GetActiveSegmentsBetweenTerritories
+
+**Signature :** `GetActiveSegmentsBetweenTerritories(TerritoryA, TerritoryB, MapMode) -> TArray<FName>`
+
+**Description :** Retourne les segments de frontiere actifs partages entre deux territoires.
+
+#### GetMacroSegmentIDBetweenTerritories
+
+**Signature :** `GetMacroSegmentIDBetweenTerritories(MapMode, TerritoryA, TerritoryB) -> FName`
+
+**Description :** Retourne l'ID du macro-segment partage entre deux territoires.
+
+---
+
+### Nettoyage
+
+#### ClearDynamicTerritories
+
+**Signature :** `ClearDynamicTerritories()`
+
+**Description :** Supprime tous les territoires crees dynamiquement. Utile avant de recharger un nouvel ensemble de donnees.
+
+## Rendu Visuel
+
+### Controle du rendu des borders
+
+#### SetTerritoryColor
+
+**Signature :** `SetTerritoryColor(TerritoryID, NewColor, MapMode)`
+
+**Description :** Definit la couleur d'affichage d'un territoire dans un mode de carte specifie. Permet de changer dynamiquement les couleurs en reponse a des evenements de jeu.
+
+**Exemple Blueprint :**
+```
+// Au changement de proprietaire :
+SetTerritoryColor(TerritoryID, FLinearColor(1, 0, 0, 1), 0)
+// Le territoire s'affiche en rouge dans le mode de carte 0
+```
+
+#### RequestBatchUpdate_DynamicOnly
+
+**Signature :** `RequestBatchUpdate_DynamicOnly(MapMode)`
+
+**Description :** Demande une mise a jour de rendu pour les seuls territoires modifies (dynamiques). Plus performant qu'un refresh complet.
+
+#### RequestBatchUpdate_DirtyOnly
+
+**Signature :** `RequestBatchUpdate_DirtyOnly(MapMode)`
+
+**Description :** Demande une mise a jour de rendu pour les territoires marques comme "sales" (besoin d'un redraw).
+
+#### RequestAllBatchUpdate_DynamicOnly
+
+**Signature :** `RequestAllBatchUpdate_DynamicOnly()`
+
+**Description :** Demande une mise a jour de rendu complete pour tous les territoires dynamiques.
+
+---
+
+### Controle global du rendu
+
+#### SetGlobalMapMode
+
+**Signature :** `SetGlobalMapMode(MapModeID)`
+
+**Description :** Change le mode de carte global pour toutes les instances de territoire. Permet de basculer entre differentes vues (politique, population, ressources, etc.).
+
+#### SetGlobalHighlight
+
+**Signature :** `SetGlobalHighlight(MapModeID, TerritoryID)`
+
+**Description :** Met en surbrillance un territoire specifie dans le mode de carte donne.
+
+#### ClearGlobalHighlight
+
+**Signature :** `ClearGlobalHighlight()`
+
+**Description :** Supprime la surbrillance du territoire actuellement surligne.
+
+#### SetGlobalSelection
+
+**Signature :** `SetGlobalSelection(MapModeID, TerritoryID)`
+
+**Description :** Selectionne un territoire dans le mode de carte donne. La selection persiste jusqu'a ce qu'elle soit effacee.
+
+#### ClearGlobalSelection
+
+**Signature :** `ClearGlobalSelection()`
+
+**Description :** Supprime la selection de territoire actuelle.
+
+---
+
+### Gestion des mises a jour visuelles
+
+#### UpdateFullVisuals
+
+**Signature :** `UpdateFullVisuals()`
+
+**Description :** Met a jour les visuels de toutes les instances de territoire.
+
+#### UpdateOwnerVisuals
+
+**Signature :** `UpdateOwnerVisuals(OwnerID)`
+
+**Description :** Met a jour les visuels (couleur, mode de carte) pour un proprietaire specifie.
+
+#### UpdateOwnersVisuals
+
+**Signature :** `UpdateOwnersVisuals(OwnerIDs)`
+
+**Description :** Version batch — met a jour les visuels pour plusieurs proprietaires.
+
+#### SyncVisualsToActors
+
+**Signature :** `SyncVisualsToActors(TerritoryIDsToSync, MapMode, MaxToProcess, bShouldBroadcast) -> TArray<FName>`
+
+**Description :** Synchronise l'etat visuel des territoires avec les TerritoryActor correspondants dans le monde.
+
+#### SyncAllVisuals
+
+**Signature :** `SyncAllVisuals()`
+
+**Description :** Synchronise les visuels de tous les territoires avec leurs acteurs correspondants.
+
+---
+
+### Instance Renderer
+
+#### RegisterSource
+
+**Signature :** `RegisterSource(SourceComponent)`
+
+**Description :** Enregistre un InstanceSourceComponent comme source de donnees pour le renderer.
+
+#### UnregisterSource
+
+**Signature :** `UnregisterSource(SourceComponent)`
+
+**Description :** Desenregistre une source precedemment enregistree.
+
+#### RequestFullUpdate
+
+**Signature :** `RequestFullUpdate()`
+
+**Description :** Declenche une reconstruction complete de toutes les instances HISM.
+
+#### RequestOwnerUpdate
+
+**Signature :** `RequestOwnerUpdate(OwnerID)`
+
+**Description :** Declenche une reconstruction pour un proprietaire de territoire specifie.
+
+#### GetLayerConfig
+
+**Signature :** `GetLayerConfig() -> UInstanceLayerConfig*`
+
+**Description :** Retourne le DataAsset de configuration des layers.
+
+#### GetGlobalParameters
+
+**Signature :** `GetGlobalParameters() -> UMaterialParameterCollection*`
+
+**Description :** Retourne la collection globale de parametres materiaux.
+
+## Input / Interaction
+
+### Detection d'interaction
+
+#### DrawInteractionOverlay
+
+**Signature :** `DrawInteractionOverlay(OverlayRT, TerritoriesToHighlight, MapMode, OverrideConfig, bUseDefaultConfig)`
+
+**Description :** Dessine un overlay de surbrillance d'interaction sur un render target pour des territoires specifies. Utilise pour le feedback visuel lors du survol ou du clic sur un territoire.
+
+**Exemple Blueprint :**
+```
+// Sur MouseOver dans le niveau :
+DrawInteractionOverlay(OverlayRT, [HoveredTerritoryID], MapMode, DefaultConfig, true)
+// Le territoire survole est mis en evidence
+```
+
+---
+
+### Labels
+
+#### PushTerritoryLabelPaths
+
+**Signature :** `PushTerritoryLabelPaths(TerritoryID, MapMode, Paths)`
+
+**Description :** Pousse les chemins spline de labels pour un territoire vers le systeme de labels.
+
+#### GetTerritoryLabelPaths
+
+**Signature :** `GetTerritoryLabelPaths(TerritoryID, MapMode, OutPaths) -> bool`
+
+**Description :** Recupere les chemins spline de labels pour un territoire.
+
+#### SetSplinePaths
+
+**Signature :** `SetSplinePaths(NewSplinePaths)`
+
+**Description :** Definit les chemins spline le long desquels le texte des labels sera dispose.
+
+#### SetText
+
+**Signature :** `SetText(NewText)`
+
+**Description :** Definit la chaine de texte a afficher pour ce label.
+
+#### GenerateGuidedSpline
+
+**Signature :** `GenerateGuidedSpline(LandmassGroup, RidgePathWorld, Params, HorizontalOrder, VerticalOrder, bDebugMode) -> TArray<FVector>`
+
+**Description :** Genere un chemin spline guide a travers un groupe de landmasses en utilisant les donnees de chemin de crete. Utilise pour le placement automatique des labels le long des borders.
+
+## UI / Loading
+
+### Notifications et processus longs
+
+#### RegisterProcess
+
+**Signature :** `RegisterProcess(ProcessID, DisplayName, Category)`
+
+**Description :** Enregistre un nouveau processus longue duree dans le systeme de notification. Appele avant de lancer une operation asynchrone.
+
+**Exemple Blueprint :**
+```
+RegisterProcess("LoadingWorld", FText("Loading World Data"), Processing)
+// Le processus apparait dans l'UI de notification
+```
+
+#### UpdateProcessProgress
+
+**Signature :** `UpdateProcessProgress(ProcessID, Progress01, CurrentStatus)`
+
+**Description :** Met a jour la progression (0-1) et le texte de statut d'un processus enregistre.
+
+#### FinishProcess
+
+**Signature :** `FinishProcess(ProcessID, bSuccess)`
+
+**Description :** Marque un processus enregistre comme termine (succes ou echec).
+
+#### PostNotification
+
+**Signature :** `PostNotification(Message, Type, Category)`
+
+**Description :** Poste un message de notification autonome dans l'UI.
+
+#### ReportError
+
+**Signature :** `ReportError(ProcessID, ErrorMessage, bLogToOutput)`
+
+**Description :** Signale une erreur pour un processus, avec option de log dans la sortie.
+
+#### GetActiveProcessData
+
+**Signature :** `GetActiveProcessData(ProcessID, OutData) -> bool`
+
+**Description :** Recupere les donnees actuelles d'un processus actif par son ID.
+
+---
+
+### Chargement asynchrone d'assets
+
+#### LoadAssetsKeepAlive
+
+**Signature :** `LoadAssetsKeepAlive(AssetsToLoad, ProcessName)`
+
+**Description :** Charge de maniere asynchrone des soft object references, les maintenant en memoire jusqu'a dechargement explicite.
+
+**Exemple Blueprint :**
+```
+// Charger les assets d'un niveau :
+LoadAssetsKeepAlive([SoftTexture1, SoftMesh2, ...], "LevelLoad")
+// Les assets sont charges en background
+```
+
+#### BatchResolve
+
+**Signature :** `BatchResolve(SoftList) -> TArray<UObject*>`
+
+**Description :** Resout de maniere synchrone un tableau de soft object references en hard references.
+
+#### UnloadAllAssets
+
+**Signature :** `UnloadAllAssets()`
+
+**Description :** Libere tous les assets charges via LoadAssetsKeepAlive.
+
+---
+
+### Gestion des etats diplomatiques
+
+#### UpdateSegmentState
+
+**Signature :** `UpdateSegmentState(SegmentID, NewState)`
+
+**Description :** Definit l'etat diplomatique pour un segment de frontiere individuel.
+
+#### UpdateSegmentStatesFromList
+
+**Signature :** `UpdateSegmentStatesFromList(SegmentIDs, NewState)`
+
+**Description :** Met a jour en batch l'etat de plusieurs segments vers le meme nouvel etat.
+
+#### GetStateForSegment
+
+**Signature :** `GetStateForSegment(SegmentID) -> FName`
+
+**Description :** Retourne l'etat diplomatique actuel d'un segment.
+
+#### RemoveStateForSegment
+
+**Signature :** `RemoveStateForSegment(SegmentID)`
+
+**Description :** Supprime l'etat diplomatique d'un segment, retournant a l'etat par defaut.
+
+#### GetDefaultStateName
+
+**Signature :** `GetDefaultStateName() -> FName`
+
+**Description :** Retourne le nom de l'etat diplomatique par defaut.
+
+---
+
+### Theme visuel
+
+#### GetRuleForState
+
+**Signature :** `GetRuleForState(StateName) -> FVisualRule`
+
+**Description :** Retourne la configuration de regle visuelle pour un nom d'etat diplomatique donne.
+
+#### GetLayerForState
+
+**Signature :** `GetLayerForState(StateName) -> FName`
+
+**Description :** Retourne l'ID du layer de rendu pour un nom d'etat diplomatique donne.
+
+---
+
+### Save/Load
+
+#### GetTerritorySaveData
+
+**Signature :** `GetTerritorySaveData(TerritoryID, MapMode) -> FTerritoryData`
+
+**Description :** Retourne les donnees serialisables pour sauvegarder un territoire.
+
+#### SaveGlobalMaterialParameters
+
+**Signature :** `SaveGlobalMaterialParameters(Collection, TargetSaveGame, ScalarNames, VectorNames)`
+
+**Description :** Sauvegarde les valeurs de la collection de parametres materiaux dans le save game pour la persistence entre sessions.
+
+#### GetSavedScalarParameterNames
+
+**Signature :** `GetSavedScalarParameterNames() -> TArray<FName>`
+
+**Description :** Retourne la liste des parametres materiaux scalaires sauvegardes.
+
+#### GetSavedVectorParameterNames
+
+**Signature :** `GetSavedVectorParameterNames() -> TArray<FName>`
+
+**Description :** Retourne la liste des parametres materiaux vectoriels sauvegardes.

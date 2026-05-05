@@ -1,0 +1,98 @@
+---
+title: Installation
+sidebar_position: 2
+---
+
+# Installation
+
+Guide étape par étape pour installer **Archway Core** dans votre projet Unreal Engine.
+
+## Prérequis
+
+Avant d'installer Archway Core, assurez-vous de disposer des éléments suivants :
+
+- **Unreal Engine 5.6 ou supérieur** — le plugin utilise des API spécifiques à la version 5.6+.
+- **Visual Studio** (Windows) ou **Xcode** (macOS) — requis pour la compilation du plugin et de votre projet.
+- **Un projet Unreal Engine existant** — Archway Core s'installe dans un projet, pas dans l'éditeur global.
+- **Git** — nécessaire pour cloner le dépôt du plugin (ou un navigateur pour le télécharger en ZIP).
+
+## Étapes d'installation
+
+### Étape 1 : Obtenir le plugin
+
+Clonez le dépôt **Archway Core** depuis sa source :
+
+```bash
+git clone https://github.com/votre-org/archway-core.git
+```
+
+Vous pouvez également télécharger l'archive ZIP directement depuis la page Releases du dépôt et l'extraire localement.
+
+![Screenshot obtenir le plugin](./img/step-1.png)
+
+### Étape 2 : Placer le plugin dans votre projet
+
+Copiez le dossier `ArchwayCore` (ou le dossier racine du plugin tel qu'extrait) dans le répertoire `Plugins/` de votre projet Unreal Engine :
+
+```
+VotreProjet/
+├── Config/
+├── Content/
+├── Source/
+├── Plugins/
+│   └── ArchwayCore/       <-- Coller le plugin ici
+│       ├── ArchwayCore.uplugin
+│       ├── Source/
+│       ├── Content/
+│       └── ...
+└── VotreProjet.uproject
+```
+
+> **Note** : Si le dossier `Plugins/` n'existe pas à la racine de votre projet, créez-le manuellement.
+
+![Screenshot placement du plugin](./img/step-2.png)
+
+### Étape 3 : Régénérer les fichiers projet
+
+Après avoir ajouté le plugin, régénérez les fichiers de solution de votre projet pour qu'il soit pris en compte par le système de build :
+
+- **Windows** : Clic droit sur le fichier `.uproject` → **Generate Visual Studio project files**.
+- **macOS** : Clic droit sur le fichier `.uproject` → **Switch Xcode Version** (ou régénérer via l'éditeur).
+
+Vous pouvez également le faire depuis l'éditeur : **Edit → Regenerate Project Files**.
+
+### Étape 4 : Activer le plugin
+
+1. Ouvrez votre projet dans l'**Unreal Editor**.
+2. Accédez au gestionnaire de plugins : **Edit → Plugins**.
+3. Dans la barre de recherche, tapez **Archway**.
+4. Cochez la case **Enabled** à côté de **Archway Core**.
+
+![Screenshot activation du plugin](./img/step-3.png)
+
+5. **Redémarrez l'éditeur** — l'activation d'un plugin C++ nécessite un redémarrage pour charger les modules.
+
+### Étape 5 : Compiler le projet
+
+Au redémarrage, Unreal Engine détectera le nouveau plugin et proposera de compiler les modules manquants :
+
+- Cliquez sur **Yes** pour lancer la compilation.
+- Si la compilation ne se lance pas automatiquement, compilez manuellement depuis Visual Studio / Xcode en build configuration **Development Editor**.
+
+![Screenshot compilation](./img/step-4.png)
+
+## Vérification
+
+Après la compilation et le redémarrage de l'éditeur, vérifiez que le plugin est correctement installé :
+
+1. **Dans le gestionnaire de plugins** (**Edit → Plugins**) : Archway Core doit apparaître comme **Enabled** avec un indicateur vert.
+2. **Dans le Content Browser** : les assets du plugin (Blueprints, widgets, matériaux) doivent être visibles sous le dossier `ArchwayCore` dans les plugins.
+3. **Console de sortie** : aucun message d'erreur lié à Archway Core ne doit apparaître dans la fenêtre **Output Log** au démarrage.
+
+![Screenshot vérification](./img/step-5.png)
+
+Si le plugin ne charge pas, consultez la page [Troubleshooting](../04-troubleshooting/troubleshooting) pour les solutions aux erreurs courantes.
+
+## Prochaines étapes
+
+Une fois Archway Core installé et activé, consultez la section [Getting Started](../03-getting-started/) pour créer votre premier territoire.

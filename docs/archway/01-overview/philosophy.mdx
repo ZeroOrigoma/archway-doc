@@ -1,0 +1,60 @@
+---
+title: Philosophy
+sidebar_position: 2
+---
+
+# Philosophy
+
+## Territory-first
+
+La philosophie d'Archway Core se résume en un principe : **territory-first**.
+
+Plutôt que de partir des acteurs, des meshes ou des volumes pour construire des zones, Archway inverse l'approche : **le territoire est l'entité première**. Tout le reste — les règles gameplay, les effets visuels, les interactions — se greffe autour de cette notion centrale.
+
+Cette approche offre plusieurs avantages :
+
+- **Cohérence** — chaque système repose sur la même définition du territoire, ce qui élimine les incohérences entre les différentes mécaniques.
+- **Composabilité** — les territoires peuvent se superposer, se fusionner, se diviser, sans que la logique sous-jacente ne devienne complexe.
+- **Performance** — les structures de données sont optimisées pour les requêtes territoriales, pas pour des cas génériques.
+
+## L'approche éditoriale : le designer définit, le plugin gère
+
+Archway Core repose sur une conviction : **le designer doit rester au centre du processus créatif**.
+
+Le workflow est conçu pour que vous puissiez :
+
+1. **Définir les territoires** dans l'éditeur UE — dessinez les zones, ajustez les formes, posez les règles de base.
+2. **Configurer les comportements** — déterminez comment les territoires réagissent aux événements (conquête, expansion, effondrement…).
+3. **Laisser le plugin gérer le reste** — les calculs d'appartenance, les mises à jour des frontières, les transitions entre états sont automatiques.
+
+Vous n'avez pas à écrire de boucles de mise à jour, de systèmes de détection de collision entre zones, ou de logique de propagation. Le plugin s'en charge.
+
+## Workflow dans l'éditeur UE
+
+### 1. Création des territoires
+
+Dans l'éditeur Unreal Engine, les territoires se créent via les outils dédiés d'Archway Core. Vous pouvez :
+
+- Dessiner des territoires directement dans la viewport.
+- Importer des données existantes (cartes, données de level design).
+- Utiliser des blueprints pour générer des territoires procéduralement.
+
+### 2. Configuration
+
+Chaque territoire dispose de propriétés configurables :
+
+- **Règles d'appartenance** — qui contrôle ce territoire ? Sous quelles conditions ?
+- **Comportements dynamiques** — comment le territoire évolue-t-il dans le temps ?
+- **Relations avec les autres territoires** — alliances, rivalités, neutralité…
+
+### 3. Exécution
+
+Une fois configurés, les territoires fonctionnent de manière autonome pendant le jeu. Le plugin gère :
+
+- Les mises à jour en temps réel des frontières.
+- Les transitions d'état (contrôle, contestation, perte).
+- La visualisation des borders dynamiques.
+
+## En résumé
+
+Archway Core n'est pas un outil technique qu'il faut « programmer ». C'est un **système éditorial** : vous définissez l'intention, le plugin s'occupe de l'exécution. Le territoire est au centre, tout le reste gravite autour.
