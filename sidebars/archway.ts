@@ -30,6 +30,7 @@ const sidebars: SidebarsConfig = {
       label: 'Troubleshooting',
       items: ['troubleshooting/troubleshooting'],
     },
+  ],
 };
 
 export default sidebars;
