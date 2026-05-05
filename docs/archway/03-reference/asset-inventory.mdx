@@ -1,0 +1,1073 @@
+---
+title: "Inventaire des Assets Archway"
+sidebar_position: 1
+---
+
+
+# Inventaire des Assets Archway
+
+> Inventaire exhaustif des **327 assets** repartis en **38 types**.
+
+## Vue d'ensemble par type
+
+| Type d'Asset | Count | Description |
+|--------------|-------|-------------|
+| **LandscapeStreamingProxy** | 128 | Tiles du landscape (World Partition) |
+| **Texture2D** | 32 | Logos, font atlases, textures speciales, ID maps, border milestones |
+| **Blueprint** | 23 | GameMode, Pawn, PlayerController, HUD, GameInstance, WorldManager, TerritoryActor, BPC_* managers |
+| **CanvasRenderTarget2D** | 23 | Rendus dynamiques : WarLUT, borders, labels, MapModeLUTs |
+| **UserDefinedStruct** | 17 | Structs de donnees : S_Scenario, S_TerritoryData, S_MapMode_*, S_Interaction |
+| **Material** | 12 | Materials pour borders, labels, landscape, hover, ocean |
+| **MaterialInstanceConstant** | 11 | Instances des materials ci-dessus |
+| **WidgetBlueprint** | 8 | WB_MainUI, WB_LoadingScreen, WB_TerritoryInfos, WB_MenuScreen, etc. |
+| **EditorUtilityBlueprint** | 7 | Tasks d'import et de generation (Task_ImportTerritories, etc.) |
+| **InputAction** | 6 | IA_Selection, IA_Zoom, IA_Spin, IA_Move, IA_DragMove, IA_Build_Move |
+| **DataTable** | 6 | DT_Barronies, DT_Comtes, DT_Duches, DT_Kingdoms, DT_Empires, DT_Definitions |
+| **CurveFloat** | 5 | Courbes de zoom, opacity, camera angle, flat map |
+| **TextureRenderTarget2D** | 5 | RT_LabelManager_*, TRT_BorderLUT, RT_DynamicBorderMap |
+| **Font** | 5 | Cinzel, Conquer, UnifrakturCook |
+| **InputMappingContext** | 4 | IMC_BaseInput, IMC_Map_Mode, IMC_DragMove, IMC_BuildMode |
+| **ActorFolder** | 4 | Folders World Partition |
+| **UserDefinedEnum** | 3 | E_InputType, E_MapModeName, E_InteractionModes |
+| **FontFace** | 3 | Cinzel-Bold, Conquer, CalSans-Regular |
+| **StaticMesh** | 2 | SM_InstanceMesh, old_wooden_table |
+| **TerritoriesDataAsset** | 2 | DA_Territories_Dynamic, DA_Territories_Static |
+| **StaticMeshActor** | 2 | Static mesh actors dans le niveau |
+| **DirectionalLight** | 2 | Eclairage directionnel |
+| **LocationVolume** | 2 | LandscapeRegion volumes |
+| **MaterialParameterCollection** | 1 | MPC_GlobalVisuals_Default |
+| **EditorUtilityWidgetBlueprint** | 1 | Archway (point d entree UX editor) |
+| **MaterialFunction** | 1 | MF_DynamicBorder |
+| **VisualThemeDataAsset** | 1 | DA_InstanceTheme_Default |
+| **InstanceLayerConfig** | 1 | DA_LayerConfig_Default |
+| **World** | 1 | World-0000 (map principale) |
+| **PDA_WorldManifest_C** | 1 |  |
+| **WaterZone** | 1 | Water zone |
+| **WorldPartitionMiniMap** | 1 | Mini map World Partition |
+| **BP_ArchwayPawn_C** | 1 |  |
+| **Landscape** | 1 | Landscape principal |
+| **WaterBodyOcean** | 1 | Water body ocean |
+| **WorldDataLayers** | 1 | World data layers |
+| **WaterBrushManager** | 1 | Water brush manager |
+| **BP_WorldManager_C** | 1 |  |
+
+## Inventaire detaille par type
+
+### LandscapeStreamingProxy (128)
+
+**__ExternalActors__/Starter/Maps/World-0000/0/96**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/0/C2**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/0/CX**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/0/FX**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/0/LH**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/0/PV**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/0/Q9**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/0/TP**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/4H**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/9N**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/DV**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/NY**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/PT**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/UU**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/VL**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/WB**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/X5**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/1/ZQ**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/1R**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/1U**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/E7**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/GS**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/JW**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/SI**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/XF**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/2/ZD**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/3/8A**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/3/96**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/3/PC**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/3/TL**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/3/V3**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/3L**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/AT**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/BG**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/GT**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/K2**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/KL**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/MX**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/4/OJ**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/2K**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/EC**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/H5**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/JA**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/VI**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/WS**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/Y7**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/5/ZQ**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/6/65**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/6/6O**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/6/BO**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/6/UH**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/6/VG**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/7/3B**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/7/3D**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/7/5D**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/7/CR**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/7/FF**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/0J**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/16**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/1T**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/3N**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/D0**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/FO**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/FU**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/J5**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/LK**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/LU**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/OL**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/UP**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/X0**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/XF**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/ZA**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/8/ZR**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/9/60**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/9/7N**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/9/A5**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/9/CY**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/9/H3**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/25**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/2Z**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/8E**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/H2**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/N8**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/RJ**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/VF**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/A/WA**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/36**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_12_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/4S**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/5R**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/6F**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/8L**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/JL**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/L5**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/NX**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/TI**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/TN**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/B/Z5**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/0N**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/1N**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/2O**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/CT**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/M0**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_3_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/O1**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/S6**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/SI**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_2_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/C/Z1**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/1Q**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_6_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/4B**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_15_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/55**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/8B**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_1_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/LQ**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_9_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/O8**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/O9**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/QG**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_0_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/R9**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_4_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/D/TZ**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/0O**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/48**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_4_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/EF**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_13_6_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/N2**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/SM**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_7_1_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/T7**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_10_1_0`
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_3_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/U7**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_8_7_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/E/ZJ**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_0_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/F/01**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_11_5_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/F/1V**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_5_2_0`
+
+**__ExternalActors__/Starter/Maps/World-0000/F/2Q**
+
+- `LandscapeStreamingProxy_B8EDMGVVU910SB79G84UKRDXN_508_14_2_0`
+
+
+### Texture2D (32)
+
+**Editor/Textures**
+
+- `T_StaticBorderMap_Definition`
+- `T_StaticID_Map_Definition`
+
+**Runtime/InstanceSystem/LabelManager/Font**
+
+- `Conquer_Font_Atlas_Page_0`
+
+**Runtime/InstanceSystem/LabelManager/Fonts**
+
+- `CalSans-Regular_Font_Page_0`
+- `Cinzel-Bold_Font_Page_0`
+- `Cinzel-Bold_Font_Page_1`
+- `UnifrakturCook-Bold_Font_Page_0`
+
+**Runtime/Shared/Textures/BorderMilestones**
+
+- `border_Land_0`
+- `border_Land_1`
+- `border_Land_2`
+- `border_Land_3`
+- `border_Land_4`
+- `border_Land_5`
+- `border_province`
+- `border_war`
+
+**Runtime/UI_System/Images**
+
+- `Logo_Transparent`
+- `Logo_White_Transparent`
+
+**Runtime/UI_System/Images/Icons**
+
+- `dejure_duchies`
+- `dejure_empires`
+- `dejure_kingdoms`
+- `realms`
+- `scheme_hud_icon_bg`
+
+**Starter/Runtime/Props/Old_Wooden_Table**
+
+- `old_wooden_table_texture_0`
+- `old_wooden_table_texture_1`
+- `old_wooden_table_texture_2`
+
+**Starter/Runtime/Visuals/Materials/LightFunctions/Texture**
+
+- `mask_clouds_solid`
+- `plains_01_rough_diffuse`
+
+**Starter/Runtime/Visuals/Materials/Splash**
+
+- `T_Editor_Splash`
+- `T_Splash`
+
+**Starter/Runtime/Visuals/Textures**
+
+- `T_DefinitionMap_World_0`
+- `T_FlatMap_Mask_World_0`
+- `T_FlatMap_Paper_World_0`
+
+
+### Blueprint (23)
+
+**Runtime/InputSystem**
+
+- `IM_Normalize`
+- `IM_Offset`
+
+**Runtime/InstanceSystem/Blueprints**
+
+- `BPC_InstanceManager`
+- `BPC_InstanceSource`
+- `BPC_LabelSource`
+
+**Runtime/InstanceSystem/LabelManager/Blueprints**
+
+- `BPC_LabelManager`
+
+**Runtime/InteractionSystem/Blueprints/Blueprints**
+
+- `BPC_InteractionManager`
+
+**Runtime/LoadingScreenSystem/Blueprints**
+
+- `BPC_LoadingScreenManager`
+
+**Runtime/PawnSystem/Blueprints**
+
+- `BP_ArchwayPawn`
+- `BP_PC`
+
+**Runtime/SaveLoadSystem/Blueprint**
+
+- `BP_ArchwaySave`
+
+**Runtime/Shared/FunctionLibraries**
+
+- `BPFL_RenderTargetDraw`
+
+**Runtime/TerritorySystem/Blueprints**
+
+- `BPC_TerritoryManager`
+- `BP_TerritoryActor`
+
+**Runtime/UI_System/Blueprint**
+
+- `BPC_UI_Manager`
+
+**Runtime/VisualSystem/Blueprints/Components**
+
+- `BPC_VisualManager`
+
+**Runtime/WorldSystem/Blueprints**
+
+- `BP_ArchwayWorldSubSystem`
+- `BP_WorldManager`
+
+**Runtime/WorldSystem/DataAssets**
+
+- `PDA_Scenario`
+- `PDA_WorldManifest`
+
+**Starter/Runtime/Core**
+
+- `BP_ArchwayGameInstance`
+- `BP_Archway_GameMode`
+- `BP_Archway_HUD`
+
+
+### CanvasRenderTarget2D (23)
+
+**Editor/Textures**
+
+- `CRT_DebugOutput`
+- `CRT_DynamicIDsMap_Definition`
+
+**Editor/Tool/Process/GenerateIDsMap**
+
+- `CRT_ColorToID`
+
+**Runtime/InstanceSystem/LabelManager/Textures**
+
+- `CRT_LabelManager_Border`
+- `CRT_LabelManager_LUT`
+- `CRT_LabelManager_Mask`
+
+**Runtime/Shared/Textures/DynamicBorders**
+
+- `RT_DynamicBorders_War_Frontline`
+- `RT_DynamicBorders_War_Surrounding`
+- `TRT_BorderMap_CurrentTerritory`
+- `TRT_BorderMap_Empty`
+- `TRT_BorderMap_Hover`
+- `TRT_BorderMap_Selection`
+
+**Runtime/Shared/Textures/BorderRendering**
+
+- `CRT_MapLayer_LUT`
+
+**Runtime/VisualSystem/RenderTargets/Hover**
+
+- `CRT_HoverLUT_Primary`
+- `CRT_HoverLUT_Secondary`
+- `CRT_WarLUT`
+
+**Starter/Runtime/Visuals/RenderTargets/DynamicBorders**
+
+- `RT_LinearityMap_Countries`
+
+**Starter/Runtime/Visuals/RenderTargets/MapModeLUTs**
+
+- `CRT_MapLayerLUT_Comtes`
+- `CRT_MapLayerLUT_Duches`
+- `CRT_MapLayerLUT_Empires`
+- `CRT_MapLayerLUT_Kingdoms`
+- `CRT_MapModeLUT_Countries`
+- `CRT_MapModeLUT_Provinces`
+
+
+### UserDefinedStruct (17)
+
+| Nom | Package Path |
+|-----|-------------|
+| `S_Scenario_Load` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_Scenario_Load` |
+| `S_Interaction_Click` | `/ArchwayCore/Runtime/InteractionSystem/Blueprints/Structures/S_Interaction_Click` |
+| `S_Interaction_Cursor` | `/ArchwayCore/Runtime/InteractionSystem/Blueprints/Structures/S_Interaction_Cursor` |
+| `S_Data_ClickedProvince` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_Data_ClickedProvince` |
+| `S_Data_HoveredProvince` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_Data_HoveredProvince` |
+| `S_Data_Selection` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_Data_Selection` |
+| `S_HUD_MapModeNav` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_HUD_MapModeNav` |
+| `S_MapMode_Info` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_MapMode_Info` |
+| `S_MapMode_Render` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_MapMode_Render` |
+| `S_MapMode_Data` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_MapMode_Data` |
+| `S_Mapmode_Type` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_Mapmode_Type` |
+| `S_MapMode_Config` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_MapMode_Config` |
+| `S_ArrayTerritoriesContext` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Struct/S_ArrayTerritoriesContext` |
+| `S_TerritoryDataTable` | `/ArchwayCore/Editor/Structures/MapModes/S_TerritoryDataTable` |
+| `S_TerritoryData` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_TerritoryData` |
+| `S_Scenario` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_Scenario` |
+| `S_ProvinceData` | `/ArchwayCore/Runtime/WorldSystem/Structures/S_ProvinceData` |
+
+
+### Material (12)
+
+| Nom | Package Path |
+|-----|-------------|
+| `M_DynamicCrop` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Material/M_DynamicCrop` |
+| `M_StencilRenderTarget` | `/ArchwayCore/Runtime/Shared/Materials/M_StencilRenderTarget` |
+| `M_BorderDetection` | `/ArchwayCore/Runtime/Shared/Materials/BorderDetection/M_BorderDetection` |
+| `M_BorderLUT` | `/ArchwayCore/Runtime/Shared/Materials/BorderRendering/M_BorderLUT` |
+| `M_RT_Copy` | `/ArchwayCore/Runtime/Shared/Materials/Copy/M_RT_Copy` |
+| `M_InstanceLabel` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Material/M_InstanceLabel` |
+| `M_DecodeToTexture` | `/ArchwayCore/Editor/Tool/Process/GenerateIDsMap/M_DecodeToTexture` |
+| `M_Landscape` | `/ArchwayCore/Starter/Runtime/Visuals/Materials/Landscape/M_Landscape` |
+| `M_FlatMapOcean` | `/ArchwayCore/Starter/Runtime/Visuals/Materials/FlatMap_Ocean/M_FlatMapOcean` |
+| `M_PixelPencil` | `/ArchwayCore/Runtime/Shared/Materials/BorderRendering/M_PixelPencil` |
+| `M_HoverAdv` | `/ArchwayCore/Runtime/VisualSystem/Materials/Hovers/M_HoverAdv` |
+| `LF_MapLightHighlight` | `/ArchwayCore/Starter/Runtime/Visuals/Materials/LightFunctions/LF_MapLightHighlight` |
+
+
+### MaterialInstanceConstant (11)
+
+| Nom | Package Path |
+|-----|-------------|
+| `MI_DynamicCrop` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Material/MI_DynamicCrop` |
+| `MI_BorderDetection` | `/ArchwayCore/Runtime/Shared/Materials/BorderDetection/MI_BorderDetection` |
+| `MI_BorderLUT` | `/ArchwayCore/Runtime/Shared/Materials/BorderRendering/MI_BorderLUT` |
+| `MI_RT_Copy` | `/ArchwayCore/Runtime/Shared/Materials/Copy/MI_RT_Copy` |
+| `MI_InstanceLabel` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Material/MI_InstanceLabel` |
+| `MI_DecodeToTexture` | `/ArchwayCore/Editor/Tool/Process/GenerateIDsMap/MI_DecodeToTexture` |
+| `MI_Landscape` | `/ArchwayCore/Starter/Runtime/Visuals/Materials/Landscape/MI_Landscape` |
+| `MI_FlatMapOcean` | `/ArchwayCore/Starter/Runtime/Visuals/Materials/FlatMap_Ocean/MI_FlatMapOcean` |
+| `MI_HoverAdv` | `/ArchwayCore/Runtime/VisualSystem/Materials/Hovers/MI_HoverAdv` |
+| `Wood` | `/ArchwayCore/Starter/Runtime/Props/Old_Wooden_Table/Wood` |
+| `LFI_MapLightHighlight` | `/ArchwayCore/Starter/Runtime/Visuals/Materials/LightFunctions/LFI_MapLightHighlight` |
+
+
+### WidgetBlueprint (8)
+
+| Nom | Package Path |
+|-----|-------------|
+| `WB_ScenarioButton` | `/ArchwayCore/Runtime/UI_System/WB/WB_ScenarioButton` |
+| `WB_LoadingScreen` | `/ArchwayCore/Runtime/UI_System/WB/WB_LoadingScreen` |
+| `WB_TerritoryInfos` | `/ArchwayCore/Runtime/UI_System/WB/WB_TerritoryInfos` |
+| `WB_ScenarioScreen` | `/ArchwayCore/Runtime/UI_System/WB/WB_ScenarioScreen` |
+| `WBP_MapModeButton` | `/ArchwayCore/Runtime/UI_System/Images/WBP_MapModeButton` |
+| `WB_Tooltip` | `/ArchwayCore/Runtime/UI_System/WB/WB_Tooltip` |
+| `WB_MenuScreen` | `/ArchwayCore/Runtime/UI_System/WB/WB_MenuScreen` |
+| `WB_MainUI` | `/ArchwayCore/Runtime/UI_System/WB/WB_MainUI` |
+
+
+### EditorUtilityBlueprint (7)
+
+| Nom | Package Path |
+|-----|-------------|
+| `Task_ImportTerritories` | `/ArchwayCore/Editor/Tool/Tasks/Task_ImportTerritories` |
+| `Task_ImportDefinitionsData` | `/ArchwayCore/Editor/Tool/Tasks/Task_ImportDefinitionsData` |
+| `Task_ImportAdministrativeDivision` | `/ArchwayCore/Editor/Tool/Tasks/Task_ImportAdministrativeDivision` |
+| `Task_GenerateBorderData` | `/ArchwayCore/Editor/Tool/Tasks/Task_GenerateBorderData` |
+| `Task_CreateWorldData` | `/ArchwayCore/Editor/Tool/Tasks/Task_CreateWorldData` |
+| `Task_BakeTerritories` | `/ArchwayCore/Editor/Tool/Tasks/Task_BakeTerritories` |
+| `Task_Empty` | `/ArchwayCore/Editor/Tool/Tasks/Task_Empty` |
+
+
+### InputAction (6)
+
+| Nom | Package Path |
+|-----|-------------|
+| `IA_Selection` | `/ArchwayCore/Runtime/InputSystem/IA_Selection` |
+| `IA_Zoom` | `/ArchwayCore/Runtime/InputSystem/IA_Zoom` |
+| `IA_Spin` | `/ArchwayCore/Runtime/InputSystem/IA_Spin` |
+| `IA_Move` | `/ArchwayCore/Runtime/InputSystem/IA_Move` |
+| `IA_DragMove` | `/ArchwayCore/Runtime/InputSystem/IA_DragMove` |
+| `IA_Build_Move` | `/ArchwayCore/Runtime/InputSystem/IA_Build_Move` |
+
+
+### DataTable (6)
+
+| Nom | Package Path |
+|-----|-------------|
+| `DT_Barronies_World_0` | `/ArchwayCore/Starter/EditorOnly/DataTables/DT_Barronies_World_0` |
+| `DT_Comtes_World_0` | `/ArchwayCore/Starter/EditorOnly/DataTables/DT_Comtes_World_0` |
+| `DT_Duches_World_0` | `/ArchwayCore/Starter/EditorOnly/DataTables/DT_Duches_World_0` |
+| `DT_Kingdoms_World_0` | `/ArchwayCore/Starter/EditorOnly/DataTables/DT_Kingdoms_World_0` |
+| `DT_Empires_World_0` | `/ArchwayCore/Starter/EditorOnly/DataTables/DT_Empires_World_0` |
+| `DT_Definitions_World_0` | `/ArchwayCore/Starter/EditorOnly/DataTables/DT_Definitions_World_0` |
+
+
+### CurveFloat (5)
+
+| Nom | Package Path |
+|-----|-------------|
+| `C_Zoom` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_Zoom` |
+| `C_FlatMapOpacity` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_FlatMapOpacity` |
+| `C_FlatMapLogic` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_FlatMapLogic` |
+| `C_CameraAngle` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_CameraAngle` |
+| `C_LabelOpacity` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_LabelOpacity` |
+
+
+### TextureRenderTarget2D (5)
+
+| Nom | Package Path |
+|-----|-------------|
+| `RT_LabelManager_Crop1K_Border` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Textures/RT_LabelManager_Crop1K_Border` |
+| `RT_LabelManager_Crop1K_Mask` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Textures/RT_LabelManager_Crop1K_Mask` |
+| `TRT_BorderLUT` | `/ArchwayCore/Runtime/Shared/Textures/BorderRendering/TRT_BorderLUT` |
+| `TRT_BorderEffect` | `/ArchwayCore/Runtime/Shared/Textures/BorderRendering/TRT_BorderEffect` |
+| `RT_DynamicBorderMap_Definition` | `/ArchwayCore/Editor/Textures/RT_DynamicBorderMap_Definition` |
+
+
+### Font (5)
+
+| Nom | Package Path |
+|-----|-------------|
+| `Cinzel-Bold_Font` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Fonts/Cinzel-Bold_Font` |
+| `Conquer_Font_Atlas` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Font/Conquer_Font_Atlas` |
+| `UnifrakturCook-Bold_Font` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Fonts/UnifrakturCook-Bold_Font` |
+| `Conquer_Font` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Fonts/Conquer_Font` |
+| `CalSans-Regular_Font` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Fonts/CalSans-Regular_Font` |
+
+
+### InputMappingContext (4)
+
+| Nom | Package Path |
+|-----|-------------|
+| `IMC_BaseInput` | `/ArchwayCore/Runtime/InputSystem/IMC_BaseInput` |
+| `IMC_Map_Mode` | `/ArchwayCore/Runtime/InputSystem/IMC_Map_Mode` |
+| `IMC_DragMove` | `/ArchwayCore/Runtime/InputSystem/IMC_DragMove` |
+| `IMC_BuildMode` | `/ArchwayCore/Runtime/InputSystem/IMC_BuildMode` |
+
+
+### ActorFolder (4)
+
+| Nom | Package Path |
+|-----|-------------|
+| `ActorFolder_UID_F6448192-416DD697-CBA6B0AA-5F6BB880` | `/ArchwayCore/__ExternalObjects__/Starter/Maps/World-0000/0/0B/YKJFEHRONV4SCBJ3YQ8KD1` |
+| `ActorFolder_UID_C9FC59DC-454659B3-25AAF6B7-C834E1BA` | `/ArchwayCore/__ExternalObjects__/Starter/Maps/World-0000/0/4L/QV62RVPOCI7PYG4LQFISUN` |
+| `ActorFolder_UID_24D7041D-436D30CF-C0F04D85-947580EE` | `/ArchwayCore/__ExternalObjects__/Starter/Maps/World-0000/7/YA/B8K7AC6KGRQZ777N341982` |
+| `ActorFolder_UID_FB7535CF-4DDD25DE-1261889E-1ED61AC3` | `/ArchwayCore/__ExternalObjects__/Starter/Maps/World-0000/A/UL/BVWZ6PDSFB6V7GC5UPMN07` |
+
+
+### UserDefinedEnum (3)
+
+| Nom | Package Path |
+|-----|-------------|
+| `E_InputType` | `/ArchwayCore/Runtime/InputSystem/E_InputType` |
+| `E_MapModeName` | `/ArchwayCore/Runtime/WorldSystem/Enums/E_MapModeName` |
+| `E_InteractionModes` | `/ArchwayCore/Runtime/VisualSystem/Enum/E_InteractionModes` |
+
+
+### FontFace (3)
+
+| Nom | Package Path |
+|-----|-------------|
+| `UnifrakturCook-Bold` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Fonts/UnifrakturCook-Bold` |
+| `Cinzel-Bold` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Fonts/Cinzel-Bold` |
+| `CalSans-Regular` | `/ArchwayCore/Runtime/InstanceSystem/LabelManager/Fonts/CalSans-Regular` |
+
+
+### StaticMesh (2)
+
+| Nom | Package Path |
+|-----|-------------|
+| `SM_InstanceMesh` | `/ArchwayCore/Runtime/InstanceSystem/Meshes/SM_InstanceMesh` |
+| `old_wooden_table` | `/ArchwayCore/Starter/Runtime/Props/Old_Wooden_Table/old_wooden_table` |
+
+
+### TerritoriesDataAsset (2)
+
+| Nom | Package Path |
+|-----|-------------|
+| `DA_Territories_Dynamic` | `/ArchwayCore/Starter/Runtime/DataAssets/Territories/DA_Territories_Dynamic` |
+| `DA_Territories_Static` | `/ArchwayCore/Starter/Runtime/DataAssets/Territories/DA_Territories_Static` |
+
+
+### StaticMeshActor (2)
+
+| Nom | Package Path |
+|-----|-------------|
+| `StaticMeshActor_UAID_90E8682DEDFC75BD02_1494929674` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/0/7K/3DX9YTIBQRARNZF8J3PUJ3` |
+| `StaticMeshActor_UAID_90E8682DEDFCEFCA02_1638885871` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/E/VN/OLQG84264F4B77LEBKTSKG` |
+
+
+### DirectionalLight (2)
+
+| Nom | Package Path |
+|-----|-------------|
+| `DirectionalLight_UAID_90E8682DEDFCF1B402_1473024993` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/1/0U/ED4JE8D201ZWQ5Q1I00RQZ` |
+| `DirectionalLight_UAID_90E8682DEDFC0ACB02_1671014623` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/E/CS/N56C93F8SQO3W1CSM6W84S` |
+
+
+### LocationVolume (2)
+
+| Nom | Package Path |
+|-----|-------------|
+| `LandscapeRegion_0_UAID_90E8682DEDFC27BC02_1918880888` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/9/CW/65743WRC83AVO7OK97BW0M` |
+| `LandscapeRegion_1_UAID_90E8682DEDFC27BC02_1919135889` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/9/NR/IS5O24SZD034Z9S72GQLV0` |
+
+
+### MaterialParameterCollection (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `MPC_GlobalVisuals_Default` | `/ArchwayCore/Runtime/InstanceSystem/MPC/MPC_GlobalVisuals_Default` |
+
+
+### EditorUtilityWidgetBlueprint (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `Archway` | `/ArchwayCore/Editor/EditorPanel/Archway` |
+
+
+### MaterialFunction (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `MF_DynamicBorder` | `/ArchwayCore/Starter/Runtime/Visuals/Materials/Landscape/MF_DynamicBorder` |
+
+
+### VisualThemeDataAsset (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `DA_InstanceTheme_Default` | `/ArchwayCore/Runtime/InstanceSystem/Themes/DA_InstanceTheme_Default` |
+
+
+### InstanceLayerConfig (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `DA_LayerConfig_Default` | `/ArchwayCore/Runtime/InstanceSystem/LayerConfig/DA_LayerConfig_Default` |
+
+
+### World (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `World-0000` | `/ArchwayCore/Starter/Maps/World-0000` |
+
+
+### PDA_WorldManifest_C (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `DA_WorldManifest_0` | `/ArchwayCore/Starter/Runtime/DataAssets/DA_WorldManifest_0` |
+
+
+### WaterZone (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `WaterZone_UAID_90E8682DEDFC00CB02_1191400864` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/0/K0/HXXEZUQEFTY9SG87N5A2V0` |
+
+
+### WorldPartitionMiniMap (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `WorldPartitionMiniMap_UAID_90E8682DEDFCF1B402_1470314991` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/3/EP/F64R95E2UAMP78OGR6KQ0I` |
+
+
+### BP_ArchwayPawn_C (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `BP_ArchwayPawn_C_UAID_90E8682DEDFCECC102_2012508840` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/5/GN/O2CMH5QDJIJVUN3WPXJMCU` |
+
+
+### Landscape (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `Landscape_UAID_90E8682DEDFC27BC02_1888307887` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/5/ZW/L70472VEL6J3O7FX6EZJG9` |
+
+
+### WaterBodyOcean (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `WaterBodyOcean_UAID_90E8682DEDFC75BD02_1986201675` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/8/LI/W4EOGT3M3FD6AE51F55RMW` |
+
+
+### WorldDataLayers (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `WorldDataLayers` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/9/QU/1H32107XOX818B8MP5DJLI` |
+
+
+### WaterBrushManager (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `Landscape2_WaterBrushManager_0` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/B/4B/EPPSWLUB2WRLEUVC4HRSGG` |
+
+
+### BP_WorldManager_C (1)
+
+| Nom | Package Path |
+|-----|-------------|
+| `BP_WorldManager_C_UAID_90E8682DEDFCECC102_1989005839` | `/ArchwayCore/__ExternalActors__/Starter/Maps/World-0000/B/T5/3M8IGF7CR9J0MVH5W0BUED` |

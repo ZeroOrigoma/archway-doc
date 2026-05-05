@@ -1,0 +1,151 @@
+---
+title: "Composants Unreal Engine"
+sidebar_position: 4
+---
+
+
+# Composants Unreal Engine
+
+> **4 ActorComponents** Blueprintable exposes dans le plugin Archway.
+
+Tous les composants sont marques `Blueprintable` et `BlueprintSpawnableComponent` -- ils peuvent etre ajoutes
+a tout Actor via Blueprint ou C++.
+
+## UInstanceRendererComponent
+
+- **Parent :** `UActorComponent`
+- **Module :** `ArchwayCore`
+- **Header :** `InstanceRendererComponent.h`
+
+**Description :** Manages HISM (Hierarchical Instanced Static Mesh) rendering of territory borders. Sources data from UInstanceSourceComponent instances. Supports full/partial/dirty update requests and global map mode controls.
+
+### Comment ajouter
+
+Add to an Actor via Blueprint or C++ as a UPROPERTY. Configure LayerConfig (UInstanceLayerConfig DataAsset) and GlobalParameters (UMaterialParameterCollection). Register UInstanceSourceComponent instances via RegisterSource().
+
+### Proprietes cles
+
+| Propriete | Type |
+|-----------|------|
+| `LayerConfig` | `TSoftObjectPtr<UInstanceLayerConfig>` |
+| `GlobalParameters` | `UMaterialParameterCollection` |
+
+### Fonctions exposees
+
+| Fonction | Type |
+|----------|------|
+| `RegisterSource()` | Callable |
+| `RequestFullUpdate()` | Callable |
+| `SetGlobalMapMode()` | Callable |
+| `UpdateFullVisuals()` | Callable |
+
+## UInstanceSourceComponent
+
+- **Parent :** `UActorComponent`
+- **Module :** `ArchwayCore`
+- **Header :** `InstanceSourceComponent.h`
+
+**Description :** Provides geometry data to UInstanceRendererComponent. Generates instances along spline paths with configurable spacing, subdivision, Z-conformation, and segment filtering.
+
+### Comment ajouter
+
+Add to an Actor that has border geometry data. Set InputData (TArray<FVisualizedLandmass>), BorderMesh (UStaticMesh*), and configure instance placement params. The renderer picks it up via RegisterSource().
+
+### Proprietes cles
+
+| Propriete | Type |
+|-----------|------|
+| `LayerID` | `` |
+| `InputData` | `` |
+| `BorderMesh` | `` |
+| `MeshScale` | `` |
+| `VisualTheme` | `` |
+| `ConformationMode` | `` |
+| `InstanceSpacingMultiplier` | `` |
+
+### Fonctions exposees
+
+| Fonction | Type |
+|----------|------|
+| `GenerateInstanceData() (BlueprintNativeEvent)` | NativeEvent |
+
+## ULabelSourceComponent
+
+- **Parent :** `UActorComponent`
+- **Module :** `ArchwayCore`
+- **Header :** `LabelSourceComponent.h`
+
+**Description :** Provides label text and spline path data for territory labels rendered on the map. Configures font, layout mode, and text content.
+
+### Comment ajouter
+
+Add to a TerritoryActor or label host Actor. Set TextToDisplay, FontAsset, LabelLayerID, and CachedSplinePaths. Use SetText() and SetSplinePaths() to update at runtime.
+
+### Proprietes cles
+
+| Propriete | Type |
+|-----------|------|
+| `FontAsset` | `` |
+| `LabelLayerID` | `` |
+| `LayoutParams` | `` |
+| `CharactersToIgnore` | `` |
+| `CachedSplinePaths` | `` |
+| `TextToDisplay` | `` |
+
+### Fonctions exposees
+
+| Fonction | Type |
+|----------|------|
+| `SetText()` | Callable |
+| `SetSplinePaths()` | Callable |
+
+## UTerritoryManagerComponent
+
+- **Parent :** `UActorComponent`
+- **Module :** `ArchwayCore`
+- **Header :** `TerritoryManagerComponent.h`
+
+**Description :** The central territory management component. Handles territory creation, ownership transfers, province queries, rendering updates, border rasterization, and label management. Primary interface for all territory operations at runtime.
+
+### Comment ajouter
+
+Add to a manager Actor (e.g., GameMode or dedicated TerritoryManager Actor). Call InitializeWorldDatabase() with province landmass data, then BatchCreateTerritories() or use runtime transfer functions.
+
+### Proprietes cles
+
+| Propriete | Type |
+|-----------|------|
+| `bEnableSharedGeometry` | `` |
+| `MaxUpdatesPerFrame` | `` |
+| `MinLandmassPoints` | `` |
+| `MaxTerritoriesPerFrame` | `` |
+
+### Fonctions exposees
+
+| Fonction | Type |
+|----------|------|
+| `InitializeWorldDatabase()` | Callable |
+| `BatchCreateTerritories()` | Callable |
+| `TransferProvince()` | Callable |
+| `SyncAllVisuals()` | Callable |
+| `RenderTerritoriesToDynamicBorder()` | Callable |
+
+## Architecture des composants
+
+```
+UTerritoryManagerComponent     <-- Gestionnaire central de territoires
+  |
+  +-> UInstanceRendererComponent   <-- Rendu HISM des borders
+  |       ^
+  |       | RegisterSource()
+  +-> UInstanceSourceComponent     <-- Fournit la geometrie des borders
+  |
+  +-> ULabelSourceComponent        <-- Fournit les labels de territoires
+```
+
+Le `TerritoryManagerComponent` est le point d entree. Il orchestre :
+
+1. Creation des territoires via `BatchCreateTerritories()`
+2. Transfert de propriete via `TransferProvince()`
+3. Rendu visuel via `SyncAllVisuals()` qui declenche les updates du renderer
+4. Rasterization des borders via le systeme de rendu de border dynamique

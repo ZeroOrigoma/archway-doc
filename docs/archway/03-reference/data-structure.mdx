@@ -1,0 +1,151 @@
+---
+title: "Structure des Donnees"
+sidebar_position: 3
+---
+
+
+# Structure des Donnees
+
+> Structure des DataAssets, DataTables, Structs, Enums et CurveFloats du plugin Archway.
+> Extrait des headers C++ et des assets du plugin. Les DataTables contiennent des donnees projet-specifiques --
+> seules les colonnes et types sont documentes ici, pas le contenu.
+
+## DataAssets
+
+| DataAsset | C++ Class | Package | Role |
+|-----------|-----------|---------|------|
+| `DA_InstanceTheme_Default` | `ArchwayCore.VisualThemeDataAsset` | `/ArchwayCore/Runtime/InstanceSystem/Themes/DA_InstanceTheme_Default` | Theme visuel des instances |
+| `DA_WorldManifest_0` | `PDA_WorldManifest.PDA_WorldManifest_C` | `/ArchwayCore/Starter/Runtime/DataAssets/DA_WorldManifest_0` | Manifeste du monde (scenarios, worlds) |
+| `DA_Territories_Dynamic` | `ArchwayCore.TerritoriesDataAsset` | `/ArchwayCore/Starter/Runtime/DataAssets/Territories/DA_Territories_Dynamic` | Donnees des territoires dynamiques (runtime) |
+| `DA_Territories_Static` | `ArchwayCore.TerritoriesDataAsset` | `/ArchwayCore/Starter/Runtime/DataAssets/Territories/DA_Territories_Static` | Donnees des territoires statiques (baked) |
+
+## DataTables
+
+> Les DataTables utilisent toutes le meme RowStruct : `[S_TerritoryData](./S_TerritoryData)`.
+> Les compteurs de rows sont indicatifs (donnees projet-specifiques).
+
+| DataTable | Rows (World_0) | RowStruct | Role |
+|-----------|---------------|-----------|------|
+| `DT_Barronies_World_0` | 29,757 | `S_TerritoryDataTable.S_TerritoryDataTable` | Baronnies (niveau le plus bas) |
+| `DT_Comtes_World_0` | 5,045 | `S_TerritoryDataTable.S_TerritoryDataTable` | Comtes |
+| `DT_Duches_World_0` | 1,714 | `S_TerritoryDataTable.S_TerritoryDataTable` | Duches |
+| `DT_Kingdoms_World_0` | 284 | `S_TerritoryDataTable.S_TerritoryDataTable` | Royaumes |
+| `DT_Empires_World_0` | 15 | `S_TerritoryDataTable.S_TerritoryDataTable` | Empires (niveau le plus haut) |
+| `DT_Definitions_World_0` | 35,078 | `S_TerritoryDataTable.S_TerritoryDataTable` | Definitions de pixels ID map |
+
+### Hierarchie administrative
+
+```
+Definitions (35 078 pixels) -> Barronies (29 757) -> Comtes (5 045) -> Duches (1 714) -> Kingdoms (284) -> Empires (15)
+```
+
+## UserDefinedStructs (C++)
+
+> 56 USTRUCTs extraits des headers C++. Voici les principaux structures BlueprintType.
+
+Total: **57 USTRUCTs** (0 BlueprintType)
+
+| Struct | BlueprintType | Fields | Description |
+|--------|--------------|--------|-------------|
+| `FBorderPoint` | Non | 0 |  |
+| `FTaggedBorderPoint` | Non | 0 |  |
+| `FVisualizedLandmass` | Non | 0 |  |
+| `FFinalLandmass` | Non | 0 |  |
+| `FBorderSegment` | Non | 0 |  |
+| `FProvinceBorderData` | Non | 0 |  |
+| `FBorderExtractionConfig` | Non | 0 |  |
+| `FHierarchicalTaggedBorderSegment` | Non | 0 |  |
+| `FTaggedProvinceBorderData` | Non | 0 |  |
+| `FVisualizedBorderData` | Non | 0 |  |
+| `FTaggedBorderSegment` | Non | 0 |  |
+| `FValidatedBorderSegment` | Non | 0 |  |
+| `FLandmassData` | Non | 0 |  |
+| `FLandmassArray` | Non | 0 |  |
+| `FIndexedBorderData` | Non | 0 |  |
+| `FTerritoryKey` | Non | 0 |  |
+| `FTerritoryDependencyList` | Non | 0 |  |
+| `FTerritoryData` | Non | 0 |  |
+| `FRuntimeTerritoryData` | Non | 0 |  |
+| `FRuntimeTerritoryLayer` | Non | 0 |  |
+| `FProvinceLandmassMap` | Non | 0 |  |
+| `FTerritoryUpdateContext` | Non | 0 |  |
+| `FTerritoryUpdateEvent` | Non | 0 |  |
+| `FTerritoryUpdateQueue` | Non | 0 |  |
+| `FPendingTerritoryTransfer` | Non | 0 |  |
+| `FLandmassGroup` | Non | 0 |  |
+| `FLandmassGroupedBoxes` | Non | 0 |  |
+
+### Autres structs (30)
+
+| Struct | BlueprintType | Fields |
+|--------|--------------|--------|
+| `FNameArray` | Non | 0 |
+| `FAdministrativeTitle` | Non | 0 |
+| `FTitlesLayerWrapper` | Non | 0 |
+| `FMapCluster` | Non | 0 |
+| `FPreparedSegment` | Non | 0 |
+| `FCarrefourInfo` | Non | 0 |
+| `FSplineMeshPlacementInfo` | Non | 0 |
+| `FSortVertexKey` | Non | 0 |
+| `FIntPointArray` | Non | 0 |
+| `FSanitizationStats` | Non | 0 |
+| `FSplinePathData` | Non | 0 |
+| `FBorderConfig` | Non | 0 |
+| `FSpawnedActorLayer` | Non | 0 |
+| `FArchwayNotificationData` | Non | 0 |
+| `FLayerDef_Assets` | Non | 0 |
+| `FLayerDef_Culling` | Non | 0 |
+| `FLayerDef_Border` | Non | 0 |
+| `FInstanceLayerDefinition` | Non | 0 |
+| `FInstanceOwnerIndices` | Non | 0 |
+| `FInstancedVisualLayer` | Non | 0 |
+| `FInstanceData` | Non | 0 |
+| `FTerritoriesLayerWrapper` | Non | 0 |
+| `FMaterialParameterTrigger` | Non | 0 |
+| `FDistanceFieldReport` | Non | 0 |
+| `FGuidedSplineParams` | Non | 0 |
+| `FTextLayoutOnSplineParams` | Non | 0 |
+| `FVisualRule_Routing` | Non | 0 |
+| `FVisualRule_Appearance` | Non | 0 |
+| `FVisualRule_Border` | Non | 0 |
+| `FVisualRule` | Non | 0 |
+
+## UserDefinedEnums
+
+| Enum | Values | Package |
+|------|--------|---------|
+| `E_InputType` | `Gamepad`, `Mouse`, `Touch` | `InputSystem` |
+| `E_MapModeName` | Divers modes de carte (provinces, pays, etc.) | `WorldSystem` |
+| `E_InteractionModes` | Modes d interaction | `VisualSystem` |
+
+## C++ Enums (UENUM)
+
+Total: **15 UENUMs**
+
+| Enum | Values | Header |
+|------|--------|--------|
+| `EClusterCaseType` | 0 | `` |
+| `EBorderDetectionMode` | 0 | `` |
+| `EConnectionFailureReason` | 0 | `` |
+| `ETerritoryType` | 0 | `` |
+| `ENotificationType` | 0 | `` |
+| `ENotificationCategory` | 0 | `` |
+| `EConformationMode` | 0 | `` |
+| `ETerritoryEventType` | 0 | `` |
+| `EParameterTriggerTiming` | 0 | `` |
+| `EParameterCondition` | 0 | `` |
+| `ETextLayoutMode` | 0 | `` |
+| `ETextHorizontalAlignment` | 0 | `` |
+| `ELetterOrientation` | 0 | `` |
+| `EHorizontalDirectionOrder` | 0 | `` |
+| `EVerticalDirectionOrder` | 0 | `` |
+
+## CurveFloats
+
+| Courbe | Package | Usage |
+|--------|---------|-------|
+| `C_Zoom` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_Zoom` | Courbe de zoom de la camera |
+| `C_FlatMapOpacity` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_FlatMapOpacity` | Opacity de la flat map |
+| `C_FlatMapLogic` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_FlatMapLogic` | Logic de la flat map |
+| `C_CameraAngle` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_CameraAngle` | Angle de camera en fonction du zoom |
+| `C_LabelOpacity` | `/ArchwayCore/Runtime/PawnSystem/Curves/C_LabelOpacity` | Opacity des labels de territoire |

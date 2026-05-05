@@ -1,0 +1,113 @@
+---
+title: "Glossaire Archway"
+sidebar_position: 6
+---
+
+
+# Glossaire Archway
+
+> Definitions des termes techniques du plugin Archway.
+
+## Administrative Division
+
+Hierarchie administrative : Definitions -> Barronies -> Comtes -> Duches -> Kingdoms -> Empires.
+
+## AsyncAction
+
+Action Blueprint asynchrone (latent node). Executee en background avec un pin de completion.
+
+## BPC (Blueprint Component)
+
+Composant Blueprint (ex: `BPC_TerritoryManager`, `BPC_InstanceManager`). Gestionnaire d un sous-systeme du plugin.
+
+## Bake/Baking
+
+Processus de pre-calcul des donnees de territoire (static = fixe, dynamic = changeable en runtime).
+
+## Border Milestone
+
+Texture de reference pour le style des borders (border_Land_0, border_war, etc.).
+
+## CurveFloat
+
+Courbe d animation utilisee pour les transitions de camera, opacity, etc.
+
+## DA (DataAsset)
+
+Asset de donnees (ex: `DA_Territories_Dynamic`). Contient des donnees configurees dans l editor.
+
+## DT (DataTable)
+
+Table de donnees (ex: `DT_Barronies_World_0`). Contient les donnees administratives du monde sous forme de rows.
+
+## EditorUtilityWidget (EUW)
+
+Widget editor utilise comme point d entree UX du plugin. L EUW `Archway` orchestre les tasks d import et de generation.
+
+## GameStateRegistry
+
+Registry des etats diplomatiques des border segments (war, alliance, etc.).
+
+## HISM (Hierarchical Instanced Static Mesh)
+
+Technique de rendu UE pour afficher des milliers d instances d un mesh avec un seul draw call. Utilise pour les borders de territoires.
+
+## ID Map
+
+Texture ou chaque couleur de pixel represente un territoire ou une province. Utilisee comme source de verite pour les borders.
+
+## InstanceLayer
+
+Couche d instances HISM. Chaque layer a sa propre configuration via `UInstanceLayerConfig`.
+
+## LUT (Look-Up Table)
+
+Texture de mapping couleur -> ID. Utilisee pour identifier les territoires par pixel dans les render targets.
+
+## LabelManager
+
+Sous-systeme responsable du positionnement et rendu des labels de territoires sur la carte.
+
+## Landmass
+
+Polygone continu representant la geometrie d un territoire ou d une province. Genere a partir des donnees de border et utilise pour le rendu HISM.
+
+## MapMode
+
+Mode d affichage de la carte (provinces, comtes, duches, royaumes, empires, countries). Chaque mode a sa propre LUT (Look-Up Table).
+
+## NotificationSubsystem
+
+Systeme de notifications UI pour les processus longs (import, baking, etc.).
+
+## Province
+
+Plus petite unite territoriale. Les provinces sont les elements de base des DataTables (35 078 definitions de pixels -> 29 757 baronnies).
+
+## Render Target (RT/CRT)
+
+Texture de rendu. RT2D = TextureRenderTarget2D (GPU), CRT2D = CanvasRenderTarget2D (CPU via Canvas).
+
+## SaveGame
+
+Systeme de sauvegarde du plugin (`BP_ArchwaySave`). Persiste l etat des territoires et parametres materiaux.
+
+## Segment (Border Segment)
+
+Portion continue d une border entre deux provinces. Identifie par un FName unique.
+
+## Struct (S_*)
+
+Structure de donnees Blueprint. Ex: `S_TerritoryData`, `S_Scenario`, `S_MapMode_Info`.
+
+## Territory
+
+Entite geographique possedee par une faction. Un territoire est compose de provinces et a des borders visuelles generees dynamiquement.
+
+## VisualTheme
+
+Ensemble de parametres visuels (couleurs, styles) appliques aux instances de territoire.
+
+## World Partition
+
+Systeme de streaming d Unreal Engine 5. Le landscape d Archway est divise en 128 tiles (LandscapeStreamingProxy) charges dynamiquement.

@@ -1,0 +1,307 @@
+---
+title: "Interface C++ Exposee au Blueprint"
+sidebar_position: 5
+---
+
+
+# Interface C++ Exposee au Blueprint
+
+> Resume de l interface C++ exposee au Blueprint. **Pas d implementation detaillee** --
+> seuls les signatures et descriptions sont documentes.
+
+Total: **110 fonctions** exposees dans **28 categories**.
+
+## Vue d'ensemble par categorie
+
+| Categorie | Count | Module |
+|-----------|-------|--------|
+| `Archway\|Core\|Administrative Division` | 4 | ArchwayCore |
+| `Archway\|Core\|Border Pipeline` | 1 | ArchwayCore |
+| `Archway\|Core\|Border Pipeline\|Validation` | 1 | ArchwayCore |
+| `Archway\|Core\|Border Utilities` | 3 | ArchwayCore |
+| `Archway\|Core\|Game State Registry` | 6 | ArchwayCore |
+| `Archway\|Core\|Game State Registry\|Save` | 2 | ArchwayCore |
+| `Archway\|Core\|Instance Renderer\|Config` | 2 | ArchwayCore |
+| `Archway\|Core\|Instance Renderer\|Global Control` | 5 | ArchwayCore |
+| `Archway\|Core\|Instance Renderer\|Management` | 9 | ArchwayCore |
+| `Archway\|Core\|Label System\|Pathfinding` | 3 | ArchwayCore |
+| `Archway\|Core\|Loading` | 3 | ArchwayCore |
+| `Archway\|Core\|Notifications` | 6 | ArchwayCore |
+| `Archway\|Core\|Rendering` | 4 | ArchwayCore |
+| `Archway\|Core\|SaveLoad` | 3 | ArchwayCore |
+| `Archway\|Core\|Territory Actor` | 2 | ArchwayCore |
+| `Archway\|Core\|Territory Manager` | 22 | ArchwayCore |
+| `Archway\|Core\|Territory Manager\|Editor` | 1 | ArchwayCore |
+| `Archway\|Core\|Territory Manager\|Load` | 1 | ArchwayCore |
+| `Archway\|Core\|Territory Manager\|Save` | 3 | ArchwayCore |
+| `Archway\|Core\|Territory Manager\|Transfer Queue` | 5 | ArchwayCore |
+| `Archway\|Core\|Visual Theme` | 2 | ArchwayCore |
+| `Archway\|Diplomacy` | 3 | ArchwayCore |
+| `Archway\|Interaction` | 1 | ArchwayCore |
+| `Archway\|Dynamic Border Rendering` | 1 | ArchwayCore |
+| `Label` | 2 | ArchwayCore |
+| `Territory Manager\|Label API` | 2 | ArchwayCore |
+| `Territory Manager\|Query` | 9 | ArchwayCore |
+| `Territory Manager\|Rendering` | 4 | ArchwayCore |
+
+## Detail par categorie
+
+### Archway|Core|Administrative Division
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `BuildLandmassesFromIndexedData` | `void` | `const FIndexedBorderData &IndexedData,       TMap<FName, FLandmassArray> &OutProvinceLandmasses,       float PositionScale = 1.0f, int32 SmoothingIterations = 0,       float SmoothingStrength = 0.5f, int32 MinLoopSize = 10,       bool bEnableVertexWelding = true` | BlueprintCallable | Assembles complete landmass polygons from indexed border data. Supports smoothing, vertex welding... |
+| `GetProvincesFromAdministrativeTitle` | `void` | `const UAdministrativeDivisionsDataAsset *Asset, uint8 SearchLayer,       FName TitleID, UPARAM(ref) TArray<FName> &OutProvinces` | BlueprintCallable | Retrieves all province IDs under a specific administrative title in the hierarchy. |
+| `BakeAdministrativeHierarchy` | `void` | `UAdministrativeDivisionsDataAsset *Asset` | BlueprintCallable | Pre-computes aggregated province lists for all administrative titles in the data asset. |
+| `GetAggregatedProvincesFromTitles` | `TArray<FName>` | `const UAdministrativeDivisionsDataAsset *Asset, uint8 SearchLayer,       const TArray<FName> &TitleIDs` | BlueprintCallable | Returns all provinces aggregated from multiple administrative titles at a given layer. |
+
+### Archway|Core|Border Pipeline
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `AssembleTaggedSegments` | `bool` | `const TArray<FTaggedBorderSegment> &InTaggedSegments,                          int32 LandmassIDStart,                          TArray<FVisualizedLandmass> &OutAssembledChains,                          TArray<FName> &OutAssembledSegmentIDs,                          int32 &OutLastLandmassID, FString &ErrorMessage,                          int32 MinPointsCount = 15` | BlueprintCallable | Assembles tagged border segments into continuous chains/landmasses. Returns error message on fail... |
+
+### Archway|Core|Border Pipeline|Validation
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `SanitizeIndexedData` | `void` | `FIndexedBorderData &InOutData,                                   FSanitizationStats &OutStats,                                   bool bFixOwnerInconsistencies = true` | BlueprintCallable | Validates and fixes inconsistencies in indexed border data (owner mismatches, invalid junctions).... |
+
+### Archway|Core|Border Utilities
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `ResolveCanonicalSegmentID` | `FName` | `FName RawSegmentID` | BlueprintCallable | Returns the canonical (normalized) segment ID for a given raw segment ID. Handles bidirectional s... |
+| `GenerateAsymmetricalSegmentID` | `FName` | `FName OwnerID,                                              const TArray<FTaggedBorderPoint> &TaggedPoints` | BlueprintPure | Creates a unique segment ID from owner province ID and tagged border points. |
+| `GetInvolvedProvincesFromSegment` | `TArray<FName>` | `const FTaggedBorderSegment& Segment` | BlueprintPure | Returns all province IDs involved in a given tagged border segment. |
+
+### Archway|Core|Game State Registry
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `UpdateSegmentState` | `void` | `FName SegmentID, FName NewState` | BlueprintCallable | Sets the diplomatic state for a single border segment. |
+| `UpdateSegmentStatesFromList` | `void` | `const TArray<FName>& SegmentIDs, FName NewState` | BlueprintCallable | Batch-updates the state for multiple segments to the same new state. |
+| `UpdateSegmentStates` | `void` | `const TMap<FName, FNameArray>& StateToSegmentsMap` | BlueprintCallable | Batch-updates segment states from a map of state->segment lists. |
+| `HasAnySegmentWithState` | `bool` | `FName StateName` | BlueprintCallable, BlueprintPure | Query: returns true if any segment has the given state. |
+| `GetStatesForSegments` | `TMap<FName, FNameArray>` | `const TArray<FName>& SegmentIDs` | BlueprintPure |  |
+| `GetNonDefaultStateSegments` | `TMap<FName, FNameArray>` | `` | BlueprintPure |  |
+
+### Archway|Core|Game State Registry|Save
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `GetSegmentStatesMap` | `TMap<FName, FName>` | `` | BlueprintPure |  |
+| `RestoreSegmentStates` | `void` | `const TMap<FName, FName>& SavedStates` | BlueprintCallable | Restores segment states from saved data during game load. |
+
+### Archway|Core|Instance Renderer|Config
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `GetLayerConfig` | `UInstanceLayerConfig*` | `` | BlueprintPure | Returns the layer configuration data asset. |
+| `GetGlobalParameters` | `UMaterialParameterCollection*` | `` | BlueprintPure | Returns the global material parameter collection. |
+
+### Archway|Core|Instance Renderer|Global Control
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `SetGlobalMapMode` | `void` | `float MapModeID` | BlueprintCallable | Sets the global map mode material parameter across all instances. |
+| `SetGlobalHighlight` | `void` | `float MapModeID, float TerritoryID` | BlueprintCallable | Highlights a specific territory in the given map mode. |
+| `ClearGlobalHighlight` | `void` | `` | BlueprintCallable | Removes the current territory highlight. |
+| `SetGlobalSelection` | `void` | `float MapModeID, float TerritoryID` | BlueprintCallable | Selects a specific territory in the given map mode. |
+| `ClearGlobalSelection` | `void` | `` | BlueprintCallable | Removes the current territory selection. |
+
+### Archway|Core|Instance Renderer|Management
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `RegisterSource` | `void` | `UInstanceSourceComponent* SourceComponent` | BlueprintCallable | Registers an InstanceSourceComponent as a data source for this renderer. |
+| `UnregisterSource` | `void` | `UInstanceSourceComponent* SourceComponent` | BlueprintCallable | Unregisters a previously registered InstanceSourceComponent. |
+| `RequestFullUpdate` | `void` | `` | BlueprintCallable | Triggers a full rebuild of all HISM instances. |
+| `RequestEditorUpdate` | `void` | `` | BlueprintCallable | Triggers an instance rebuild for editor-time updates. |
+| `RequestOwnerUpdate` | `void` | `const FName& OwnerID` | BlueprintCallable | Triggers an instance rebuild for a specific territory owner. |
+| `RequestOwnersUpdate` | `void` | `const TArray<FName>& OwnerIDs` | BlueprintCallable | Batch version - triggers rebuild for multiple territory owners. |
+| `UpdateOwnerVisuals` | `void` | `const FName& OwnerID` | BlueprintCallable | Updates visual representation for a specific owner (color, map mode). |
+| `UpdateOwnersVisuals` | `void` | `const TArray<FName>& OwnerIDs` | BlueprintCallable | Batch version - updates visuals for multiple owners. |
+| `UpdateFullVisuals` | `void` | `` | BlueprintCallable | Updates visuals for all territory instances. |
+
+### Archway|Core|Label System|Pathfinding
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `FindPathFromBorderTexture` | `TArray<FIntPoint>` | `const TArray<FLinearColor>& PixelData, 		int32 Width, 		int32 Height` | BlueprintCallable | Calcule un chemin a partir d une texture de border pour le positionnement des labels. |
+| `RemapPathToWorldSpace` | `TArray<FVector>` | `const TArray<FIntPoint>& PathInTextureSpace, 		const FBox& WorldBoundingBox, 		FVector2D TextureSize` | BlueprintCallable, BlueprintPure | Converts a texture-space path to world-space coordinates. |
+| `GenerateGuidedSpline` | `TArray<FVector>` | `const TArray<FVisualizedLandmass>& LandmassGroup, 		const TArray<FVector>& RidgePathWorld, 		const FGuidedSplineParams& Params, 		EHorizontalDirectionOrder HorizontalOrder = EHorizontalDirectionOrder::LeftToRight, 		EVerticalDirectionOrder VerticalOrder = EVerticalDirectionOrder::TopToBottom, 		bool bDebugMode = false` | BlueprintCallable | Generates a guided spline path through a landmass group using ridge path data. |
+
+### Archway|Core|Loading
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `LoadAssetsKeepAlive` | `void` | `const TArray<TSoftObjectPtr<UObject>>& AssetsToLoad, FString ProcessName` | BlueprintCallable | Asynchronously loads soft object references, keeping them alive until explicitly unloaded. |
+| `BatchResolve` | `TArray<UObject*>` | `const TArray<TSoftObjectPtr<UObject>>& SoftList` | BlueprintCallable | Synchronously resolves an array of soft object references to hard references. |
+| `UnloadAllAssets` | `void` | `` | BlueprintCallable | Releases all assets loaded through LoadAssetsKeepAlive. |
+
+### Archway|Core|Notifications
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `RegisterProcess` | `void` | `FName ProcessID, FText DisplayName, ENotificationCategory Category` | BlueprintCallable | Registers a new long-running process with the notification system. |
+| `UpdateProcessProgress` | `void` | `FName ProcessID, float Progress01, FText CurrentStatus` | BlueprintCallable | Updates the progress (0-1) and status text of a registered process. |
+| `FinishProcess` | `void` | `FName ProcessID, bool bSuccess` | BlueprintCallable | Marks a registered process as complete (success or failure). |
+| `PostNotification` | `void` | `FText Message, ENotificationType Type, ENotificationCategory Category` | BlueprintCallable | Posts a standalone notification message to the UI. |
+| `ReportError` | `void` | `FName ProcessID, FString ErrorMessage, bool bLogToOutput = true` | BlueprintCallable | Reports an error for a process, optionally logging to output. |
+| `GetActiveProcessData` | `bool` | `FName ProcessID, FArchwayNotificationData& OutData` | BlueprintCallable | Retrieves current data for an active process by ID. |
+
+### Archway|Core|Rendering
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `InitializeFromTexture` | `bool` | `UTexture2D *InTexture, bool bUseSRGB = false` | BlueprintCallable | Loads border data from a Texture2D. Converts pixel colors to border geometry data. |
+| `InitializeFromRenderTarget` | `bool` | `UTextureRenderTarget2D *InRenderTarget` | BlueprintCallable | Loads border data from a UTextureRenderTarget2D. Used for runtime-generated border textures. |
+| `GetPixelColor` | `FLinearColor` | `int32 X, int32 Y, bool bNormalize = true` | BlueprintPure | Reads a single pixel color from the loaded texture. Optional normalization to [0,1] range. |
+| `BakeLinearityMap` | `void` | `UTextureRenderTarget2D *TargetRT,                                FIntPoint SourceResolution,                                const TArray<FTaggedBorderSegment> &Segments` | BlueprintCallable | Bakes a linearity map to a render target for spline mesh placement along borders. |
+
+### Archway|Core|SaveLoad
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `SaveGlobalMaterialParameters` | `void` | `class UMaterialParameterCollection* Collection, class UArchwaySaveGame* TargetSaveGame, const TArray<FName>& ScalarNames, const TArray<FName>& VectorNames` | BlueprintCallable | Saves material parameter collection values to the save game for persistence across sessions. |
+| `GetSavedScalarParameterNames` | `TArray<FName>` | `` | BlueprintPure | Returns list of scalar material parameters that are saved to save game. |
+| `GetSavedVectorParameterNames` | `TArray<FName>` | `` | BlueprintPure | Returns list of vector material parameters that are saved to save game. |
+
+### Archway|Core|Territory Actor
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `UpdateBorders` | `void` | `const TArray<FVisualizedLandmass>& NewGeometry` | BlueprintCallable, BlueprintNativeEvent | Called when territory geometry changes. BlueprintNativeEvent - can be overridden in Blueprint. |
+| `UpdateLabels` | `void` | `const TArray<FSplinePathData>& NewLabelPaths` | BlueprintCallable, BlueprintNativeEvent | Called when territory label paths change. BlueprintNativeEvent - can be overridden in Blueprint. |
+
+### Archway|Core|Territory Manager
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `InitializeWorldDatabase` | `void` | `const TMap<FName, FLandmassArray> &WorldData` | BlueprintCallable | Loads the complete world territory data from province landmass mappings. |
+| `BatchCreateTerritories` | `void` | `const TArray<FTerritoryData> &Territories,                               bool bClearExisting = true, bool bDrawLUTs = true,                               bool bBakeLinearity = false,                               int32 SourceResX = 8129, int32 SourceResY = 4065,                               bool bEnableBorderRendering = false,                               FBorderConfig BorderConfig = FBorderConfig(),                               bool bPreWarmHighPrecision = false` | BlueprintCallable | Creates multiple territories at once from territory data array. Optional LUT baking and border rendering config ... |
+| `BatchRestoreWorldState` | `void` | `const TArray<FTerritoryData> &SavedTerritories` | BlueprintCallable | Restores the full world state from saved territory data. |
+| `ClearDynamicTerritories` | `void` | `` | BlueprintCallable | Removes all dynamically created territories. |
+| `RegisterTerritoryInstance` | `void` | `uint8 MapMode, FName TerritoryID,                                  FName InstanceOwnerID` | BlueprintCallable | Registers a territory instance under an owner ID for a specific map mode. |
+| `GetDynamicTerritoriesData` | `TArray<FTerritoryData>` | `` | BlueprintCallable | Returns all dynamically created territory data. |
+| `TransferProvince` | `void` | `FName ProvinceID, FName OldOwnerID, FName NewOwnerID,                         uint8 MapMode` | BlueprintCallable | Transfers ownership of a single province from one territory to another. |
+| `TransferProvinces` | `void` | `const TArray<FName> &ProvinceIDs, FName OldOwnerID,                          FName NewOwnerID, uint8 MapMode` | BlueprintCallable | Batch version - transfers ownership of multiple provinces. |
+| `SetTerritoryColor` | `void` | `FName TerritoryID, FLinearColor NewColor,                          uint8 MapMode` | BlueprintCallable | Sets the display color for a territory in a specific map mode. |
+| `GetTerritorySaveData` | `FTerritoryData` | `FName TerritoryID, uint8 MapMode` | BlueprintCallable | Returns the serializable save data for a territory. |
+| `GetTerritoryDataForProvince` | `bool` | `FName ProvinceID, uint8 MapMode,                                    FTerritoryData &OutData` | BlueprintCallable | Returns the territory data that owns a specific province. |
+| `GetTerritoryIDForProvince` | `FName` | `FName ProvinceID, uint8 MapMode` | BlueprintPure | Query: returns the territory ID that owns a province. |
+| `GetActiveSegmentsForTerritory` | `TArray<FName>` | `FName TerritoryID, uint8 MapMode` | BlueprintCallable | Returns active border segment IDs for a territory. |
+| `GetActiveSegmentsDataForTerritory` | `TArray<FTaggedBorderSegment>` | `FName TerritoryID, uint8 MapMode` | BlueprintCallable | Returns full tagged border segment data for a territory. |
+| `GetFilteredSegmentsForTerritory` | `TArray<FTaggedBorderSegment>` | `FName TerritoryID, uint8 MapMode` | BlueprintCallable | Returns filtered/processed border segments for a territory. |
+| `GetActiveSegmentsBetweenTerritories` | `TArray<FName>` | `FName TerritoryA,                                                     FName TerritoryB,                                                     uint8 MapMode` | BlueprintCallable | Returns shared border segments between two territories. |
+| `GetBorderingTerritories` | `TArray<FName>` | `FName TerritoryID, uint8 MapMode` | BlueprintCallable, BlueprintPure | Query: returns all territories sharing a border with the given territory. |
+| `GetBorderingMacroSegmentIDs` | `TArray<FName>` | `FName TerritoryID, uint8 MapMode` | BlueprintCallable, BlueprintPure | Query: returns macro-level border segment IDs for a territory. |
+| `GetMacroSegmentIDBetweenTerritories` | `FName` | `uint8 MapMode, FName TerritoryA, FName TerritoryB` | BlueprintCallable, BlueprintPure | Query: returns the macro segment ID shared between two territories. |
+| `GetAllTerritoriesData` | `TArray<FTerritoryData>` | `` | BlueprintCallable | Returns complete data for all territories. |
+| `SyncVisualsToActors` | `TArray<FName>` | `const TArray<FName> &TerritoryIDsToSync,                                     uint8 MapMode,                                     int32 MaxToProcess = -1,                                     bool bShouldBroadcast = false` | BlueprintCallable | Synchronizes territory visual state to TerritoryActor instances in the world. |
+| `SyncAllVisuals` | `void` | `` | BlueprintCallable | Synchronizes all territory visuals to their corresponding actors. |
+
+### Archway|Core|Territory Manager|Editor
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `GenerateStaticBordersRT` | `TMap<FName, UTextureRenderTarget2D*>` | `const TArray<uint8>& MapModes, int32 Resolution = 8192` | BlueprintCallable |  |
+
+### Archway|Core|Territory Manager|Load
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `RestorePendingTransfers` | `void` | `const TMap<FName, FPendingTerritoryTransfer>& Transfers, const TMap<FName, FName>& OriginalStates, const TMap<FName, FName>& Claims` | BlueprintCallable | Restores pending transfers from saved data during game load. |
+
+### Archway|Core|Territory Manager|Save
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `GetAllPendingTransfersData` | `TMap<FName, FPendingTerritoryTransfer>` | `` | BlueprintPure |  |
+| `GetPendingTransferOriginalStates` | `TMap<FName, FName>` | `` | BlueprintPure |  |
+| `GetPendingTransferSegmentClaims` | `TMap<FName, FName>` | `` | BlueprintPure |  |
+
+### Archway|Core|Territory Manager|Transfer Queue
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `EnqueueProvinceTransfer` | `void` | `FName TargetTerritoryID, uint8 TargetMapModeByte, FName NewOwnerID, uint8 DestMapModeByte, FName FrontlineLayerID, FName SurroundingLayerID, UTextureRenderTarget2D* StateRT, const TArray<FMaterialParameterTrigger>& MaterialParameters, bool& bSuccess, FName& OutOperationID, FString& OutMessage` | BlueprintCallable | Enqueues a complex province transfer operation with material triggers and state tracking. |
+| `ExecutePendingTransfer` | `void` | `FName OperationID, bool& bSuccess, FString& OutMessage` | BlueprintCallable | Executes a previously enqueued transfer operation. |
+| `CancelPendingTransfer` | `void` | `FName OperationID, bool& bSuccess, FString& OutMessage` | BlueprintCallable | Cancels a pending transfer operation. |
+| `GetPendingTransferOperationIDs` | `TArray<FName>` | `` | BlueprintPure | Query: returns all pending transfer operation IDs. |
+| `IsTransferPending` | `bool` | `FName OperationID` | BlueprintPure | Query: checks if a specific transfer operation is still pending. |
+
+### Archway|Core|Visual Theme
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `GetRuleForState` | `FVisualRule` | `FName StateName` | BlueprintPure | Returns the visual rule configuration for a given diplomatic state name. |
+| `GetLayerForState` | `FName` | `FName StateName` | BlueprintPure | Returns the rendering layer ID for a given diplomatic state name. |
+
+### Archway|Diplomacy
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `RemoveStateForSegment` | `void` | `FName SegmentID` | BlueprintCallable | Removes the diplomatic state from a segment, reverting to default. |
+| `GetStateForSegment` | `FName` | `FName SegmentID` | BlueprintCallable, BlueprintPure | Query: returns the current diplomatic state for a segment. |
+| `GetDefaultStateName` | `FName` | `` | BlueprintPure | Returns the default diplomatic state name. |
+
+### Archway|Interaction
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `DrawInteractionOverlay` | `void` | `UTextureRenderTarget2D* OverlayRT,        const TArray<FName>& TerritoriesToHighlight,        uint8 MapMode,       FBorderRenderConfig OverrideConfig,       bool bUseDefaultConfig = true` | BlueprintCallable | Draws interaction highlight overlay on a render target for specific territories. |
+
+### Archway|Dynamic Border Rendering
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `RenderTerritoriesToDynamicBorder` | `void` | `UTextureRenderTarget2D* TargetRT, const TArray<FName>& TerritoryIDs, uint8 MapMode, FIntPoint SourceResolution, bool bClearRT = true` | BlueprintCallable | Rend les borders de territoires via le systeme de rendu de border dynamique. |
+
+### Label
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `SetSplinePaths` | `void` | `const TArray<FSplinePathData>& NewSplinePaths` | BlueprintCallable | Sets the spline paths along which label text will be laid out. |
+| `SetText` | `void` | `const FString& NewText` | BlueprintCallable | Sets the text string to display for this label. |
+
+### Territory Manager|Label API
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `PushTerritoryLabelPaths` | `void` | `FName TerritoryID, uint8 MapMode,                                const TArray<FSplinePathData> &Paths` | BlueprintCallable | Pushes label spline paths for a territory to the label system. |
+| `GetTerritoryLabelPaths` | `bool` | `FName TerritoryID, uint8 MapMode,                               TArray<FSplinePathData> &OutPaths` | BlueprintCallable | Retrieves label spline paths for a territory. |
+
+### Territory Manager|Query
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `GetProvincesForTerritory` | `TArray<FName>` | `FName TerritoryID, uint8 MapMode` | BlueprintPure | Query: returns province IDs belonging to a territory in a map mode. |
+| `GetAllRegisteredInstanceIDs` | `TArray<FName>` | `` | BlueprintPure | Query: returns all registered instance IDs. |
+| `GetInstanceIDsByMapMode` | `TArray<FName>` | `uint8 MapMode` | BlueprintPure | Query: returns instance IDs filtered by map mode. |
+| `GetInstanceIDsForTerritory` | `TArray<FName>` | `uint8 MapMode, FName TerritoryID` | BlueprintPure | Query: returns instance IDs for a specific territory. |
+| `GetInstanceIDsForTerritoryList` | `TArray<FName>` | `uint8 MapMode,                                  const TArray<FName> &TerritoryIDs` | BlueprintPure | Query: returns instance IDs for a list of territories. |
+| `GetTerritoryLandmassCount` | `int32` | `FName TerritoryID, uint8 MapMode, bool bDebugPoints = false` | BlueprintPure | Query: returns the number of landmasses (border loops) for a territory. |
+| `GetProvinceLandmassCount` | `int32` | `FName ProvinceID, bool bDebugPoints = false` | BlueprintPure | Query: returns the number of landmasses for a province. |
+| `GetTerritoryLandmassCountFromProvince` | `int32` | `FName ProvinceID, uint8 MapMode, bool bDebugPoints = false` | BlueprintPure | Query: returns landmass count for the territory that owns a province. |
+| `GetTerritoryPathLength` | `float` | `FName TerritoryID, uint8 MapMode` | BlueprintPure | Query: returns the total border path length for a territory. |
+
+### Territory Manager|Rendering
+
+| Fonction | Return | Parametres | Spec | Description |
+|----------|--------|------------|------|-------------|
+| `RequestBatchUpdate_DynamicOnly` | `void` | `uint8 MapMode` | BlueprintCallable | Requests a rendering batch update for dynamic (changed) territories only. |
+| `RequestBatchUpdate_DirtyOnly` | `void` | `uint8 MapMode` | BlueprintCallable | Requests a rendering batch update for dirty (needs-redraw) territories only. |
+| `RequestAllBatchUpdate_DynamicOnly` | `void` | `` | BlueprintCallable | Requests full rendering update for all dynamic territories. |
+| `RequestAllBatchUpdate_DirtyOnly` | `void` | `` | BlueprintCallable | Requests full rendering update for all dirty territories. |
+
+## Async Actions (Latent Nodes)
+
+Les async actions sont des noeuds Blueprint asynchrones. Voir [bp-nodes](./bp-nodes) pour le detail.
+
+| Action | Description |
+|--------|-------------|
+| `UAsyncAction_ExecuteGameLoad` | Asynchronously loads game state from a save file. Returns a Completed delegate pin when loading finishes. |
+| `UAsyncAction_ExecuteGameSave` | Asynchronously saves current game state to disk. Returns a Completed delegate pin when saving finishes. |
+| `UAsyncAction_LoadAndMergeLandmasses` | Asynchronously loads and merges landmass geometry for multiple provinces. Provides progress updates during the multi-province load operation. |
