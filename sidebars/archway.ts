@@ -5,31 +5,31 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Overview',
-      items: ['01-overview/what-is-archway', '01-overview/philosophy'],
+      items: ['overview/what-is-archway', 'overview/philosophy'],
     },
     {
       type: 'category',
       label: 'Installation',
-      items: ['02-installation/installation'],
+      items: ['installation/installation'],
     },
     {
       type: 'category',
       label: 'Reference',
       items: [
-        '03-reference/asset-inventory',
-        '03-reference/bp-nodes',
-        '03-reference/components',
-        '03-reference/cpp-interface',
-        '03-reference/data-structure',
-        '03-reference/glossary',
+        'reference/asset-inventory',
+        'reference/bp-nodes',
+        'reference/components',
+        'reference/cpp-interface',
+        'reference/exposed-functions',
+        'reference/data-structure',
+        'reference/glossary',
       ],
     },
     {
       type: 'category',
       label: 'Troubleshooting',
-      items: ['04-troubleshooting/troubleshooting'],
+      items: ['troubleshooting/troubleshooting'],
     },
-  ],
 };
 
 export default sidebars;
