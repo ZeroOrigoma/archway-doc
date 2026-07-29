@@ -2,17 +2,37 @@
 sidebar_position: 0
 ---
 
-# Documentation Archway Core
+<PlateHead no="—" title="Archway" folio="00" />
 
-Bienvenue dans la documentation officielle du plugin **Archway Core** pour Unreal Engine.
+# Documentation Archway
 
-## Qu'est-ce qu'Archway Core ?
+**Archway** transforme votre carte de provinces en un monde de stratégie UE5 jouable : frontières dessinées en shader, territoires dynamiques, map modes.
 
-Archway Core est un plugin UE 5.6+ qui ajoute un système de territoire dynamique avec un système de rendu de border dynamique.
+<Sheet>
 
-## Navigation
+**Nouveau sur Archway ?** Suivez les quatre mouvements dans l'ordre. Ils vous mènent d'un projet vide à un monde jouable et sauvegardé, avec les données de démonstration fournies.
 
-- [**Overview**](./overview/what-is-archway) — Découvrir le plugin et sa philosophie
-- [**Installation**](./installation/installation) — Installer et configurer le plugin
-- [**Reference**](./reference/asset-inventory) — Reference technique complète
-- [**Troubleshooting**](./troubleshooting/troubleshooting) — Résoudre les problèmes courants
+</Sheet>
+
+## Le parcours
+
+<CardGrid>
+  <PlateCard to="/archway/installation/installation" no="I — Installer" title="Installer">
+    Poser le plugin, l'activer, vérifier que la toolbar Archway répond.
+  </PlateCard>
+  <PlateCard to="/archway/import/premier-monde" no="II — Importer" title="Importer">
+    Créer le monde, la heightmap, les map modes, la division administrative.
+  </PlateCard>
+  <PlateCard to="/archway/cook/landscape-material" no="III — Cook" title="Cook">
+    Figer les frontières statiques dans une texture et libérer le GPU.
+  </PlateCard>
+  <PlateCard to="/archway/play/conquerir" no="IV — Jouer" title="Jouer">
+    Conquérir un territoire, sauvegarder, recharger.
+  </PlateCard>
+</CardGrid>
+
+## Le reste
+
+- [**Découvrir**](./overview/what-is-archway) — ce que fait le plugin, et l'approche territory-first
+- [**Référence**](./reference/components) — composants, data assets, fonctions exposées, API C++
+- [**Dépannage**](./troubleshooting/troubleshooting) — erreurs courantes et correctifs

@@ -1,0 +1,109 @@
+---
+title: Ajouter un MapMode
+sidebar_position: 2
+---
+
+<PlateHead no="II" title="Importer" folio="03" />
+
+# Ajouter un MapMode
+
+<Sheet>
+
+**Objectif** — Créer les MapModes (Baronnies, Comtés, Duchés, Royaumes, Empires, Continents) et importer leurs tables de données.
+
+**Durée** — 10 minutes.
+
+**Prérequis** — [Préparer votre premier monde](./premier-monde) : le monde est créé, la heightmap importée, les définitions initialisées.
+
+</Sheet>
+
+## Qu'est-ce qu'un MapMode ?
+
+Un **MapMode** est une échelle de lecture de la même carte. Les provinces ne changent pas ; ce qui change, c'est le niveau d'agrégation affiché et la table de données qui le décrit. Un joueur passe des Baronnies aux Empires comme on dézoome sur un atlas.
+
+Chaque MapMode créé génère une **copie de `DT_Definitions`** nommée `DT_<MapMode>_<Monde>`, que vous remplissez depuis un CSV.
+
+## Partie 1 — Créer le premier MapMode
+
+### 1. Ouvrir le créateur de MapMode
+
+Cliquez sur **l'icône Archway** dans la toolbar, puis sur **Add Map Mode**.
+
+<Capture
+  src="/img/z2h/03-01-add-map-mode.png"
+  caption="Menu Archway → Add Map Mode"
+  fig="Fig. 3.1"
+/>
+
+### 2. Nommer le MapMode
+
+Entrez **`Baronnies`**, puis cliquez sur **Add**. La boîte de dialogue affiche le nom de la table qui sera créée.
+
+<Capture
+  src="/img/z2h/03-02-add-map-mode-dialog.png"
+  caption="Add Map Mode — le nom de la DataTable générée s'affiche sous le champ"
+  fig="Fig. 3.2"
+/>
+
+:::note Orthographe
+Le nom que vous tapez ici devient le `DisplayName` du MapMode et le suffixe de la DataTable. Restez cohérent avec vos fichiers CSV : `Baronnies` → `DT_Baronnies_MyNewWorld`.
+:::
+
+### 3. Importer le CSV associé
+
+La fenêtre **Import World Assets** s'ouvre pour la nouvelle table. Cliquez sur **Browse...** et sélectionnez `csv/01_Baronnies.csv` dans le StarterPack.
+
+<Capture
+  src="/img/z2h/03-07-import-datatable.png"
+  caption="La DataTable attend son fichier source"
+  fig="Fig. 3.3"
+/>
+
+<Capture
+  src="/img/z2h/03-03-browse-csv.png"
+  caption="Browse... pour choisir le CSV"
+  fig="Fig. 3.4"
+/>
+
+<Capture
+  src="/img/z2h/03-04-select-csv.png"
+  caption="Sélection de 01_Baronnies.csv"
+  fig="Fig. 3.5"
+  zoom
+/>
+
+Cliquez sur **Import Selected**.
+
+<Capture
+  src="/img/z2h/03-05-import-selected.png"
+  caption="Import Selected"
+  fig="Fig. 3.6"
+/>
+
+## Partie 2 — Ajouter les autres MapModes
+
+Une fenêtre demande si vous souhaitez ajouter un autre MapMode.
+
+<Capture
+  src="/img/z2h/03-06-add-another.png"
+  caption="Ajouter un autre MapMode ?"
+  fig="Fig. 3.7"
+/>
+
+Cliquez sur **Yes** et répétez les étapes 2 et 3 pour chacun des CSV restants du StarterPack :
+
+| MapMode | Fichier CSV |
+|---------|-------------|
+| `Comtes` | `csv/02_Comtes.csv` |
+| `Duches` | `csv/03_Duches.csv` |
+| `Kingdoms` | `csv/04_Kingdoms.csv` |
+| `Empires` | `csv/05_Empires.csv` |
+| `Continents` | `csv/06_Continents.csv` |
+
+:::tip Résultat attendu
+Six MapModes existent, chacun avec sa DataTable remplie depuis son CSV.
+:::
+
+## Prochaine étape
+
+→ [Générer la division administrative](./division-administrative)

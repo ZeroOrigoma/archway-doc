@@ -1,0 +1,63 @@
+---
+title: Conquérir votre premier Duché
+sidebar_position: 1
+---
+
+<PlateHead no="IV" title="Jouer" folio="07" />
+
+# Conquérir votre premier Duché
+
+<Sheet>
+
+**Objectif** — Lancer le monde en Runtime et conquérir un territoire, pour vérifier que la chaîne complète fonctionne.
+
+**Durée** — 5 minutes.
+
+**Prérequis** — [Cook des données statiques](../cook/cook-territoires) : le baking est terminé et le monde est prêt.
+
+</Sheet>
+
+C'est le test de bout en bout : si un Duché change de propriétaire et que sa frontière suit, tout ce que vous avez importé et baké est correctement câblé.
+
+## 1. Lancer le jeu
+
+Cliquez sur **Play**.
+
+## 2. Prendre possession d'un pays
+
+Dans le Runtime, cliquez sur **Countries**, puis sur **Possess**.
+
+<CaptureTodo
+  what="L'UI Runtime : le panneau Countries et le bouton Possess"
+  fig="Fig. 7.1"
+/>
+
+## 3. Choisir un MapMode stratégique
+
+Sélectionnez un MapMode sur lequel la conquête a du sens — **Duchés**.
+
+<CaptureTodo
+  what="Le sélecteur de MapMode en Runtime, avec Duchés sélectionné"
+  fig="Fig. 7.2"
+/>
+
+## 4. Conquérir
+
+Cliquez sur un Duché, puis sur **Conquer**.
+
+<CaptureTodo
+  what="Un Duché sélectionné avec le bouton Conquer, puis le territoire passé sous votre contrôle"
+  fig="Fig. 7.3"
+/>
+
+:::tip Résultat attendu
+Le Duché est sous votre contrôle. Le territoire change de couleur et sa frontière est redessinée pour refléter la nouvelle appartenance.
+:::
+
+:::note Si la couleur ne change pas
+C'est en général que le MapMode conquis était marqué `IsStaticTerritories?` : ses frontières sont bakées, donc figées. Vérifiez la configuration du MapMode dans le [WorldManifest](../import/division-administrative).
+:::
+
+## Prochaine étape
+
+→ [Sauvegarder et charger](./save-load)

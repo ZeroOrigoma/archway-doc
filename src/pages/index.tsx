@@ -1,71 +1,134 @@
 import React from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const products = [
+const PRODUCT_URL = 'https://archway.origoma.com';
+
+type Product = {
+  name: string;
+  kicker: string;
+  description: string;
+  href: string;
+  available: boolean;
+};
+
+const products: Product[] = [
   {
     name: 'Archway',
-    icon: '🏗️',
-    description: 'Plugin Unreal Engine',
+    kicker: 'Unreal Engine 5.6+',
+    description:
+      'Le socle de carte pour les jeux de stratégie : frontières dessinées en shader, territoires dynamiques, map modes.',
     href: '/archway/',
     available: true,
   },
   {
     name: 'Chronoscope',
-    icon: '🔮',
-    description: 'Documentation à venir',
+    kicker: 'À venir',
+    description: 'Documentation à venir.',
     href: '#',
     available: false,
   },
 ];
 
-export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
-
+export default function Home(): React.ReactElement {
   return (
-    <Layout title="Origama Documentation" description="Documentation des produits Origama">
-      <main style={{ maxWidth: 960, margin: '0 auto', padding: '4rem 2rem' }}>
-        <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
-            Bienvenue sur {siteConfig.title}
-          </h1>
-          <p style={{ fontSize: '1.2rem', color: 'var(--ifm-color-emphasis-700)' }}>
-            {siteConfig.tagline}
-          </p>
-        </header>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '1.5rem',
-        }}>
-          {products.map((p) => (
-            <Link
-              key={p.name}
-              to={p.href}
-              style={{
-                border: `1px solid ${p.available ? 'var(--ifm-color-emphasis-300)' : 'var(--ifm-color-emphasis-200)'}`,
-                borderRadius: '12px',
-                padding: '1.5rem',
-                textDecoration: 'none',
-                color: 'inherit',
-                display: 'block',
-                opacity: p.available ? 1 : 0.5,
-                cursor: p.available ? 'pointer' : 'default',
-                transition: 'border-color 0.2s, transform 0.2s',
-              }}
-              onClick={(e) => !p.available && e.preventDefault()}
-            >
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{p.icon}</div>
-              <h3 style={{ margin: '0 0 0.25rem 0' }}>{p.name}</h3>
-              <p style={{ margin: 0, color: 'var(--ifm-color-emphasis-600)' }}>
-                {p.description}
-              </p>
-            </Link>
-          ))}
+    <Layout
+      title="Documentation"
+      description="Documentation des produits Origoma"
+    >
+      <main className="container-page" style={{ maxWidth: 960, margin: '0 auto', padding: '4rem 1.5rem 5rem' }}>
+        <div className="plate-head">
+          <span className="plate-no">—</span>
+          <span className="plate-title">Origoma</span>
+          <span className="plate-rule" aria-hidden="true" />
+          <span className="plate-folio">Docs</span>
         </div>
+
+        <h1
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(2rem, 1.4rem + 2.6vw, 2.9rem)',
+            lineHeight: 1.12,
+            fontWeight: 600,
+            color: 'var(--color-ink)',
+            margin: 0,
+          }}
+        >
+          Documentation
+        </h1>
+        <p
+          style={{
+            marginTop: '0.75rem',
+            maxWidth: '38rem',
+            fontSize: '1.05rem',
+            lineHeight: 1.65,
+            color: 'var(--color-ink-soft)',
+          }}
+        >
+          Les guides, références et parcours d'apprentissage des produits Origoma.
+        </p>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
+            gap: '1rem',
+            marginTop: '2.5rem',
+          }}
+        >
+          {products.map((p) =>
+            p.available ? (
+              <Link key={p.name} to={p.href} className="card-plate">
+                <ProductBody {...p} />
+              </Link>
+            ) : (
+              <div
+                key={p.name}
+                className="card-plate"
+                aria-disabled="true"
+                style={{ opacity: 0.45 }}
+              >
+                <ProductBody {...p} />
+              </div>
+            ),
+          )}
+        </div>
+
+        <p style={{ marginTop: '3rem', fontSize: '0.9rem', color: 'var(--color-muted)' }}>
+          Vous cherchez les licences, l'activation ou le téléchargement ?{' '}
+          <a href={PRODUCT_URL}>archway.origoma.com</a>
+        </p>
       </main>
     </Layout>
+  );
+}
+
+function ProductBody({ name, kicker, description }: Product): React.ReactElement {
+  return (
+    <>
+      <div className="plate-title" style={{ marginBottom: '0.6rem' }}>
+        {kicker}
+      </div>
+      <div
+        style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: '1.4rem',
+          fontWeight: 600,
+          color: 'var(--color-ink)',
+        }}
+      >
+        {name}
+      </div>
+      <div
+        style={{
+          margin: '0.5rem 0 0',
+          fontSize: '0.9rem',
+          lineHeight: 1.6,
+          color: 'var(--color-muted)',
+        }}
+      >
+        {description}
+      </div>
+    </>
   );
 }

@@ -1,30 +1,959 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Origoma Docs — atlas theme.
+ *
+ * Ported from the product site's design system (Dev/Web/Archway/src/styles/global.css)
+ * so the docs read as the same sheet of paper as archway.origoma.com.
+ * Token names and values are kept identical to the source; only the plumbing
+ * differs (Infima variables here, Tailwind @theme there).
  */
 
-/* You can override the default Infima variables here. */
+/* ————————————————————————————————————————————————————————————
+   1. Tokens — same values as the product site
+   ———————————————————————————————————————————————————————————— */
 :root {
-  --ifm-color-primary: #4a9eff;
-  --ifm-color-primary-dark: #2b8aff;
-  --ifm-color-primary-darker: #1b80ff;
-  --ifm-color-primary-darkest: #0066e6;
-  --ifm-color-primary-light: #69b0ff;
-  --ifm-color-primary-lighter: #79baff;
-  --ifm-color-primary-lightest: #a8d5ff;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", "Literata", Georgia, serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  --color-paper: #e2ddd3;
+  --color-paper-raised: #f5f2eb;
+  --color-paper-sunken: #d6d0c4;
+  --color-ink: #1c1c1c;
+  --color-ink-soft: #3a3632;
+  --color-muted: #5f5954; /* ≥4.5:1 on paper (WCAG AA small text) */
+  --color-border: #c8c2b6;
+  --color-border-strong: #9a9488;
+  --color-mark: #7a5c10; /* ≥4.5:1 on paper (WCAG AA small text) */
+  --color-success: #3d6b4f;
+  --color-danger: #8b3a3a;
+  --color-media-well: #17150f;
+
+  /* Signal: the one saturated colour on the sheet — Prussian blue, the
+     surveyor's ink. 6.40:1 on paper as text. */
+  --color-signal: #1f4e79;
+  --color-signal-deep: #163a5c;
+
+  /* ————— Infima plumbing ————— */
+  --ifm-color-primary: var(--color-signal);
+  --ifm-color-primary-dark: #1c466d;
+  --ifm-color-primary-darker: var(--color-signal-deep);
+  --ifm-color-primary-darkest: #102b44;
+  --ifm-color-primary-light: #26608f;
+  --ifm-color-primary-lighter: #2b6a9c;
+  --ifm-color-primary-lightest: #3a80b8;
+
+  --ifm-background-color: var(--color-paper);
+  --ifm-background-surface-color: var(--color-paper-raised);
+  --ifm-font-color-base: var(--color-ink-soft);
+  --ifm-heading-color: var(--color-ink);
+  --ifm-link-color: var(--color-signal);
+  --ifm-link-hover-color: var(--color-signal-deep);
+
+  --ifm-font-family-base: var(--font-sans);
+  --ifm-heading-font-family: var(--font-serif);
+  --ifm-font-family-monospace: var(--font-mono);
+  --ifm-heading-font-weight: 600;
+  --ifm-font-weight-semibold: 600;
+
+  /* Square shoulders — no app-store rounding anywhere */
+  --ifm-global-radius: 3px;
+  --ifm-button-border-radius: 3px;
+  --ifm-card-border-radius: 4px;
+
+  --ifm-toc-border-color: var(--color-border);
+  --ifm-toc-link-color: var(--color-muted);
+  --ifm-hr-border-color: var(--color-border);
+  --ifm-blockquote-color: var(--color-ink-soft);
+  --ifm-blockquote-border-color: var(--color-border-strong);
+  --ifm-breadcrumb-color-active: var(--color-ink);
+  --ifm-breadcrumb-item-background-active: transparent;
+
+  /* Infima's emphasis scale drives dozens of components (TOC, breadcrumbs,
+     tabs, badges…). Its default is a cold grey ramp; remapped onto the atlas
+     palette so every one of those components lands on-brand without a
+     per-component override. */
+  --ifm-color-emphasis-0: #ffffff;
+  --ifm-color-emphasis-100: var(--color-paper-raised);
+  --ifm-color-emphasis-200: var(--color-paper);
+  --ifm-color-emphasis-300: var(--color-paper-sunken);
+  --ifm-color-emphasis-400: var(--color-border);
+  --ifm-color-emphasis-500: var(--color-border-strong);
+  --ifm-color-emphasis-600: var(--color-muted);
+  --ifm-color-emphasis-700: #4a453f;
+  --ifm-color-emphasis-800: var(--color-ink-soft);
+  --ifm-color-emphasis-900: var(--color-ink);
+  --ifm-color-emphasis-1000: #000000;
+
+  --ifm-code-font-size: 88%;
+  --ifm-code-background: var(--color-paper-sunken);
+  --ifm-code-border-radius: 2px;
+  --ifm-pre-background: var(--color-media-well);
+  /* The prism theme ships its own navy; force the well so code blocks and
+     capture frames sit on the same surface. */
+  --prism-background-color: var(--color-media-well) !important;
+  --docusaurus-highlighted-code-line-bg: rgba(226, 221, 211, 0.11);
+
+  --ifm-navbar-background-color: color-mix(in srgb, var(--color-paper) 90%, transparent);
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-height: 4rem;
+  --ifm-footer-background-color: var(--color-paper-raised);
+  --ifm-footer-color: var(--color-ink-soft);
+  --ifm-footer-link-color: var(--color-ink-soft);
+  --ifm-footer-title-color: var(--color-muted);
+
+  --ifm-menu-color: var(--color-ink-soft);
+  --ifm-menu-color-active: var(--color-ink);
+  --ifm-menu-color-background-active: color-mix(in srgb, var(--color-ink) 5%, transparent);
+  --ifm-menu-color-background-hover: color-mix(in srgb, var(--color-ink) 4%, transparent);
+
+  --ifm-table-border-color: var(--color-border);
+  --ifm-table-head-background: var(--color-paper-sunken);
+  --ifm-table-stripe-background: color-mix(in srgb, var(--color-ink) 3%, transparent);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #4a9eff;
-  --ifm-color-primary-dark: #2b8aff;
-  --ifm-color-primary-darker: #1b80ff;
-  --ifm-color-primary-darkest: #0066e6;
-  --ifm-color-primary-light: #69b0ff;
-  --ifm-color-primary-lighter: #79baff;
-  --ifm-color-primary-lightest: #a8d5ff;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+/**
+ * Dark mode is derived from --color-media-well (#17150f), the dark well the
+ * product site already uses behind captures. The product site itself is
+ * light-only, so this is a courtesy mode, not a second brand.
+ *
+ * Selector is `:root[data-theme=…]`, not `[data-theme=…]`: Infima ships its own
+ * `html[data-theme='dark']` block, which is more specific than a bare attribute
+ * selector and would keep its default #1b1b1d background. `:root` + attribute
+ * scores (0,2,0) and wins.
+ */
+:root[data-theme='dark'] {
+  --color-paper: #17150f;
+  --color-paper-raised: #201d16;
+  --color-paper-sunken: #100e0a;
+  --color-ink: #f0ebe0;
+  --color-ink-soft: #d8d2c5;
+  --color-muted: #a6a096; /* ≥4.5:1 on the dark well */
+  --color-border: #3a352b;
+  --color-border-strong: #56503f;
+  --color-media-well: #0c0b07;
+
+  /* Prussian blue is too dark to read on the well — lift it, keep the hue. */
+  --color-signal: #7fb2dd;
+  --color-signal-deep: #a3c8e8;
+  --color-mark: #d9b96a;
+
+  --ifm-color-primary: var(--color-signal);
+  --ifm-color-primary-dark: #6aa4d6;
+  --ifm-color-primary-darker: #5c9bd1;
+  --ifm-color-primary-darkest: #3d81bd;
+  --ifm-color-primary-light: #94c0e4;
+  --ifm-color-primary-lighter: #a2c9e8;
+  --ifm-color-primary-lightest: #c4ddf1;
+
+  /* Re-declared here because Infima's own dark block sets these directly —
+     a `var()` alias in :root alone would not survive. */
+  --ifm-background-color: var(--color-paper);
+  --ifm-background-surface-color: var(--color-paper-raised);
+  --ifm-font-color-base: var(--color-ink-soft);
+  --ifm-heading-color: var(--color-ink);
+  --ifm-navbar-background-color: color-mix(in srgb, var(--color-paper) 90%, transparent);
+  --ifm-footer-background-color: var(--color-paper-raised);
+  --ifm-toc-border-color: var(--color-border);
+  --ifm-toc-link-color: var(--color-muted);
+  --ifm-hr-border-color: var(--color-border);
+  --ifm-breadcrumb-color-active: var(--color-ink);
+  --ifm-code-background: var(--color-paper-sunken);
+
+  /* Same emphasis ramp, inverted for the well. */
+  --ifm-color-emphasis-0: #0c0b07;
+  --ifm-color-emphasis-100: var(--color-paper-sunken);
+  --ifm-color-emphasis-200: var(--color-paper);
+  --ifm-color-emphasis-300: var(--color-paper-raised);
+  --ifm-color-emphasis-400: var(--color-border);
+  --ifm-color-emphasis-500: var(--color-border-strong);
+  --ifm-color-emphasis-600: var(--color-muted);
+  --ifm-color-emphasis-700: #c2bcb0;
+  --ifm-color-emphasis-800: var(--color-ink-soft);
+  --ifm-color-emphasis-900: var(--color-ink);
+  --ifm-color-emphasis-1000: #ffffff;
+  --ifm-table-border-color: var(--color-border);
+  --ifm-table-head-background: var(--color-paper-sunken);
+  --ifm-table-stripe-background: color-mix(in srgb, var(--color-ink) 5%, transparent);
+  --ifm-menu-color: var(--color-ink-soft);
+  --ifm-menu-color-active: var(--color-ink);
+  --ifm-menu-color-background-active: color-mix(in srgb, var(--color-ink) 8%, transparent);
+  --ifm-menu-color-background-hover: color-mix(in srgb, var(--color-ink) 6%, transparent);
+
+  --ifm-pre-background: var(--color-paper-sunken);
+  --prism-background-color: var(--color-paper-sunken) !important;
+  --docusaurus-highlighted-code-line-bg: rgba(240, 235, 224, 0.08);
+}
+
+/* ————————————————————————————————————————————————————————————
+   2. Base — paper stock, not a hex fill
+   ———————————————————————————————————————————————————————————— */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  position: relative;
+}
+
+/* Paper grain — barely-there texture so the beige reads as stock */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root[data-theme='dark'] body::before {
+  opacity: 0.05;
+}
+
+/* Docusaurus mounts everything inside #__docusaurus; lift it above the grain. */
+#__docusaurus {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-ink) 82%, transparent);
+  color: var(--color-paper-raised);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ————————————————————————————————————————————————————————————
+   3. Typography — serif headings, mono labels
+   ———————————————————————————————————————————————————————————— */
+.markdown h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.9rem, 1.3rem + 2.6vw, 2.6rem);
+  line-height: 1.12;
+}
+
+.markdown h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.6rem;
+  letter-spacing: -0.005em;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.markdown h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.22rem;
+}
+
+/* h4 drops to mono: it reads as a field label, not a heading */
+.markdown h4 {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-muted);
+}
+
+.markdown > p,
+.markdown li {
+  line-height: 1.7;
+}
+
+.markdown a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.markdown strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* Lining numerals in tables and figures — atlas convention */
+.markdown table,
+.plate-no {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.markdown blockquote {
+  border-left-width: 2px;
+  background: color-mix(in srgb, var(--color-ink) 3%, transparent);
+  padding: 0.9rem 1.1rem;
+  border-radius: 0 3px 3px 0;
+}
+
+.markdown blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* ————————————————————————————————————————————————————————————
+   4. Navbar & sidebar — the atlas spine
+   ———————————————————————————————————————————————————————————— */
+.navbar {
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(4px);
+}
+
+.navbar__title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.navbar__link,
+.navbar__brand {
+  color: var(--color-ink-soft);
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: var(--color-ink);
+}
+
+.navbar__logo {
+  height: 1.85rem;
+}
+
+/* Sidebar categories become engraved plate labels */
+.theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-muted);
+}
+
+.menu__link {
+  border-radius: 2px;
+  font-size: 0.9rem;
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 0 var(--color-signal);
+}
+
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--color-border) !important;
+}
+
+/* Table of contents — mono, quiet.
+   Colour is set on the element rather than left to --ifm-toc-link-color:
+   Infima's own dark rules kept winning the alias, which dropped the TOC to
+   2.65:1 on the dark well. Same reason for the breadcrumbs and footer below. */
+.table-of-contents {
+  font-size: 0.8rem;
+  border-left: 1px solid var(--color-border);
+}
+
+html .table-of-contents__link {
+  color: var(--color-muted);
+}
+
+html .table-of-contents__link:hover,
+html .table-of-contents__link--active {
+  color: var(--color-ink);
+}
+
+html .table-of-contents__link--active {
+  font-weight: 600;
+}
+
+/* Breadcrumbs as a folio line */
+html .breadcrumbs__item .breadcrumbs__link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  background: none;
+  color: var(--color-muted);
+}
+
+html .breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--color-ink);
+  background: none;
+}
+
+/* ————————————————————————————————————————————————————————————
+   5. Buttons — stamped ink, square shoulders
+   ———————————————————————————————————————————————————————————— */
+.button {
+  font-weight: 600;
+  border-radius: 3px;
+  transition:
+    transform 150ms,
+    box-shadow 150ms,
+    background-color 150ms;
+}
+
+.button--primary {
+  background: var(--color-signal);
+  border-color: var(--color-signal);
+  color: var(--color-paper-raised);
+  box-shadow: 2.5px 2.5px 0 0 color-mix(in srgb, var(--color-ink) 30%, transparent);
+}
+
+.button--primary:hover {
+  background: var(--color-signal-deep);
+  border-color: var(--color-signal-deep);
+  color: var(--color-paper-raised);
+  transform: translate(-1px, -1px);
+  box-shadow: 3.5px 3.5px 0 0 color-mix(in srgb, var(--color-ink) 32%, transparent);
+}
+
+.button--primary:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 0 color-mix(in srgb, var(--color-ink) 32%, transparent);
+}
+
+.button--secondary {
+  background: transparent;
+  border: 1.5px solid var(--color-ink);
+  color: var(--color-ink);
+}
+
+.button--secondary:hover {
+  background: color-mix(in srgb, var(--color-ink) 6%, transparent);
+  color: var(--color-ink);
+}
+
+/* Pagination reads as two stamped cards */
+.pagination-nav__link {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-paper-raised);
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--color-ink);
+}
+
+.pagination-nav__sublabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-muted);
+}
+
+.pagination-nav__label {
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+/* ————————————————————————————————————————————————————————————
+   6. Admonitions — ruled sheets, not coloured tubs
+   ———————————————————————————————————————————————————————————— */
+.theme-admonition {
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  border-left-width: 3px;
+  background: var(--color-paper-raised);
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--color-ink) 5%, transparent);
+}
+
+.theme-admonition .admonitionHeading_node_modules-\@docusaurus-theme-classic-lib-theme-Admonition-Layout-styles-module,
+.theme-admonition [class*="admonitionHeading"] {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.theme-admonition-note,
+.theme-admonition-info {
+  border-left-color: var(--color-signal);
+}
+
+.theme-admonition-tip {
+  border-left-color: var(--color-success);
+}
+
+.theme-admonition-warning {
+  border-left-color: var(--color-mark);
+}
+
+.theme-admonition-danger {
+  border-left-color: var(--color-danger);
+}
+
+/* ————————————————————————————————————————————————————————————
+   7. Code — the dark well
+   ———————————————————————————————————————————————————————————— */
+/* !important on both: Docusaurus applies the prism theme's own background and
+   its card shadow at a precedence a plain rule loses to. Without this the block
+   keeps nightOwl's navy (#011627) instead of the well. */
+.theme-code-block {
+  border-radius: 4px;
+  border: 1px solid var(--color-ink);
+  box-shadow: 2.5px 2.5px 0 0 color-mix(in srgb, var(--color-ink) 14%, transparent) !important;
+}
+
+.theme-code-block pre,
+.theme-code-block pre code {
+  background-color: var(--color-media-well) !important;
+}
+
+:root[data-theme='dark'] .theme-code-block {
+  border-color: var(--color-border-strong);
+}
+
+.theme-code-block pre {
+  font-size: 0.84rem;
+}
+
+/* Filename tab reads as a plate caption */
+[class*="codeBlockTitle"] {
+  font-family: var(--font-mono) !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+code {
+  border: 1px solid var(--color-border);
+  padding: 0.1rem 0.32rem;
+}
+
+.markdown a code {
+  color: inherit;
+}
+
+/* ————————————————————————————————————————————————————————————
+   8. Tables — ledger rows
+   ———————————————————————————————————————————————————————————— */
+.markdown table {
+  display: table;
+  width: 100%;
+  font-size: 0.88rem;
+  border-collapse: collapse;
+  border: 1px solid var(--color-border);
+}
+
+.markdown table thead tr {
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.markdown table th {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+/* Wide reference tables must scroll inside their own well, never the page */
+.markdown > table,
+.table-wrapper {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ————————————————————————————————————————————————————————————
+   9. Shared components — ported one-for-one from the product site
+   ———————————————————————————————————————————————————————————— */
+
+/* Plate header: the atlas spine.  I — INSTALL ————————— 01 */
+.plate-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.75rem;
+}
+
+.plate-no {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.plate-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--color-ink-soft);
+  white-space: nowrap;
+}
+
+.plate-rule {
+  height: 1px;
+  flex: 1;
+  background: var(--color-border);
+}
+
+.plate-folio {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--color-border-strong);
+}
+
+@media (min-width: 640px) {
+  .plate-head {
+    gap: 1rem;
+  }
+  .plate-no {
+    font-size: 1.75rem;
+  }
+  .plate-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.26em;
+  }
+}
+
+/* Map-sheet frame: double rule + inner keyline */
+.sheet {
+  position: relative;
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper-raised);
+  margin: 1.5rem 0;
+}
+
+.sheet::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+  pointer-events: none;
+}
+
+.sheet-pad {
+  padding: 14px 18px;
+}
+
+.sheet > :last-child {
+  margin-bottom: 0;
+}
+
+/* The brief at the head of a chapter is a list of one-line fields, not prose:
+   each of Objectif / Durée / Prérequis gets its own line, set tight. */
+.sheet-pad p {
+  margin: 0 0 0.4rem;
+  line-height: 1.55;
+}
+
+.sheet-pad p:last-child {
+  margin-bottom: 0;
+}
+
+/* Media frames — the canonical wrapper for UE editor captures.
+   The dark well is what makes an editor screenshot sit on paper without
+   fighting it. */
+/**
+ * Captures are UI fragments, not illustrations: they range from an 813×68
+ * toolbar sliver to a 1545×1209 property panel. Two rules keep them coherent:
+ *
+ *   1. never scale a screenshot UP — `width: auto` caps at natural size, so a
+ *      295px dialog stays 295px instead of being blurred across the column;
+ *   2. cap the height, so a tall panel can't own the whole viewport.
+ *
+ * The frame then hugs whatever the image ends up being (`width: fit-content`)
+ * and centres, so small captures read as small plates rather than as a big
+ * frame with a stamp lost in the middle.
+ */
+.media-frame {
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper-raised);
+  padding: 0.5rem;
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.75rem auto;
+}
+
+.media-frame-inner {
+  background: var(--color-media-well);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0.6rem;
+  min-height: 3rem;
+}
+
+.media-frame-inner img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 28rem;
+  object-fit: contain;
+}
+
+/* Detail-heavy captures get scaled down by the height cap; the trigger opens an
+   overlay at full size — same page, closable, no new tab. */
+.media-frame-trigger {
+  display: block;
+  line-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  font: inherit;
+  color: inherit;
+}
+
+.media-frame-trigger:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+}
+
+.media-frame-zoom {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+/* ————— Enlarged plate: overlay, not a new tab ————— */
+.capture-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400; /* above the Docusaurus navbar (z-index 200) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: color-mix(in srgb, #17150f 88%, transparent);
+  cursor: zoom-out;
+  animation: capture-overlay-in 120ms ease-out;
+}
+
+@keyframes capture-overlay-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.capture-overlay-figure {
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper-raised);
+  padding: 0.5rem;
+}
+
+.capture-overlay-figure img {
+  display: block;
+  max-width: 100%;
+  /* Leave room for the caption strip inside the viewport. */
+  max-height: calc(100vh - 9rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: var(--color-media-well);
+}
+
+.capture-overlay-caption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin-top: 0.55rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.capture-overlay-close {
+  position: absolute;
+  top: clamp(0.5rem, 2vw, 1.25rem);
+  right: clamp(0.5rem, 2vw, 1.25rem);
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-paper);
+  background: color-mix(in srgb, #17150f 70%, transparent);
+  color: var(--color-paper);
+  border-radius: 3px;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.capture-overlay-close:hover {
+  background: var(--color-ink);
+}
+
+.capture-overlay-close:focus-visible {
+  outline: 2px solid var(--color-paper);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .capture-overlay {
+    animation: none;
+  }
+}
+
+/* Empty plate for a capture that is still owed — dashed rule so it reads as a
+   placeholder at a glance, never as content. */
+.media-frame--todo {
+  border-style: dashed;
+  border-color: var(--color-border-strong);
+  /* Placeholders keep a full-width plate: there is no image to hug. */
+  width: 100%;
+}
+
+.media-frame-inner--todo {
+  flex-direction: column;
+  gap: 0.4rem;
+  min-height: 8rem;
+  background: var(--color-paper-sunken);
+  border: 1px dashed var(--color-border-strong);
+}
+
+.media-frame-todo-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-muted);
+}
+
+.media-frame-todo-what {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  text-align: center;
+  max-width: 32ch;
+  padding: 0 1rem;
+}
+
+.media-frame-caption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin-top: 0.55rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-paper);
+  padding: 0.2rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.tick {
+  display: inline-block;
+  height: 0.75rem;
+  width: 0.75rem;
+  flex-shrink: 0;
+  background: var(--color-signal);
+}
+
+/* Cards — flat paper, ruled */
+.card-plate {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-paper-raised);
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--color-ink) 5%, transparent);
+  transition:
+    border-color 150ms,
+    transform 150ms,
+    box-shadow 150ms;
+}
+
+a.card-plate {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+a.card-plate:hover {
+  border-color: var(--color-ink);
+  transform: translate(-1px, -1px);
+  box-shadow: 3.5px 3.5px 0 0 color-mix(in srgb, var(--color-ink) 14%, transparent);
+  text-decoration: none;
+}
+
+/* ————————————————————————————————————————————————————————————
+   10. Footer — the colophon
+   ———————————————————————————————————————————————————————————— */
+.footer {
+  border-top: 1px solid var(--color-border);
+}
+
+.footer__title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+html .footer .footer__link-item {
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+}
+
+html .footer .footer__link-item:hover {
+  color: var(--color-ink);
+}
+
+html .footer .footer__title {
+  color: var(--color-muted);
+}
+
+.footer__copyright {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+/* ————————————————————————————————————————————————————————————
+   11. Motion — fail-open, respects reduced-motion
+   ———————————————————————————————————————————————————————————— */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .button,
+  .card-plate,
+  a.card-plate {
+    transition: none;
+  }
+}
+
+@media print {
+  body::before {
+    display: none;
+  }
 }

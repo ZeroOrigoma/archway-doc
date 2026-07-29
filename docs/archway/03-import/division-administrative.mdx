@@ -1,0 +1,122 @@
+---
+title: Générer la division administrative
+sidebar_position: 3
+---
+
+<PlateHead no="II" title="Importer" folio="04" />
+
+# Générer la division administrative
+
+<Sheet>
+
+**Objectif** — Déclarer les MapModes dans le WorldManifest, puis générer la hiérarchie administrative et les territoires.
+
+**Durée** — 10 à 15 minutes.
+
+**Prérequis** — [Ajouter un MapMode](./map-modes) : les six MapModes existent et leurs CSV sont importés.
+
+</Sheet>
+
+Créer un MapMode a généré sa DataTable. Il reste à **le déclarer dans le WorldManifest** pour qu'Archway sache quoi en faire, puis à lancer la génération.
+
+## Partie 1 — Déclarer les MapModes
+
+### 1. Ouvrir le WorldManifest
+
+Cliquez sur **l'icône Archway**, puis ouvrez **`DA_WorldManifest_MyNewWorld`**.
+
+<Capture
+  src="/img/z2h/04-01-open-world-manifest.png"
+  caption="Ouvrir le DA_WorldManifest"
+  fig="Fig. 4.1"
+/>
+
+### 2. Déplier Map Modes
+
+<Capture
+  src="/img/z2h/04-02-map-modes-section.png"
+  caption="La section Map Modes du manifest"
+  fig="Fig. 4.2"
+/>
+
+### 3. Ajouter une entrée
+
+Cliquez sur **`+`** pour ajouter un MapMode à la liste.
+
+<Capture
+  src="/img/z2h/04-03-add-entry.png"
+  caption="Le bouton + ajoute une entrée à la Map Mode List"
+  fig="Fig. 4.3"
+/>
+
+### 4. Configurer l'entrée
+
+Chaque entrée suit la même structure, regroupée en quatre blocs :
+
+<Capture
+  src="/img/z2h/04-04-map-mode-config.png"
+  caption="Une entrée de Map Mode List, ici Baronnies"
+  fig="Fig. 4.4"
+  zoom
+/>
+
+| Bloc | Champ | Rôle |
+|------|-------|------|
+| — | `IsToUpdate?` | Inclut ce MapMode dans les passes de mise à jour |
+| **Informations** | `MapModeSlot` | Le slot occupé par ce MapMode |
+| | `DisplayName` | Le nom affiché au joueur |
+| | `OwningTerritory` | Le slot dont ce MapMode dépend |
+| **Data** | `MapModeDT` | La DataTable générée à l'étape précédente |
+| | `MapModeLUT` | Table de correspondance des couleurs (optionnelle) |
+| | `VisualTheme` | Thème visuel appliqué (optionnel) |
+| **Type** | `IsAdministrativeDivision?` | Ce MapMode participe à la hiérarchie administrative |
+| | `IsTerritory?` | Ce MapMode produit des territoires |
+| | `IsStaticTerritories?` | Ses territoires sont bakés en statique |
+| **Render** | `RenderType` | Rendu des frontières et des labels |
+| | `MasterTerritoryMapMode` | MapMode parent pour le rendu |
+| | `DisplayIconInHUD` | Affiche l'icône du MapMode dans le HUD |
+
+**Répétez l'opération pour chacun des six MapModes.** La configuration est identique d'une entrée à l'autre ; seuls changent les trois champs d'identité :
+
+- `MapModeSlot` — un slot distinct par MapMode
+- `DisplayName` — le nom du MapMode
+- `MapModeDT` — sa DataTable, `DT_<MapMode>_MyNewWorld`
+
+:::note À vérifier avant publication
+Les valeurs de `IsStaticTerritories?`, `OwningTerritory` et `RenderType` sont documentées ici telles qu'elles apparaissent sur la capture des Baronnies. Confirmez qu'elles sont bien identiques pour les cinq autres MapModes — en particulier pour les Duchés, que le joueur conquiert au [chapitre 07](../play/conquerir).
+:::
+
+## Partie 2 — Lancer la génération
+
+Ouvrez l'onglet **Archway** et dépliez **Importing (Editor Only)**.
+
+<Capture
+  src="/img/z2h/00-archway-panel.png"
+  caption="Les trois boutons d'import de la section Importing"
+  fig="Fig. 4.5"
+  zoom
+/>
+
+### 5. Import Administrative Division
+
+Cliquez sur **Import Administrative Division**. Ce passage construit la hiérarchie : quel territoire appartient à quel niveau supérieur.
+
+:::info Patience
+Plusieurs minutes.
+:::
+
+### 6. Import Territories
+
+Une fois la division terminée, cliquez sur **Import Territories**. Les territoires sont créés dans le monde.
+
+:::info Patience
+Plusieurs minutes également.
+:::
+
+:::tip Résultat attendu
+La hiérarchie administrative est générée et les territoires existent dans votre monde.
+:::
+
+## Prochaine étape
+
+→ [Configurer le Landscape Material](../cook/landscape-material)

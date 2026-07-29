@@ -1,0 +1,225 @@
+---
+title: Préparer votre premier monde
+sidebar_position: 1
+---
+
+<PlateHead no="II" title="Importer" folio="02" />
+
+# Préparer votre premier monde
+
+<Sheet>
+
+**Objectif** — Créer un monde Archway, importer les assets de démonstration et sa heightmap.
+
+**Durée** — 15 à 20 minutes.
+
+**Prérequis** — [Initialiser Archway](../installation/initialiser) : le plugin est activé et l'icône est visible dans la toolbar.
+
+</Sheet>
+
+:::info Ce chapitre utilise le StarterPack
+Tous les fichiers demandés ci-dessous sont fournis avec le plugin, dans le dossier **StarterPack**. Vous branchez vos propres données plus tard.
+:::
+
+## Partie 1 — Créer le monde
+
+### 1. Ouvrir le créateur de monde
+
+Cliquez sur **l'icône Archway** dans la toolbar, puis sur **Create New World**.
+
+<Capture
+  src="/img/z2h/02-01-create-new-world.png"
+  caption="Menu Archway → Create New World"
+  fig="Fig. 2.1"
+/>
+
+### 2. Nommer votre monde
+
+Entrez le nom du monde. Pour ce parcours, gardez **`MyNewWorld`**, puis cliquez sur **Create**.
+
+<Capture
+  src="/img/z2h/02-02-world-name.png"
+  caption="Nommer le monde"
+  fig="Fig. 2.2"
+/>
+
+:::info Patience
+La création du monde prend plusieurs minutes. Une barre de progression indique l'avancement.
+:::
+
+### 3. Importer les assets de démonstration
+
+La fenêtre **Import World Assets** s'ouvre avec une liste d'assets pré-cochés. Pour chaque élément, cliquez sur **Browse...** et sélectionnez le fichier correspondant dans le **StarterPack**.
+
+<Capture
+  src="/img/z2h/02-03-import-world-assets.png"
+  caption="La fenêtre Import World Assets"
+  fig="Fig. 2.3"
+/>
+
+Quatre assets sont à assigner, dans cet ordre :
+
+| # | Asset | Fichier du StarterPack |
+|---|-------|------------------------|
+| 3.1 | `T_FlatMap_Paper` | `Textures/T_FlatMap_Paper.png` |
+| 3.2 | `T_FlatMap_Mask` | `Textures/T_FlatMap_Mask.png` |
+| 3.3 | `T_DefinitionMap` | `Textures/T_DefinitionMap.png` |
+| 3.4 | `DT_Definitions` | `csv/00_Definition.csv` |
+
+#### 3.1 — La texture de papier
+
+<Capture
+  src="/img/z2h/02-04-browse-flatmap-paper.png"
+  caption="Sélection de T_FlatMap_Paper.png"
+  fig="Fig. 2.4"
+  zoom
+/>
+
+#### 3.2 — Le masque
+
+<Capture
+  src="/img/z2h/02-05-browse-flatmap-mask.png"
+  caption="Sélection de T_FlatMap_Mask.png"
+  fig="Fig. 2.5"
+  zoom
+/>
+
+#### 3.3 — La carte de définition
+
+<Capture
+  src="/img/z2h/02-06-browse-definitionmap.png"
+  caption="Sélection de T_DefinitionMap.png"
+  fig="Fig. 2.6"
+  zoom
+/>
+
+#### 3.4 — La table des définitions
+
+<Capture
+  src="/img/z2h/02-07-browse-definition-csv.png"
+  caption="Sélection de 00_Definition.csv"
+  fig="Fig. 2.7"
+  zoom
+/>
+
+#### 3.5 — Lancer l'import
+
+Une fois les quatre assets assignés, cliquez sur **Import Selected**.
+
+<Capture
+  src="/img/z2h/02-08-import-selected.png"
+  caption="Import Selected lance l'importation"
+  fig="Fig. 2.8"
+/>
+
+:::info Patience
+L'importation prend plusieurs minutes.
+:::
+
+### 4. Ouvrir le niveau
+
+Une fenêtre propose deux types de niveau :
+
+<Capture
+  src="/img/z2h/02-09-choose-level.png"
+  caption="Choix du niveau à ouvrir"
+  fig="Fig. 2.9"
+/>
+
+- **Level_FlatMap** — vue 2D plate.
+- **Level_Heightmap** — vue 3D avec relief.
+
+Sélectionnez celui qui commence par **`Level_Heightmap`** et cliquez sur **Open**.
+
+:::tip Résultat attendu
+Le niveau Heightmap s'ouvre. Deux nouvelles fenêtres apparaissent : **l'onglet Archway** (panneau de contrôle) et **`DA_WorldManifest_MyNewWorld`**, le hub central qui référence tous les assets du monde.
+:::
+
+<Capture
+  src="/img/z2h/02-10-archway-tab.png"
+  caption="L'onglet Archway"
+  fig="Fig. 2.10"
+/>
+
+<Capture
+  src="/img/z2h/02-11-world-manifest.png"
+  caption="Le DA_WorldManifest du monde"
+  fig="Fig. 2.11"
+/>
+
+## Partie 2 — Importer la heightmap
+
+### 5. Passer en mode Landscape
+
+Dans le viewport, ouvrez la liste **Selection Mode** et choisissez **Landscape**.
+
+<Capture
+  src="/img/z2h/02-12-selection-mode-landscape.png"
+  caption="Selection Mode → Landscape"
+  fig="Fig. 2.12"
+/>
+
+### 6. Importer le fichier heightmap
+
+1. Cliquez sur **Manage → Import**.
+2. Cochez **Heightmap File**.
+
+<Capture
+  src="/img/z2h/02-13-manage-import-heightmap.png"
+  caption="Manage → Import, option Heightmap File"
+  fig="Fig. 2.13"
+  zoom
+/>
+
+3. Cliquez sur les **`...`** à côté de **Heightmap File** et sélectionnez `Heightmap/H_Heightmap.png` dans le StarterPack.
+
+<Capture
+  src="/img/z2h/02-14-select-heightmap-file.png"
+  caption="Sélection de H_Heightmap.png"
+  fig="Fig. 2.14"
+  zoom
+/>
+
+4. Cliquez sur **Import**.
+
+<Capture
+  src="/img/z2h/02-15-heightmap-import.png"
+  caption="Import de la heightmap"
+  fig="Fig. 2.15"
+  zoom
+/>
+
+### 7. Revenir en mode sélection
+
+Repassez la liste **Selection Mode** sur **Selection**.
+
+<Capture
+  src="/img/z2h/02-16-selection-mode-back.png"
+  caption="Retour en Selection Mode"
+  fig="Fig. 2.16"
+/>
+
+:::tip Résultat attendu
+Le monde est créé, ses assets sont importés et la heightmap est en place. Il est prêt pour l'ajout de MapModes.
+:::
+
+<Capture
+  src="/img/z2h/02-22-world-result.png"
+  caption="Le monde MyNewWorld en vue FlatMap"
+  fig="Pl. 2.1"
+  zoom
+/>
+
+## Réimporter des assets plus tard
+
+Si vous changez une texture ou une table source, vous n'avez pas à recréer le monde : le menu Archway propose **Reimport World Assets**, qui liste les assets du monde et leurs fichiers d'origine.
+
+<Capture
+  src="/img/z2h/02-23-reimport-world-assets.png"
+  caption="Reimport World Assets — les assets du monde et leurs sources"
+  fig="Fig. 2.23"
+/>
+
+## Prochaine étape
+
+→ [Ajouter un MapMode](./map-modes)

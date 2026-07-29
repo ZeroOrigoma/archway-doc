@@ -1,0 +1,67 @@
+---
+title: Configurer le Landscape Material
+sidebar_position: 1
+---
+
+<PlateHead no="III" title="Cook" folio="05" />
+
+# Configurer le Landscape Material
+
+<Sheet>
+
+**Objectif** — Préparer le material du landscape pour qu'il affiche les frontières statiques des territoires.
+
+**Durée** — 5 minutes.
+
+**Prérequis** — [Générer la division administrative](../import/division-administrative) : la hiérarchie et les territoires sont importés.
+
+</Sheet>
+
+Les frontières d'Archway ne sont pas de la géométrie : elles sont **dessinées dans le material du landscape**, à partir d'un atlas de textures. Avant de baker, il faut vérifier que ce material est bien câblé.
+
+## 1. Ouvrir le WorldManifest
+
+Cliquez sur **l'icône Archway**, puis ouvrez **`DA_WorldManifest_MyNewWorld`**.
+
+## 2. Aller à la section Material
+
+Descendez jusqu'à la section **Material** et dépliez-la.
+
+<Capture
+  src="/img/z2h/05-01-material-section.png"
+  caption="La section Material du WorldManifest"
+  fig="Fig. 5.1"
+  zoom
+/>
+
+## 3. Ouvrir le Material Instance
+
+**Double-cliquez** sur le **Landscape Heightmap Material Instance**.
+
+<CaptureTodo
+  what="Le Landscape Heightmap Material Instance dans la section Material, avant double-clic"
+  fig="Fig. 5.2"
+/>
+
+## 4. Vérifier le Border Static Atlas
+
+Dans l'éditeur de material, cherchez le paramètre **Border Static Atlas**.
+
+<Capture
+  src="/img/z2h/05-02-border-static-atlas.png"
+  caption="Le paramètre Border Static Atlas"
+  fig="Fig. 5.3"
+  zoom
+/>
+
+:::tip Résultat attendu
+Le paramètre `Border Static Atlas` est visible et assigné dans le material.
+:::
+
+:::note Statique et dynamique
+À ce stade le material affiche encore les frontières **dynamiques** (`RT_DynamicBorder`, une RenderTarget calculée à l'exécution). Le chapitre suivant bake ces frontières dans une texture statique et bascule le material dessus.
+:::
+
+## Prochaine étape
+
+→ [Cook des données statiques](./cook-territoires)

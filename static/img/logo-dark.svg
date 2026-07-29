@@ -1,6 +1,6 @@
 <svg viewBox="0 12 120 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Archway">
-  <!-- The Archway mark — concentric arch drawn in strokes. Ink on paper. -->
-  <g fill="none" stroke="#1c1c1c" stroke-linecap="round">
+  <!-- The Archway mark — concentric arch drawn in strokes. Paper on ink. -->
+  <g fill="none" stroke="#e2ddd3" stroke-linecap="round">
     <path d="M22 94 V56 A38 38 0 0 1 98 56 V94" stroke-width="4.5" opacity="0.95" />
     <path d="M31 94 V57 A29 29 0 0 1 89 57 V94" stroke-width="3.5" opacity="0.75" />
     <path d="M40 94 V58 A20 20 0 0 1 80 58 V94" stroke-width="3" opacity="0.55" />

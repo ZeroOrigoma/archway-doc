@@ -1,0 +1,113 @@
+---
+title: Cook des données statiques
+sidebar_position: 2
+---
+
+<PlateHead no="III" title="Cook" folio="06" />
+
+# Cook des données statiques
+
+<Sheet>
+
+**Objectif** — Cook les données de territoires, basculer le material sur les frontières statiques, et libérer les RenderTargets devenues inutiles.
+
+**Durée** — 15 à 20 minutes.
+
+**Prérequis** — [Configurer le Landscape Material](./landscape-material).
+
+</Sheet>
+
+## Pourquoi baker ?
+
+Tous les territoires n'ont pas besoin d'être recalculés à chaque frame. Ceux qui ne changent jamais — les découpages administratifs de fond — peuvent être **dessinés une fois** dans une texture, puis lus comme n'importe quelle texture. C'est ce que fait le bake : il transforme un coût par frame en un coût unique, et c'est ce qui permet de tenir 60+ fps sur une carte dense.
+
+Les territoires marqués `IsStaticTerritories?` sont concernés. Les autres restent dynamiques.
+
+## Partie 1 — Lancer le baking
+
+### 1. Lancer le Runtime
+
+Cliquez sur **Play** dans l'éditeur.
+
+:::warning Le baking a besoin du Runtime
+La section **Baking** de l'onglet Archway est *Runtime Only* : elle ne fonctionne que pendant que le jeu tourne. **Ne fermez pas le Runtime** pendant les étapes suivantes.
+:::
+
+### 2. Revenir dans l'éditeur
+
+Sans arrêter le Runtime, revenez dans la fenêtre de l'éditeur Unreal.
+
+### 3. Ouvrir le panneau de Baking
+
+Dans l'onglet Archway, dépliez **Baking (Runtime Only)**. Trois boutons y sont disponibles :
+
+| Bouton | Ce qu'il cuit |
+|--------|---------------|
+| **Bake Labels & Borders** | Les labels et les frontières en une passe — le choix normal |
+| **Bake Labels Only** | Seulement les labels |
+| **Bake Borders Only** | Seulement les frontières |
+
+Pour ce parcours, cliquez sur **Bake Labels & Borders**.
+
+<Capture
+  src="/img/z2h/00-archway-panel.png"
+  caption="La section Baking (Runtime Only) et ses trois boutons"
+  fig="Fig. 6.1"
+  zoom
+/>
+
+:::tip Les deux boutons partiels
+`Bake Labels Only` et `Bake Borders Only` servent à rejouer une seule passe après une retouche — un CSV de labels corrigé, un thème de frontières ajusté — sans repayer le coût de l'autre.
+:::
+
+:::info Patience
+Le baking prend plusieurs minutes. Attendez qu'il se termine complètement avant de continuer.
+:::
+
+## Partie 2 — Basculer sur les frontières statiques
+
+### 4. Modifier le material
+
+Ouvrez le **Landscape Heightmap Material Instance** comme au [chapitre précédent](./landscape-material), et remplacez la **`RT_DynamicBorder`** par la **`T_StaticBorder`**.
+
+<CaptureTodo
+  what="Le material instance, paramètre de border : RT_DynamicBorder remplacée par T_StaticBorder"
+  fig="Fig. 6.2"
+/>
+
+### 5. Arrêter le Runtime
+
+Vous pouvez maintenant arrêter le Runtime (**Stop**).
+
+## Partie 3 — Nettoyer les RenderTargets
+
+### 6. Supprimer les RT des territoires statiques
+
+Dans le **Content Browser**, allez dans :
+
+```
+World_MyNewWorld → Runtime → Visuals → RenderTargets → Dynamic Border
+```
+
+Supprimez les RenderTargets **des territoires qui viennent d'être bakés**.
+
+<CaptureTodo
+  what="Le dossier Dynamic Border du Content Browser, avec les RenderTargets des territoires statiques sélectionnées"
+  fig="Fig. 6.3"
+/>
+
+:::danger Ne supprimez que les statiques
+Les territoires restés dynamiques ont toujours besoin de leur RenderTarget. Supprimer la RT d'un territoire dynamique le fait disparaître à l'exécution.
+:::
+
+:::note Pourquoi ?
+Les territoires bakés lisent désormais la texture statique. Leur RenderTarget dynamique ne sert plus à rien et occupe de la mémoire GPU pour rien.
+:::
+
+:::tip Résultat attendu
+Les frontières statiques s'affichent correctement, et les RenderTargets inutiles ont disparu. Le monde est prêt à être joué.
+:::
+
+## Prochaine étape
+
+→ [Conquérir votre premier Duché](../play/conquerir)

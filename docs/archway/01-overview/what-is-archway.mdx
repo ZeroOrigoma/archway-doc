@@ -3,33 +3,70 @@ title: What is Archway?
 sidebar_position: 1
 ---
 
+<PlateHead no="—" title="Overview" folio="01" />
+
 # What is Archway?
 
-**Archway Core** est un plugin Unreal Engine 5.6+ qui ajoute un système de territoire dynamique à vos projets. Il permet de définir, manipuler et faire évoluer des zones territoriales directement dans l'éditeur, sans code.
+<span className="pill">Unreal Engine 5.6+</span>&nbsp;<span className="pill">Windows</span>&nbsp;<span className="pill">C++ &amp; Blueprint</span>
 
-## Un système de territoire pour Unreal Engine
+**Archway** transforme votre carte de provinces en un monde de stratégie UE5 jouable : frontières dessinées en shader, territoires dynamiques, map modes — conçu pour tenir 60+ fps.
 
-Dans de nombreux jeux et simulations, les notions de territoire, de zone d'influence et de frontière sont centrales : jeux de stratégie, mondes ouverts, simulations tactiques, sandbox… Archway Core fournit une solution clé en main pour gérer ces concepts de manière performante et intuitive.
+<Sheet>
 
-Le plugin vous permet de :
+**En une phrase.** Vous apportez une texture de provinces et vos tables de données ; Archway construit l'appartenance territoriale, les frontières et les données runtime. Le socle de carte n'est plus votre problème.
 
-- **Définir des territoires** — créez des zones avec des formes quelconques directement dans l'éditeur UE.
-- **Faire évoluer les frontières** — les territoires peuvent se dilater, se contracter, se fusionner ou se diviser en réponse à des événements gameplay.
-- **Interroger l'appartenance territoriale** — savoir quel territoire contient un point, un acteur ou une zone en temps réel.
-- **Visualiser les frontières** — le plugin inclut un **système de rendu de border dynamique** qui affiche les limites entre territoires de manière fluide et visuellement claire.
+</Sheet>
+
+<Capture
+  src="/img/z2h/02-22-world-result.png"
+  caption="Un monde Archway généré depuis le StarterPack — vue FlatMap"
+  fig="Pl. 01"
+  zoom
+/>
+
+## Un socle de carte, pas un moteur de rendu
+
+Dans un jeu de grande stratégie, la carte n'est pas un décor : c'est la structure de données centrale. Qui possède quoi, où passent les frontières, ce que montre chaque map mode, comment tout ça se sauvegarde. C'est plusieurs mois de travail avant la première ligne de gameplay.
+
+Archway livre cette couche :
+
+- **Import de vos données** — texture de provinces + CSV, JSON ou DataTables. C'est la fin de la saisie manuelle.
+- **Frontières dessinées en shader** — les limites entre territoires sont calculées sur GPU, pas modélisées à la main.
+- **Territoires dynamiques** — conquête, fusion, division, changement de propriétaire à l'exécution.
+- **Map modes stratégiques** — baronnies, comtés, duchés, royaumes, empires, pays : la même carte, plusieurs échelles de lecture.
+- **Save / load** — l'état du monde se sérialise en une commande.
+
+## La méthode, en quatre temps
+
+C'est la structure de cette documentation, et celle du produit.
+
+<CardGrid>
+  <PlateCard to="/archway/installation/installation" no="I — Installer" title="Installer">
+    Poser le plugin, l'activer, compiler. Une seule pipeline, du premier bake au build final.
+  </PlateCard>
+  <PlateCard to="/archway/import/premier-monde" no="II — Importer" title="Importer">
+    Créer le monde, importer la heightmap, les map modes et les définitions de territoires.
+  </PlateCard>
+  <PlateCard to="/archway/cook/landscape-material" no="III — Cook" title="Cook">
+    Un bake construit l'appartenance, les frontières et les données runtime.
+  </PlateCard>
+  <PlateCard to="/archway/play/conquerir" no="IV — Jouer" title="Jouer">
+    Map modes, territoires vivants, votre gameplay par-dessus.
+  </PlateCard>
+</CardGrid>
 
 ## Pour qui ?
 
-Archway Core s'adresse à :
-
-- **Les game designers** qui veulent prototyper rapidement des mécaniques territoriales sans écrire de code.
-- **Les level designers** qui besoin de définir des zones d'influence, des territoires contrôlés, ou des régions avec des règles spécifiques.
-- **Les développeurs gameplay** qui cherchent une base solide pour construire des systèmes de conquête, de contrôle de zone, ou de dynamique de faction.
+- **Game designers** — prototyper des mécaniques territoriales sans écrire de code.
+- **Level designers** — définir des zones d'influence, des territoires contrôlés, des régions avec leurs règles.
+- **Développeurs gameplay** — une base solide pour la conquête, le contrôle de zone, la dynamique de faction.
 
 ## Ce que ce n'est pas
 
-Archway Core se concentre sur la logique territoriale et son intégration dans le workflow Unreal Engine. Il ne s'agit pas d'un moteur de rendu graphique avancé ni d'une solution de shader personnalisé — ces aspects techniques sont encapsulés et transparents pour l'utilisateur final.
+Archway se concentre sur la logique territoriale et son intégration dans le workflow Unreal Engine. Ce n'est pas un moteur de rendu graphique ni une bibliothèque de shaders à écrire soi-même : ces aspects sont encapsulés et transparents à l'usage.
+
+Ce n'est pas non plus un jeu. Archway vous donne la carte et ses règles ; le gameplay reste le vôtre.
 
 ## Prochaines étapes
 
-Explorez la [philosophie du plugin](./philosophy) pour comprendre l'approche territory-first, ou consultez les sections suivantes pour apprendre à installer et utiliser Archway Core dans votre projet.
+Lisez la [philosophie du plugin](./philosophy) pour comprendre l'approche territory-first, ou passez directement à l'[installation](../installation/installation) puis au [parcours complet](../installation/initialiser).

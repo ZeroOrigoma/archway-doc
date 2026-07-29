@@ -1,0 +1,157 @@
+---
+title: Activer votre licence
+sidebar_position: 2
+---
+
+<PlateHead no="I" title="Installer" folio="01" />
+
+# Activer votre licence
+
+<Sheet>
+
+**Objectif** — Installer votre fichier de licence pour débloquer le palier acheté.
+
+**Durée** — 2 minutes.
+
+**Prérequis** — [Installer le plugin](./installation) : le dossier `ArchwayCore` est en place dans votre projet.
+
+</Sheet>
+
+Sans fichier de licence, Archway **fonctionne quand même** — en palier **Free Explorer**, avec des plafonds. L'activation ne « déverrouille » pas le plugin : elle lève ces plafonds et ouvre l'usage commercial.
+
+## Les paliers
+
+| Palier | Provinces | Territoires | Map modes | Usage commercial |
+|--------|-----------|-------------|-----------|------------------|
+| **Free Explorer** | 500 | 5 | 2 | Non |
+| **Pro Creator** | Illimité | Illimité | Illimité | Oui — 1 siège |
+| **Studio Team** | Illimité | Illimité | Illimité | Oui — 5 sièges |
+| **Studio Source** | Illimité | Illimité | Illimité | Oui — 5 sièges, sources incluses |
+
+Les détails et les prix sont sur <a href="https://archway.origoma.com/#pricing">la page des licences</a>.
+
+## 1. Récupérer le fichier
+
+Votre licence arrive **en pièce jointe**, sous le nom `archway-license.zip`, dans le second des deux e-mails reçus après l'achat.
+
+- L'expéditeur est **Zero Origoma**, adresse `licenses@mail.origoma.com`.
+- L'objet mentionne Archway et votre palier.
+- L'archive contient un dossier `Licenses/` avec le fichier `archway.lic` à l'intérieur.
+
+## 2. L'extraire dans le projet
+
+**Extrayez le dossier `Licenses` dans le dossier `Saved` du projet** qui utilise Archway. Le fichier atterrit alors exactement là où Archway le cherche :
+
+```
+VotreProjet/Saved/Licenses/archway.lic
+```
+
+```
+VotreProjet/
+├── Config/
+├── Content/
+├── Saved/
+│   └── Licenses/            ← extrait de l'archive
+│       └── archway.lic
+└── VotreProjet.uproject
+```
+
+:::tip Extrayez le dossier, pas seulement le fichier
+C'est tout l'intérêt de l'archive : en extrayant `Licenses/` dans `Saved/`, le dossier est créé pour vous et le fichier porte forcément le bon nom. Si vous sortez le `.lic` seul à la main, vous risquez un mauvais chemin ou un nom altéré.
+:::
+
+:::warning Le nom du fichier compte
+Archway cherche exactement `archway.lic`, en minuscules. Si vous le manipulez à la main, méfiez-vous des `archway (1).lic` que créent les téléchargements en double — ce nom **ne sera pas reconnu**.
+:::
+
+:::note Quel dossier `Saved` ?
+Celui **de votre projet** — à côté de `Content`, `Config` et du `.uproject`. Jamais celui de l'installation du moteur.
+
+Si `Saved/` n'existe pas encore, créez-le : Unreal le crée normalement au premier lancement du projet. Vous n'avez en revanche jamais à créer `Licenses/` à la main — il est déjà dans l'archive.
+:::
+
+<CaptureTodo what="Le dossier Licenses extrait dans VotreProjet/Saved/, avec archway.lic à l'intérieur" fig="Fig. 1b.1" />
+
+## 3. Redémarrer et vérifier
+
+1. **Fermez et rouvrez** l'éditeur Unreal pour ce projet.
+2. Ouvrez **Window → Developer Tools → Output Log**.
+3. Cherchez une ligne du type :
+
+```
+License VALID ... tier=Pro
+```
+
+<CaptureTodo what="L'Output Log affichant « License VALID … tier=Pro »" fig="Fig. 1b.2" />
+
+:::tip Résultat attendu
+Le log confirme le palier acheté. Les plafonds Free ont disparu.
+:::
+
+:::danger Vous voyez encore les limites Free après un achat ?
+C'est le symptôme d'un fichier non trouvé ou non reconnu. Voyez [les erreurs courantes](#les-erreurs-courantes) ci-dessous.
+:::
+
+## Comment la vérification fonctionne
+
+Utile à comprendre, parce que ça détermine ce qui se passe quand vous travaillez hors ligne.
+
+La signature est vérifiée **localement** : le `.lic` est un document JSON signé en **Ed25519**, et la clé publique est embarquée dans le plugin. Aucune connexion n'est nécessaire pour valider une licence.
+
+S'y ajoute une vérification en ligne périodique, dont la règle est :
+
+1. Pendant une **période de grâce** après l'émission de la licence, aucun appel réseau.
+2. Passé ce délai, le plugin interroge l'API de licences.
+3. Succès → prochaine vérification après l'intervalle nominal.
+4. **Échec réseau → le plugin continue de fonctionner** (*fail-open*) et réessaie plus tard. Après plusieurs échecs consécutifs, il espace ses tentatives.
+5. Si le serveur signale une licence **révoquée**, le plugin retombe en Free — et s'en souvient, même hors ligne.
+
+L'état de la dernière vérification est mis en cache dans :
+
+```
+VotreProjet/Saved/Licenses/license_status.json
+```
+
+:::info Travailler hors ligne
+Une coupure réseau ne bloque jamais votre travail. Seule une révocation explicite — un remboursement, typiquement — fait retomber le plugin en Free.
+:::
+
+## Les erreurs courantes
+
+| Symptôme | Cause probable | Correctif |
+|----------|----------------|-----------|
+| `License file not found` | Le fichier n'est pas là où le plugin le cherche | Vérifiez `<Projet>/Saved/Licenses/archway.lic` |
+| Mode Free malgré un achat | L'archive a été extraite au mauvais endroit | Le dossier `Licenses/` doit être **dans** `Saved/`, pas à côté |
+| Mode Free malgré un achat | Nom de fichier incorrect | Renommez en `archway.lic` — attention à `archway (1).lic` |
+| Mode Free malgré un achat | Mauvais projet | Le `.lic` doit être sous l'arborescence du `.uproject` qui lance Archway |
+| Signature invalide | Fichier altéré ou tronqué | Ne l'ouvrez pas dans un éditeur, ne le rouvrez pas depuis un client mail qui le réencode. Faites-le renvoyer |
+| Retombé en Free du jour au lendemain | Licence révoquée (remboursement) | Contactez <a href="mailto:contact@origoma.com">contact@origoma.com</a> |
+| Fichier perdu | — | <a href="https://archway.origoma.com/reissue/">archway.origoma.com/reissue</a> |
+
+Le guide d'activation complet, avec ses cas particuliers, est sur <a href="https://archway.origoma.com/activate/">archway.origoma.com/activate</a>.
+
+## Lire la licence depuis Blueprint
+
+Le palier et ses plafonds sont exposés, ce qui permet d'adapter votre propre UI ou de désactiver des fonctions selon la licence. Le sous-système est `UArchwayLicenseManager`, un **World Subsystem**.
+
+| Nœud | Retour | À quoi ça sert |
+|------|--------|----------------|
+| `Get Tier` | `EArchwayLicenseTier` | Le palier courant |
+| `Get Tier Display Name` | `String` | Le nom lisible, ex. « Pro Creator » |
+| `Is Valid` | `Bool` | La licence est valide et non révoquée |
+| `Can Register Provinces` | `Bool` | Le total proposé tient dans le plafond |
+| `Can Create Territories` | `Bool` | Idem pour les territoires |
+| `Can Use Map Modes` | `Bool` | Idem pour les map modes |
+| `Can Use Feature` | `Bool` | Une capacité précise est disponible |
+| `Get Max Provinces` | `Int` | Le plafond courant |
+| `Get Max Territories` | `Int` | Le plafond courant |
+| `Notify Limit Hit` | `Struct` | Signale un plafond atteint et récupère le message à afficher |
+| `Open Upgrade Page` | — | Ouvre la page des licences dans le navigateur |
+
+:::note Le dialogue d'aide de l'éditeur
+Quand un plafond est atteint dans l'éditeur, Archway ouvre une fenêtre expliquant lequel et proposant la mise à niveau. C'est ce que déclenche `Notify Limit Hit`.
+:::
+
+## Prochaine étape
+
+→ [Initialiser Archway](./initialiser) — activer le plugin dans l'éditeur.

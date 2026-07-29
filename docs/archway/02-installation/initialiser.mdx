@@ -1,0 +1,114 @@
+---
+title: Initialiser Archway
+sidebar_position: 3
+---
+
+<PlateHead no="I" title="Installer" folio="02" />
+
+# Initialiser Archway
+
+<Sheet>
+
+**Objectif** — Activer le plugin Archway et préparer l'éditeur pour créer votre premier monde.
+
+**Durée** — 5 minutes.
+
+**Prérequis** — [Activer votre licence](./activation), ou rien du tout si vous restez en palier Free Explorer.
+
+</Sheet>
+
+## 1. Activer Archway Core
+
+1. Dans l'éditeur, allez dans **Edit → Plugins**.
+2. Dans la barre de recherche, tapez `Archway Core`.
+3. **Cochez la case** pour activer le plugin.
+
+<Capture
+  src="/img/z2h/01-01-plugin-manager-archway.png"
+  caption="Edit → Plugins, recherche « Archway Core »"
+  fig="Fig. 1.1"
+  zoom
+/>
+
+## 2. Activer le plugin Water
+
+Archway s'appuie sur le plugin **Water** d'Epic pour les océans et les plans d'eau du monde.
+
+1. Toujours dans la fenêtre Plugins, recherchez `Water`.
+2. **Cochez la case** pour l'activer.
+
+<Capture
+  src="/img/z2h/01-02-plugin-water.png"
+  caption="Le plugin Water d'Epic Games"
+  fig="Fig. 1.2"
+/>
+
+## 3. Redémarrer l'éditeur
+
+:::warning Redémarrage obligatoire
+Archway est un plugin C++ : ses modules ne sont chargés qu'au démarrage. Fermez **complètement** l'éditeur, puis rouvrez votre projet.
+:::
+
+## 4. Vérifier l'installation
+
+Après le redémarrage, une **icône Archway** apparaît dans la toolbar principale.
+
+<Capture
+  src="/img/z2h/01-03-toolbar-archway.png"
+  caption="L'icône Archway dans la toolbar de l'éditeur"
+  fig="Fig. 1.3"
+/>
+
+:::tip Résultat attendu
+L'icône Archway est visible dans la toolbar. Le plugin est prêt.
+:::
+
+## Le menu Archway
+
+Cette icône est le point d'entrée de tout le reste. Elle ouvre un menu qui contient l'ensemble des opérations sur un monde :
+
+<Capture
+  src="/img/z2h/00-archway-menu.png"
+  caption="Le menu Archway au complet"
+  fig="Fig. 1.4"
+/>
+
+| Entrée | Rôle |
+|--------|------|
+| **Open Archway** | Ouvre l'onglet de contrôle Archway |
+| **Open World Manifest** | Ouvre le `DA_WorldManifest` du monde courant |
+| **Create New World** | Crée un nouveau monde — voir [Préparer votre premier monde](../import/premier-monde) |
+| **Add Map Mode** | Ajoute une échelle de lecture — voir [Ajouter un MapMode](../import/map-modes) |
+| **Add Territory Label Exclusion** | Importe un CSV de `TerritoryID` à **exclure de la génération des labels** |
+| **Reimport World Assets** | Réimporte les textures et tables d'un monde existant |
+| **Open World** | Ouvre un des mondes du projet |
+| **Demo** | Contenu de démonstration |
+
+:::note Add Territory Label Exclusion
+Utile quand certains territoires ne doivent pas porter de nom sur la carte — mers intérieures, zones neutres, territoires techniques. Vous fournissez la liste de leurs `TerritoryID` dans un CSV, et la passe de labels les ignore.
+:::
+
+## L'onglet Archway
+
+L'onglet lui-même regroupe trois sections :
+
+<Capture
+  src="/img/z2h/00-archway-panel.png"
+  caption="L'onglet Archway : My World, Importing (Editor Only), Baking (Runtime Only)"
+  fig="Fig. 1.5"
+  zoom
+/>
+
+**My World** — un seul bouton, **`Generate Your World`**. Il enchaîne toute la séquence d'importation, de `Init Level Assets` jusqu'à `Import Territories` inclus. C'est le chemin normal.
+
+**Importing (Editor Only)** — les mêmes étapes, une par une : `Init Level Assets`, `Import Definitions`, `Import Administrative Division`, `Import Territories`. Elles restent accessibles pour **relancer une étape précise sans tout réimporter**.
+
+**Baking (Runtime Only)** — `Bake Labels & Borders`, `Bake Labels Only`, `Bake Borders Only`. Accessibles seulement quand le jeu tourne, voir [Cook des données statiques](../cook/cook-territoires).
+
+:::tip Generate Your World d'abord
+Lancez `Generate Your World` pour un monde neuf. Les boutons individuels servent ensuite, quand vous corrigez un CSV et voulez rejouer une seule passe.
+:::
+
+## Prochaine étape
+
+→ [Préparer votre premier monde](../import/premier-monde)
