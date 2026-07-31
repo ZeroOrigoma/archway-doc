@@ -22,11 +22,12 @@ const products: Product[] = [
     available: true,
   },
   {
-    name: 'Chronoscope',
-    kicker: 'À venir',
-    description: 'Documentation à venir.',
-    href: '#',
-    available: false,
+    name: 'World Generator',
+    kicker: 'Windows 10 / 11',
+    description:
+      "L'outil qui dessine la carte qu'Archway importe : terrain procédural, sculpture à la main, provinces, hiérarchie de territoires.",
+    href: '/world-generator/',
+    available: true,
   },
 ];
 
