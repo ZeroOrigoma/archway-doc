@@ -1,0 +1,168 @@
+---
+title: Sculpter à la main
+sidebar_position: 1
+---
+
+<PlateHead no="II" title="Sculpter" folio="05" />
+
+# Sculpter à la main
+
+Retouche manuelle par-dessus ce que le générateur a produit. Entrer dans cet onglet bascule la vue en topographie et sélectionne le pinceau.
+
+:::tip Le travail peint survit à la régénération
+L'influence que vous peignez est stockée à part du bruit. Vous pouvez revenir au panneau Terrain, changer la graine, régénérer — vos modifications restent où vous les avez mises.
+:::
+
+<Capture
+  src="/img/wgen/20-panneau-sculpt.png"
+  caption="Le panneau Sculpt : Paint et Brush ouverts, le reste replié"
+  fig="Fig. 5.1"
+  zoom
+/>
+
+## Paint
+
+*Ouvert par défaut.*
+
+### Mode de pinceau
+
+En vues **Biome** et **Topo**, le pinceau écrit toujours une valeur discrète — un identifiant de biome ou une bande d'altitude — donc il n'y a pas de mode à choisir. Le panneau le dit plutôt que d'offrir une commande qui serait ignorée.
+
+Dans les vues d'altitude, le sélecteur de mode apparaît :
+
+| Mode | Effet |
+|---|---|
+| **Raise** | Ajoute de l'altitude |
+| **Lower** | En retire |
+| **Set** | Écrit directement la valeur cible |
+
+### Cible
+
+Une liste de pastilles de couleur, une par cible. Laquelle dépend de la vue active :
+
+- Vue **Topo** → les neuf strates, d'*Abyssal* à *High peaks*
+- Vue **Biome** → tous les biomes activés
+
+<Capture
+  src="/img/wgen/22-palette-strates.png"
+  caption="La palette de strates en vue topographique"
+  fig="Fig. 5.2"
+/>
+
+Cliquez une ligne pour la sélectionner. C'est ce que le pinceau va peindre.
+
+### Eraser
+
+Disponible dans les vues dérivées. Retire l'influence peinte au lieu d'en ajouter, ramenant ces pixels à ce que le générateur avait produit.
+
+## Brush
+
+*Ouvert par défaut.*
+
+<Capture
+  src="/img/wgen/21-brosse.png"
+  caption="Le groupe Brush, panneau défilé"
+  fig="Fig. 5.3"
+  zoom
+/>
+
+| Commande | Plage | Notes |
+|---|---|---|
+| **Shape** | Circle / Square / Line | |
+| **Size** | 3 – 1000 | Diamètre, comme le réticule à l'écran |
+| **Strength** | 0,1 – 2 | Force d'une passe |
+| **Falloff** | 0 – 10 | Douceur du bord. 0 = bord franc |
+| **Noise strength** | 0 – 1 | Casse le trait pour qu'il ne se lise pas comme un tampon |
+| **Noise scale** | 0,1 – 10 | Grain de cette cassure |
+| **Rotation** | 0 – 360° | Pour Square et Line |
+| **Edge mask** | 0 – 1 | Estompe le trait vers les bords de la carte |
+
+En vue **Biome**, l'atténuation est forcée à 0 : peindre un biome écrit un identifiant discret, un bord doux n'aurait pas de sens.
+
+### Sans quitter la toile
+
+| Raccourci | Règle |
+|---|---|
+| `Ctrl` + molette | Taille |
+| `Alt` + molette | Atténuation — vers le haut pour plus doux |
+| `Ctrl`+`Alt` + molette | Rotation, 5° par cran |
+
+Le réticule sous le pointeur montre la taille, la forme et le rayon d'atténuation en direct.
+
+## Allowed strata
+
+*Replié par défaut. Vue Biome, avec un biome sélectionné.*
+
+Chaque biome ne peut occuper que certaines bandes d'altitude. **Snow** et **Rocky Wastes** sont limités aux trois plus hautes, **Swamp** aux bandes basses et côtières, **Deep Ocean** à la seule bande abyssale.
+
+Désactivez une bande pour empêcher ce biome d'y peindre. Activez-en une pour autoriser ce que les valeurs par défaut interdisaient — de la jungle en altitude, du désert sur un plateau.
+
+## Stencil
+
+*Replié par défaut.*
+
+Charger une image et s'en servir comme référence ou comme source de terrain.
+
+**Choose image…** ouvre le navigateur de fichiers, qui démarre dans le dossier de l'application.
+
+| Commande | Plage | Effet |
+|---|---|---|
+| **Show overlay** | oui/non | Dessiner par-dessus la carte |
+| **Opacity** | 0 – 1 | À quel point |
+| **Tolerance** | 0 – 255 | Marge de correspondance des couleurs pour le remplissage |
+| **Outline** | 0 – 10 | Épaisseur du contour tracé |
+
+### Modes d'interaction
+
+| Mode | Effet |
+|---|---|
+| **View** | Référence seule. Le pinceau fonctionne normalement |
+| **Edit** | Les clics modifient l'image du stencil |
+| **Fill** | Les clics remplissent le terrain depuis les régions colorées du stencil |
+
+Tant que **Edit** ou **Fill** est actif, les outils de sculpture sont en pause, et le panneau le signale.
+
+:::info Stencil ou masque ?
+Un **stencil** est quelque chose depuis quoi vous travaillez — une référence à décalquer. Un **masque** est quelque chose avec quoi le générateur travaille : il remplace directement une forme. Voir [Masques](../reference/masques).
+:::
+
+## Province editing
+
+*Replié par défaut. Nécessite des provinces.*
+
+Modifier les frontières de provinces à la main. Appuyez sur **Enable edit mode** ; la vue bascule sur les provinces.
+
+| Entrée | Effet |
+|---|---|
+| **Clic gauche** | Peint la province sélectionnée dans ces pixels |
+| **Clic droit** | Prélève la province sous le pointeur |
+
+| Commande | Notes |
+|---|---|
+| **Overlay opacity** | Force des couleurs de province par-dessus le terrain |
+| **Create new province** | Alloue un identifiant neuf à peindre |
+| **Apply new province** | Reconstruit le graphe d'adjacence et relie la hiérarchie |
+
+:::warning Appuyez sur *Apply new province* quand vous avez fini
+Peindre change la carte de pixels immédiatement, mais l'adjacence et la hiérarchie ne sont recalculées que si vous le demandez. Exporter sans avoir appliqué produit des données d'adjacence périmées.
+:::
+
+Les mêmes outils sont accessibles depuis le panneau Provinces : le bouton pinceau de sa barre d'actions vous amène directement ici, mode édition déjà activé.
+
+## Options
+
+*Replié par défaut.*
+
+| Commande | Effet |
+|---|---|
+| **Auto-regenerate** | Relance la génération peu après une modification |
+| **Delay (s)** | 0,1 – 3. Le délai d'attente |
+| **Paint overlay** | Affiche l'influence peinte comme un calque |
+| **Undo / Redo** | Le même historique que `Ctrl`+`Z` / `Ctrl`+`Y` et la barre d'outils |
+
+**Auto-regenerate** est **désactivé par défaut**. Sur une grande carte, chaque régénération représente plusieurs secondes de travail, et la voir se déclencher pendant que vous peignez encore est rarement ce que vous voulez.
+
+## La suite
+
+- [Provinces](../decouper/provinces) — découper ce que vous avez sculpté
+- [Interface](../reference/interface) — ce que peint chaque vue

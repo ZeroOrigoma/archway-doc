@@ -1,0 +1,117 @@
+---
+title: Installation
+sidebar_position: 2
+---
+
+<PlateHead no="—" title="Découvrir" folio="02" />
+
+# Installation
+
+<Sheet>
+
+**Objectif** — Lancer World Generator et vérifier qu'il fonctionne.
+
+**Durée** — 2 minutes.
+
+**Prérequis** — Windows 10 ou 11, 64 bits.
+
+</Sheet>
+
+World Generator est livré en archive ZIP autonome. Pas d'installateur, pas d'entrée de registre, rien à désinstaller.
+
+## Prérequis
+
+| Élément | Détail |
+|---|---|
+| **Système** | Windows 10 ou 11, 64 bits |
+| **Carte graphique** | OpenGL 3.3 — soit à peu près tout depuis 2010 |
+| **Mémoire** | 4 Go pour un monde en 1080p ; voir [le budget mémoire](#budget-mémoire) pour plus grand |
+| **Disque** | ~5 Mo pour l'application, plus vos exports |
+
+Rien d'autre. Les runtimes Visual C++ et OpenMP sont dans l'archive, donc une machine qui n'a jamais vu Visual Studio démarre quand même l'application.
+
+## 1. Extraire l'archive
+
+Dézippez `ArchwayWorldGenerator-<version>-win64.zip` dans un dossier où vous pouvez écrire — un dossier dans `Documents`, un répertoire de projet, une clé USB.
+
+```
+ArchwayWorldGenerator/
+├── ArchwayWorldGenerator.exe    ← lancez ceci
+├── msvcp140.dll                 ← runtime Visual C++
+├── vcruntime140.dll
+├── vcruntime140_1.dll
+├── vcomp140.dll                 ← runtime OpenMP, pour la génération parallèle
+├── concrt140.dll
+└── resources/
+```
+
+:::danger N'extrayez pas dans `C:\Program Files`
+L'application écrit ses sauvegardes, ses exports et ses préférences **à côté de son exécutable**, et ce dossier est en lecture seule pour un utilisateur normal. Tout échouera silencieusement.
+:::
+
+## 2. Lancer
+
+Double-cliquez sur `ArchwayWorldGenerator.exe`. La fenêtre s'ouvre immédiatement et le premier monde se génère en tâche de fond — vous voyez une barre de progression, pas une fenêtre noire.
+
+## 3. Régler la taille de l'interface
+
+Sur un écran haute densité, l'application suit la mise à l'échelle du système. Si l'interface est trop grande ou trop petite, ouvrez **Réglages → Interface size** et choisissez un préréglage, ou appuyez sur `Ctrl` `+` / `Ctrl` `-`.
+
+<Capture
+  src="/img/wgen/60-panneau-reglages.png"
+  caption="Réglages → Interface size"
+  fig="Fig. 2.1"
+  zoom
+/>
+
+Le choix est enregistré dans `ui_scale.cfg` et restauré au démarrage suivant.
+
+## Vérifier l'installation
+
+Quatre points, si vous voulez être sûr avant de confier du vrai travail à une copie :
+
+1. La **barre de titre est sombre** et se confond avec la barre d'outils en dessous — la fenêtre se lit comme une seule surface, sans bandeau blanc au-dessus.
+2. **Aucune fenêtre de console** n'apparaît derrière.
+3. La carte finit de se générer en quelques secondes et remplit la vue.
+4. `F12` dépose un `screenshot_001.png` à côté de l'exécutable.
+
+Si l'un de ces points échoue, voyez le [dépannage](../depannage/depannage).
+
+## Où vont les fichiers
+
+Tout ce que l'application écrit atterrit **à côté de l'exécutable** :
+
+| Chemin | Contenu |
+|---|---|
+| `saves/*.wgen` | Vos mondes sauvegardés |
+| `Export/` | Tout ce qu'écrit **Export all maps** |
+| `Export/Masks/` | Tout ce qu'écrit **Export all masks** |
+| `seeds.txt` | Votre étagère de graines — texte brut, modifiable à la main |
+| `ui_scale.cfg` | La taille d'interface choisie |
+| `debug_log.txt` | Complété à chaque exécution ; la première pièce à joindre à un rapport de bug |
+| `screenshot_*.png` | Écrits par `F12` |
+
+Aucun de ces fichiers n'existe avant d'être nécessaire, et supprimer l'un d'eux est sans danger — vous perdez cette donnée, pas l'application.
+
+## Budget mémoire
+
+La résolution de la carte est **indépendante de la taille de la fenêtre**. Le générateur a besoin d'environ **25 octets par pixel**, et le groupe **Resolution** du panneau Terrain affiche le chiffre pour la taille choisie.
+
+| Résolution | Mémoire approximative |
+|---|---|
+| 1920 × 1080 (préréglage 1080p) | ~50 Mo |
+| 3840 × 2160 (préréglage 4K) | ~200 Mo |
+| 8129 × 4065 (préréglage Archway) | ~790 Mo |
+| 16384 × 16384 | ~6,3 Go |
+
+Au-delà de **2 Go**, l'application demande confirmation avant de générer : c'est le point où cela cesse d'être quelque chose qu'on lance par accident.
+
+Si une génération ne peut pas allouer ce qu'il lui faut, elle échoue proprement et laisse intact le monde que vous aviez ouvert.
+
+## Désinstaller
+
+Supprimez le dossier. C'est toute la procédure.
+
+## La suite
+
+- [Préparer votre premier monde](../generer/premier-monde)

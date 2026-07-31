@@ -1,0 +1,120 @@
+---
+title: Provinces
+sidebar_position: 1
+---
+
+<PlateHead no="III" title="Découper" folio="06" />
+
+# Provinces
+
+Divise la carte en la plus petite unité sur laquelle un jeu de stratégie joue. Tout ce qui se trouve dans le panneau [Hiérarchie](./hierarchie) est bâti sur elles.
+
+**Action principale** — *Generate provinces*, dans la barre épinglée. Le bouton pinceau à côté saute à l'édition manuelle.
+
+<Capture
+  src="/img/wgen/30-panneau-provinces.png"
+  caption="Le panneau Provinces"
+  fig="Fig. 6.1"
+  zoom
+/>
+
+## Comment ça marche
+
+Les provinces sont semées sur la carte puis grossissent jusqu'à se toucher, en **deux populations indépendantes** — terre et mer — pour qu'un océan ne soit pas haché au même maillage fin qu'un continent.
+
+La densité de semis est modulée deux fois : une fois par **strate d'altitude**, une seconde fois par **biome**. C'est ainsi qu'on obtient des montagnes finement découpées et des plaines grossières en une seule passe.
+
+## Counts
+
+*Ouvert par défaut.*
+
+| Lecture | Sens |
+|---|---|
+| **Land provinces** | Combien existent en ce moment |
+| **Sea provinces** | Idem pour l'eau |
+
+| Commande | Plage | Notes |
+|---|---|---|
+| **Land target** | 50 – 50 000 | Combien de provinces terrestres viser, en gros |
+| **Sea target** | 10 – 50 000 | Idem pour l'eau |
+
+Ce sont des cibles, pas des garanties. Le compte réel dépend de la quantité de terre et des modificateurs de densité ci-dessous.
+
+:::tip Commencez petit
+800 provinces terrestres se génèrent en quelques secondes et vous disent si la forme est bonne. Passez aux chiffres de production une fois satisfait.
+:::
+
+## Irregularity
+
+*Replié par défaut.*
+
+| Commande | Plage | Effet |
+|---|---|---|
+| **Land chaos** | 0 – 10 | Irrégularité des frontières terrestres |
+| **Sea chaos** | 0 – 10 | Idem pour l'eau |
+
+À 0, le résultat est proche d'une tessellation de Voronoï propre — les provinces se lisent comme des cellules géométriques. En montant, les frontières sont perturbées vers quelque chose qui a l'air dessiné plutôt que calculé.
+
+## Cleanup
+
+*Replié par défaut. Nécessite des provinces.*
+
+La génération laisse des échardes : des provinces d'un pixel coincées entre de plus grandes, surtout le long des côtes.
+
+| Commande | Plage |
+|---|---|
+| **Minimum size in pixels** | 1 – 100 |
+
+**Clean micro-provinces** absorbe tout ce qui est sous ce seuil dans les voisines et relie la hiérarchie ensuite, pour qu'aucun territoire ne pointe vers une province disparue.
+
+La notification indique combien ont été retirées.
+
+## Density per stratum
+
+*Replié par défaut.*
+
+Une ligne par bande d'altitude, chacune affichant entre parenthèses le nombre de provinces qu'elle contient.
+
+| Commande | Plage | Effet |
+|---|---|---|
+| **Densité** | 0,01 – 3 | Multiplicateur de densité de semis pour cette bande |
+
+Sous 1, des provinces plus grandes et plus rares. Au-dessus, plus petites et plus denses.
+
+Chaque ligne porte aussi un bouton **Regenerate** qui relance la génération **pour cette bande seulement**, sans toucher au reste de la carte. C'est ce qui rend le réglage praticable : ajuster les montagnes sans attendre les océans.
+
+Le bouton affiche *Generate first* et reste désactivé tant qu'aucune province n'existe.
+
+## Biome density
+
+*Replié par défaut.*
+
+Un second multiplicateur, appliqué par-dessus la densité de strate, une ligne par biome activé.
+
+| Commande | Plage |
+|---|---|
+| **Modificateur** | 0,1 – 5 |
+
+1,0 laisse la densité de strate telle quelle. À utiliser quand la distinction voulue est écologique plutôt que topographique — des provinces denses dans les terres cultivées, rares dans le désert, alors que les deux sont dans la même bande d'altitude.
+
+## Édition manuelle
+
+Le bouton pinceau de la barre d'actions vous emmène à [Sculpt → Province editing](../sculpter/sculpter#province-editing), mode édition déjà activé.
+
+N'oubliez pas d'appuyer sur **Apply new province** en repartant : peindre change la carte de pixels immédiatement, mais l'adjacence et la hiérarchie ne sont reconstruites que sur demande.
+
+## Ce qui est exporté
+
+| Fichier | Contenu |
+|---|---|
+| `provinces.png` | Carte de couleurs, une couleur distincte par province |
+| `definition.csv` | Identifiant ↔ RVB, identifiants contigus à partir de 1 |
+| `adjacencies.csv` | Quelles provinces partagent une frontière |
+| `provinces.csv` | Données par province, via *Export → Individual files* |
+
+Les identifiants sont **renumérotés de façon contiguë à partir de 1** au moment de l'export, donc les trous laissés par une suppression ou une retouche manuelle n'atteignent jamais le moteur.
+
+## La suite
+
+- [Hiérarchie](./hierarchie) — grouper ces provinces en royaumes
+- [Export](../exporter/export) — le contenu exact de chaque fichier

@@ -1,0 +1,126 @@
+---
+title: Masques
+sidebar_position: 3
+---
+
+<PlateHead no="—" title="Référence" folio="11" />
+
+# Masques
+
+Les masques permettent de piloter le monde depuis des images plutôt que depuis le bruit. Dessinez un littoral dans un logiciel de peinture, importez-le, et le générateur utilise votre forme au lieu de celle qu'il aurait produite.
+
+Deux systèmes indépendants vivent ici :
+
+| Système | Remplace | Granularité |
+|---|---|---|
+| **Stratum overrides** | La forme d'une bande d'altitude | Une image par bande, 9 bandes |
+| **Biome layers** | L'affectation des biomes | Une pile ordonnée, un biome par calque |
+
+<Capture
+  src="/img/wgen/40-panneau-masques.png"
+  caption="Le panneau Masks"
+  fig="Fig. 11.1"
+  zoom
+/>
+
+## Stratum overrides
+
+*Ouvert par défaut.*
+
+Remplace la forme d'une strate par une image. Une ligne par bande d'altitude :
+
+<Capture
+  src="/img/wgen/41-import-strates.png"
+  caption="Une ligne par bande ; le bouton Import ouvre le navigateur de fichiers"
+  fig="Fig. 11.2"
+/>
+
+| État | La ligne montre |
+|---|---|
+| **Vide** | Le nom de la bande, atténué, et un bouton **Import…** |
+| **Chargé** | Le nom, un interrupteur, et **Clear** |
+
+L'interrupteur active ou désactive une surcharge sans la décharger, pour comparer avec et sans. **Clear** la retire complètement.
+
+### À quoi doit ressembler l'image
+
+Niveaux de gris, ou toute image qui se lit clair/sombre. Les pixels clairs sont dans la bande, les sombres à l'extérieur. Les bords antialiasés ne posent pas de problème.
+
+Le rapport d'aspect est traité par les réglages d'import ci-dessous.
+
+## Biome layers
+
+*Ouvert par défaut.*
+
+Une pile ordonnée. Chaque calque porte une image et un biome cible, et **les calques du dessus peignent par-dessus ceux du dessous** — le même modèle que les calques d'un logiciel de peinture.
+
+Chaque ligne affiche le nom du calque, une flèche vers son biome cible, et :
+
+| Commande | Effet |
+|---|---|
+| **Interrupteur** | Afficher ou masquer ce calque |
+| **▲ / ▼** | Le déplacer dans la pile |
+| **🗑** | Le retirer |
+
+Le nom d'un calque masqué est atténué.
+
+**Regenerate biomes from masks** relance l'affectation des biomes avec la pile courante.
+
+## Import a biome mask
+
+*Replié par défaut.*
+
+Un bouton par biome activé. En appuyer un ouvre le navigateur de fichiers ; l'image choisie devient un nouveau calque peignant ce biome.
+
+Les boutons portent des points de suspension — *Forest…* — parce qu'ils ouvrent un navigateur plutôt que d'agir immédiatement.
+
+## Import and export
+
+*Replié par défaut.*
+
+### Rapport d'aspect
+
+Les cartes de stratégie sont souvent en 2:1 ; les images sont souvent carrées. Deux réglages réconcilient les deux :
+
+| Réglage | Effet |
+|---|---|
+| **Pad exports to square** | Écrit une carte 2:1 dans une image 1:1, en remplissant plutôt qu'en étirant |
+| **Crop square imports** | Prend la bande 2:1 supérieure d'une image carrée au lieu de l'écraser |
+
+Activez les deux si vous faites des aller-retours avec un outil qui exige des textures carrées. Désactivez les deux si vos images sont déjà au bon rapport.
+
+### Export all masks
+
+Écrit tous les masques que le monde contient dans `Export/Masks/` :
+
+- un PNG en niveaux de gris par **biome** présent dans la carte
+- un PNG en niveaux de gris par **strate** présente dans la carte
+
+C'est la moitié sortante de l'aller-retour.
+
+### Clear all masks
+
+Retire toutes les surcharges et tous les calques. Destructif, et présenté comme tel.
+
+## Appliquer les changements
+
+Les modifications de masque ne prennent effet qu'après régénération. Quand quelque chose est en attente, un avertissement apparaît en bas du panneau avec un bouton **Apply changes** qui régénère avec les masques en place.
+
+## Un aller-retour type
+
+1. Générez un monde qui vous convient dans les grandes lignes.
+2. **Export all masks** vers `Export/Masks/`.
+3. Ouvrez `Low Plains.png` dans un logiciel de peinture et redessinez le littoral.
+4. De retour dans **Stratum overrides**, **Import…** sur *Low Plains* et choisissez votre fichier.
+5. **Apply changes**.
+
+Le reste du monde — toutes les autres bandes, les biomes, les provinces — se régénère autour de votre forme dessinée à la main.
+
+## Masques et sauvegardes
+
+Les masques sont stockés **dans le `.wgen`**. Enregistrer un monde enregistre ses surcharges et sa pile de calques, images comprises : un monde sauvegardé ne dépend pas des PNG restés sur le disque.
+
+## Voir aussi
+
+- [Sculpt → Stencil](../sculpter/sculpter#stencil) — l'autre façon de travailler depuis une image, en décalquant plutôt qu'en remplaçant
+- [Export](../exporter/export)

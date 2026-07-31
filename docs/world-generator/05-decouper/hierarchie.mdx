@@ -1,0 +1,161 @@
+---
+title: Hiérarchie de territoires
+sidebar_position: 2
+---
+
+<PlateHead no="III" title="Découper" folio="07" />
+
+# Hiérarchie de territoires
+
+Groupe les provinces en territoires, et les territoires en territoires plus grands. C'est ici qu'une carte de provinces devient une carte politique.
+
+Le panneau est inerte pendant qu'une génération tourne, et le dit.
+
+<Capture
+  src="/img/wgen/31-panneau-hierarchie.png"
+  caption="Le panneau Hierarchy, avant tout niveau"
+  fig="Fig. 7.1"
+  zoom
+/>
+
+## Le modèle
+
+Un **niveau** est un palier de la carte politique. Chaque niveau est bâti soit sur les **provinces**, soit sur **un autre niveau** :
+
+```
+Provinces  ──▶  Comtés  ──▶  Duchés  ──▶  Royaumes  ──▶  Empires
+                niveau 1     niveau 2     niveau 3       niveau 4
+```
+
+Aucune profondeur imposée. Deux niveaux conviennent ; six aussi. Chaque niveau s'exporte dans son propre CSV.
+
+## Levels
+
+*Ouvert par défaut.*
+
+Liste tous les niveaux en indiquant sur quoi chacun est bâti. Cliquez pour sélectionner — la vue bascule sur les territoires et montre ce niveau.
+
+Avec un niveau sélectionné :
+
+| Commande | Effet |
+|---|---|
+| **Rename level** | Tapez un nouveau nom ; **Rename** ou `Entrée` |
+| **Delete level** | Supprime le niveau. La vue retombe sur les provinces |
+
+:::warning Le nom du niveau devient le nom du fichier
+Un niveau appelé *Duchés* s'exporte en `Duchés.csv`. Renommez avant d'exporter, pas après.
+:::
+
+## Display
+
+*Replié par défaut.*
+
+| Commande | Effet |
+|---|---|
+| **Dim the map behind the selection** | Assombrit tout sauf le territoire sélectionné |
+| **Highlight quality** | *Off* / *Low* / *High* — précision du contour de sélection |
+
+La qualité de surlignage coûte du temps sur une grande carte. *Low* suffit pour voir ce qui est sélectionné ; *High* sert à vérifier qu'une frontière est exactement où vous la vouliez.
+
+## Build
+
+*Ouvert par défaut.*
+
+### Réglages de groupement
+
+| Commande | Plage | Effet |
+|---|---|---|
+| **Min size** | 1 – 100 | Nombre minimal d'unités source par territoire |
+| **Max size** | 1 – 500 | Nombre maximal |
+
+**Merge territories below the minimum** ramasse les territoires sortis sous **Min size** et les replie dans une voisine. Utile après une retouche manuelle.
+
+**Exclude Sea** laisse les provinces d'eau hors du groupement — en général ce qu'on veut pour une carte politique, où la mer n'appartient à personne.
+
+### Créer un niveau
+
+**New territory level** ouvre un formulaire en ligne :
+
+1. **Name** — devient le nom du fichier exporté
+2. **Built from** — *Provinces*, ou un niveau existant
+3. **Create level**
+
+Le groupement se lance automatiquement à la création, et la vue bascule sur le résultat.
+
+Le formulaire refuse de créer un niveau sans source sélectionnée, ou bâti sur des provinces qui n'existent pas encore, et dit laquelle des deux.
+
+### Régénérer
+
+Avec un niveau sélectionné :
+
+| Action | Effet |
+|---|---|
+| **REGENERATE** | Relance le groupement de ce niveau avec les min/max courants |
+| **Regenerate colours** | Réattribue les couleurs sans toucher au groupement |
+| **Force refresh** | Reconstruit les liens entre ce niveau et sa source |
+
+**Force refresh** est celui à prendre après avoir peint des provinces à la main : il relie le niveau à un jeu de provinces qui a changé sous lui.
+
+:::info Le groupement est idempotent
+Le relancer deux fois donne le même résultat ; il n'accumule pas de liens périmés d'une passe à l'autre.
+:::
+
+## Selected territory
+
+*Ouvert par défaut. Apparaît une fois un territoire sélectionné dans la vue.*
+
+Clic gauche sur un territoire dans la vue pour le sélectionner.
+
+| Lecture | Sens |
+|---|---|
+| **Territory** | Son identifiant interne |
+| **Children** | Combien d'unités source il contient |
+
+### Renommer
+
+Tapez dans **Rename territory** puis **Rename** ou `Entrée`.
+
+### Couleur dominante
+
+Trois curseurs — **Hue**, **Sat**, **Val** — et une pastille montrant le résultat.
+
+Changer la couleur **se propage vers le bas de la hiérarchie** : régler la couleur d'un royaume reteinte ses duchés et ses comtés en dégradé local autour d'elle, pour que la carte se lise comme une carte politique et non comme une palette aléatoire.
+
+### Créer et peindre
+
+| Commande | Effet |
+|---|---|
+| **Create territory** | Le prochain clic gauche dans la vue démarre un territoire vide |
+| **Paint mode** | Clic gauche sélectionne un territoire, clic droit y verse la province sous le pointeur |
+
+Tant que le mode peinture est actif, le panneau indique dans quoi vous peignez.
+
+### Historique
+
+**Undo** / **Redo**, passant par le même historique unique que `Ctrl`+`Z` et la barre d'outils. Les modifications de hiérarchie et de carte se défont dans l'ordre où vous les avez faites, pas dans deux piles séparées.
+
+## Reference overlay
+
+*Replié par défaut.*
+
+Dessine les frontières d'un **autre** niveau par-dessus celui que vous éditez — les frontières de duchés pendant que vous éditez les comtés, pour voir où le palier du dessus attend ses limites.
+
+| Commande | Effet |
+|---|---|
+| **None** / *nom du niveau* | Quel niveau dessiner |
+| **Opacity** | 0 – 1 |
+| **Border** | Noir ou blanc, selon ce qui ressort de votre palette |
+| **Keep when switching level** | Épingle le calque pour qu'il ne suive pas la sélection |
+
+Par défaut, le calque suit le niveau sélectionné. L'épingler garde une référence fixe pendant que vous vous déplacez.
+
+## Export
+
+Chaque niveau s'exporte en `<Nom du niveau>.csv`, identifiants renumérotés de façon contiguë à partir de 1, chaque ligne listant les unités source contenues.
+
+Les niveaux sont écrits **dans l'ordre des dépendances** : le CSV d'un niveau enfant ne référence que des identifiants que le CSV parent a déjà définis. Les territoires vides — ceux qui se sont retrouvés sans composant — sont omis.
+
+## La suite
+
+- [Export](../exporter/export) — les formats CSV en détail
+- [Masques](../reference/masques) — piloter le terrain depuis des images

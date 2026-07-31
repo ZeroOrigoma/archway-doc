@@ -1,0 +1,185 @@
+---
+title: L'interface
+sidebar_position: 1
+---
+
+<PlateHead no="—" title="Référence" folio="09" />
+
+# L'interface
+
+La fenêtre est en trois régions : une **barre d'outils** en haut, un **panneau** à gauche, la **carte** dans tout le reste.
+
+<Capture
+  src="/img/wgen/00-fenetre.png"
+  caption="Les trois régions"
+  fig="Fig. 9.1"
+  zoom
+/>
+
+## La barre de titre
+
+Dessinée par Windows, mais teintée aux couleurs de l'application : la fenêtre se lit comme une seule surface, pas comme un outil sombre sous un bandeau clair. Sur Windows 10, elle retombe sur le titre sombre du système.
+
+## La barre d'outils
+
+<Capture
+  src="/img/wgen/01-barre-outils.png"
+  caption="Fichier, puis historique"
+  fig="Fig. 9.2"
+/>
+
+| Commande | Raccourci | Notes |
+|---|---|---|
+| **New world** | — | Demande confirmation si le monde courant a des modifications non enregistrées |
+| **Open…** | — | Ouvre une feuille listant le contenu de `saves/` |
+| **Save** | `Ctrl`+`S` | Enregistre sur place ; demande un nom la première fois |
+| **Save as…** | — | Demande toujours un nom |
+| **Undo** | `Ctrl`+`Z` (ou `Ctrl`+`W`) | Un seul historique, carte et hiérarchie confondues |
+| **Redo** | `Ctrl`+`Y` | |
+
+Le centre affiche le **nom du document** et la **résolution**. La droite affiche un indicateur et *Generating* pendant qu'une tâche de fond tourne.
+
+:::info Un bouton grisé n'est pas cassé
+New, Open, Undo et Redo prennent un verrou exclusif sur le monde. Pendant une génération ou une reconstruction d'aperçu, ils sont désactivés plutôt que laissés à figer la fenêtre. La capsule en bas à droite indique ce qui est en cours de recalcul.
+:::
+
+## Le panneau
+
+### Les onglets
+
+<Capture
+  src="/img/wgen/02-onglets.png"
+  caption="Sept panneaux, dans l'ordre du pipeline"
+  fig="Fig. 9.3"
+/>
+
+| Panneau | Rôle |
+|---|---|
+| **Terrain** | Bruit, projection et taille du monde |
+| **Sculpt** | Peindre le relief et les biomes à la main |
+| **Provinces** | Subdiviser la carte |
+| **Hierarchy** | Grouper les provinces en territoires |
+| **Masks** | Importer et exporter des calques de masque |
+| **Export** | Écrire cartes et tables sur le disque |
+| **Settings** | Taille d'interface et raccourcis |
+
+Changer d'onglet a des effets, délibérément : entrer dans **Sculpt** bascule la vue en topographie et sélectionne le pinceau ; entrer dans **Hierarchy** sélectionne le niveau le plus haut et l'affiche.
+
+### Le sélecteur de vue
+
+Juste sous le titre du panneau, et épinglé — il ne défile pas.
+
+<Capture
+  src="/img/wgen/03-selecteur-vue.png"
+  caption="Le sélecteur de vue, et les options propres à la vue courante"
+  fig="Fig. 9.4"
+/>
+
+| Vue | Montre | Disponible |
+|---|---|---|
+| **Biome** | Coloration écologique | Toujours |
+| **Topo** | Les neuf bandes d'altitude | Toujours |
+| **Provinces** | Une couleur distincte par province | Dès que des provinces existent |
+| **Territories** | Les niveaux de hiérarchie | Dès qu'un niveau existe |
+
+Les vues sans données derrière elles sont **masquées plutôt qu'affichées désactivées**.
+
+Basculer de vue n'est pas décoratif : le pinceau peint dans ce que la vue courante représente. En **Biome** il écrit des identifiants de biome ; en **Topo**, des strates.
+
+#### Calques épinglés
+
+**`Ctrl`+clic** sur un bouton de vue épingle cette vue en calque translucide par-dessus la vue courante. Un point ambre apparaît sur le bouton épinglé.
+
+C'est ainsi qu'on confronte deux couches — frontières de provinces sur la topographie, bordures de territoires sur les biomes.
+
+Deux commandes apparaissent alors : **Overlay opacity** et **Remove overlay**. `Ctrl`+clic à nouveau retire le calque.
+
+### Les groupes repliables
+
+Le contenu d'un panneau est rangé en groupes que vous pouvez replier. Le ou les deux groupes pour lesquels un panneau existe s'ouvrent d'emblée ; les autres démarrent fermés.
+
+- **Cliquez l'en-tête**, n'importe où sur la bande, pour ouvrir ou fermer.
+- Les groupes retiennent leur état pour la session.
+- Les en-têtes sont accessibles au clavier : `Tab` pour y arriver, `Espace` ou `Entrée` pour basculer.
+
+### La barre d'actions
+
+<Capture
+  src="/img/wgen/12-barre-actions.png"
+  caption="L'action principale, épinglée sous le panneau"
+  fig="Fig. 9.5"
+/>
+
+Terrain, Provinces et Export ont chacun une barre fixée en bas du panneau, portant l'action principale. Elle ne défile jamais.
+
+| Panneau | Action principale | Secondaire |
+|---|---|---|
+| **Terrain** | Generate map | Nouvelle graine puis génération |
+| **Provinces** | Generate provinces | Éditer les provinces à la main |
+| **Export** | Export all maps | — |
+
+### Redimensionner
+
+Faites glisser le séparateur entre le panneau et la carte. Le curseur devient une double flèche horizontale au survol.
+
+## La carte
+
+| Entrée | Action |
+|---|---|
+| **Molette** | Zoom, centré sur le pointeur. Plage 10 % – 5000 % |
+| **Clic milieu glissé** | Déplacement |
+| **Clic gauche** | Peindre, ou sélectionner — selon l'outil actif |
+| **Clic droit** | Prélever, ou arrêter de peindre |
+
+Tant que l'onglet **Sculpt** est ouvert, un réticule suit le pointeur en montrant taille, forme et atténuation du pinceau.
+
+## Les feuilles modales
+
+Save, Open et les deux navigateurs de fichiers apparaissent en feuilles par-dessus une fenêtre assombrie. Tant qu'une feuille est ouverte, tout ce qui est derrière continue de se dessiner mais ignore le pointeur.
+
+`Échap` referme une feuille. Cela ne quitte **pas** l'application.
+
+## Les notifications
+
+| Élément | Où | Quoi |
+|---|---|---|
+| **Toast** | Bas de la carte | Confirmation passagère — *Seed 4125 copied* |
+| **Capsule** | Bas à droite | Nomme ce qui se recalcule en tâche de fond |
+| **Carte de progression** | Centre | Les longues générations, avec pourcentage |
+| **Infobulle** | Sous le pointeur | Après un court arrêt sur un bouton icône |
+
+## Les neuf strates
+
+| # | Strate | Se lit comme |
+|---|---|---|
+| 0 | **Abyssal** | Bleu presque noir |
+| 1 | **Oceanic** | Bleu profond |
+| 2 | **Lagoon** | Bleu moyen |
+| 3 | **Coastal waters** | Bleu vif — la dernière bande d'eau |
+| 4 | **Low plains** | Vert |
+| 5 | **Hills** | Vert-jaune |
+| 6 | **Plateaus** | Brun clair |
+| 7 | **Mountainous** | Brun foncé |
+| 8 | **High peaks** | Blanc |
+
+Le niveau de la mer se situe entre **Coastal waters** et **Low plains**.
+
+## Les seize biomes
+
+| Terre | Eau |
+|---|---|
+| Grassland, Forest, Jungle | Coastal Waters |
+| Rocky Wastes, Savanna, Desert | High Seas |
+| Snow, Swamp, Tundra, Alpine | Deep Ocean, River, Lake |
+
+Les biomes sont contraints par l'altitude : **Snow** et **Rocky Wastes** aux trois bandes les plus hautes, **Swamp** aux bandes basses et côtières, **Deep Ocean** à la seule bande abyssale. Ces contraintes se modifient dans **Sculpt → Allowed strata**.
+
+## La taille de l'interface
+
+| Raccourci | Effet |
+|---|---|
+| `Ctrl` `+` | Augmenter de 25 % |
+| `Ctrl` `-` | Diminuer de 25 % |
+| `Ctrl` `0` | Suivre la mise à l'échelle de l'écran |
+
+Les raccourcis butent à 75 % et 300 %. **Settings → Interface size** propose des préréglages sur le milieu utile de cette plage, 100 % à 200 %, et un bouton **Match the display**. Le choix persiste dans `ui_scale.cfg`.

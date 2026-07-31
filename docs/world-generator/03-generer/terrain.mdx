@@ -1,0 +1,155 @@
+---
+title: Le panneau Terrain
+sidebar_position: 2
+---
+
+<PlateHead no="I" title="Générer" folio="04" />
+
+# Le panneau Terrain
+
+Le premier panneau, et celui sur lequel tout le reste est bâti. Il transforme une graine et quelques réglages de bruit en heightmap, puis cette heightmap en strates d'altitude et en biomes.
+
+**Action principale** — *Generate map*, dans la barre épinglée en bas du panneau. Le bouton dé à côté tire d'abord une nouvelle graine.
+
+<Capture
+  src="/img/wgen/10-panneau-terrain.png"
+  caption="Le panneau Terrain, groupes repliés par défaut"
+  fig="Fig. 4.1"
+  zoom
+/>
+
+## Seed
+
+*Ouvert par défaut.*
+
+La graine identifie un monde. La même graine avec les mêmes réglages produit toujours la même carte, sur n'importe quelle machine.
+
+| Commande | Notes |
+|---|---|
+| **Seed** | Se tape directement. Plage 0 – 999 999 999 |
+| **Copy** | Met la graine dans le presse-papiers |
+| **Paste** | Lit une graine dans le presse-papiers, décoration tolérée — `Seed: 4125`, `world 4125 (v2)` et `4125` fonctionnent tous |
+
+### Graines gardées
+
+Une étagère pour les mondes qui méritent qu'on y revienne. Tapez un nom, **Keep**, et la graine est rangée dans `seeds.txt` à côté de l'application.
+
+- Cliquez sur une ligne pour recharger cette graine.
+- La **✕** d'une ligne la retire.
+- **Keep** est désactivé quand la graine courante est déjà sur l'étagère.
+
+`seeds.txt` est du texte brut, modifiable et partageable. Les lignes mal formées sont ignorées une par une plutôt que de faire jeter le fichier.
+
+## Resolution
+
+*Replié par défaut.*
+
+La résolution est **indépendante de la taille de la fenêtre**. Redimensionner la fenêtre change ce que vous voyez, pas ce que vous générez.
+
+| Commande | Plage |
+|---|---|
+| **Width** | 100 – 16384 |
+| **Height** | 100 – 16384 |
+
+### Préréglages
+
+| Préréglage | Taille | Usage |
+|---|---|---|
+| **1080p** | 1920 × 1080 | Itérer sur les réglages — quelques secondes par génération |
+| **4K** | 3840 × 2160 | Une carte détaillée qui reste rapide à régénérer |
+| **Archway** | 8129 × 4065 | Taille de production pour un projet Archway |
+
+La note en dessous rapporte ce que la taille choisie coûte en mémoire, à environ 25 octets par pixel. Au-delà de **2 Go**, l'application demande confirmation.
+
+## Noise
+
+*Replié par défaut.*
+
+| Commande | Plage | Effet |
+|---|---|---|
+| **Scale** | 1 – 20 | Taille des formes. Bas = peu de grandes masses ; haut = archipel |
+| **Octaves** | 1 – 10 | Couches de détail. 3 est lisse, 8 est accidenté. Coûte du temps de génération |
+| **Sea level** | 0 – 1 | Où l'eau s'arrête et la terre commence |
+| **Edge mask** | 0 – 1 | Estompe l'altitude vers les bords |
+| **Lacunarity** | 1 – 5 | Finesse de chaque octave par rapport à la précédente. 2,0 est la valeur classique |
+| **Gain** | 0 – 1 | Contribution de chaque octave. Plus bas = plus lisse |
+
+### Type de bruit
+
+| Type | Caractère |
+|---|---|
+| **Simplex** | Lisse, organique, sans artefact directionnel |
+| **Cellular** | Worley/Voronoï — craquelé, tessellé, bon pour un relief éclaté |
+| **Perlin** | Le classique. Léger alignement sur les axes, aspect familier. **Par défaut** |
+
+### Type de fractale
+
+| Type | Caractère |
+|---|---|
+| **FBm** | Mouvement brownien fractionnaire — vallonné, naturel. **Par défaut** |
+| **Ridged** | Inversé et affûté : lignes de crête et chaînes de montagnes |
+| **Ping pong** | Replié : relief en terrasses et en bandes |
+
+## Projection
+
+*Replié par défaut.*
+
+| Projection | Sens |
+|---|---|
+| **Planar** | Une carte plate. Aucune distorsion sphérique |
+| **Equirect.** | Grille latitude/longitude — la disposition standard d'une mappemonde |
+| **Mercator** | Cylindrique conforme, étirée vers les pôles |
+
+### Seamless longitude
+
+Apparaît pour les deux projections sphériques.
+
+**Activé** : la carte boucle d'est en ouest, comme un globe, et le masque de bord n'estompe que les pôles.
+
+**Désactivé** : le masque estompe les quatre côtés, ce qui découpe une bande d'océan le long de l'antiméridien et casse le bouclage. Le panneau vous prévient quand c'est le cas.
+
+## Shaping
+
+*Replié par défaut.*
+
+Chaque option ici change la forme d'un monde, donc aucune n'est active par défaut : une graine continue de produire ce qu'elle a toujours produit tant que vous ne demandez pas autre chose.
+
+### Warped coastlines
+
+Déplace le bruit avant de l'échantillonner. Le bruit fractal seul fait des taches arrondies ; le déformer donne des continents avec des baies, des péninsules et des fjords.
+
+| Commande | Plage |
+|---|---|
+| **Warp strength** | 0 – 1 |
+| **Warp scale** | 0,1 – 2 |
+
+### Realistic elevation spread
+
+Applique une courbe hypsométrique — les plaines dominent, les hauts sommets deviennent rares, comme dans la répartition réelle de l'altitude. La profondeur marine n'est pas touchée.
+
+| Commande | Plage | Effet |
+|---|---|---|
+| **Lowland bias** | 1 – 3 | Plus haut = aplatissement plus agressif |
+
+:::warning Ceci déplace votre littoral
+La courbe est appliquée **avant** le masque de bord, donc elle peut faire passer des échantillons de part et d'autre du niveau de la mer. L'activer change votre trait de côte, pas seulement vos montagnes.
+:::
+
+## Recettes
+
+### Un continent, pas un archipel
+Scale 3–5, Edge mask 0,6 ou plus, Warped coastlines activé avec une force autour de 0,4.
+
+### Une chaîne de montagnes
+Fractale **Ridged**, Octaves 6–8, Gain 0,5.
+
+### Un monde éclaté, non terrestre
+Bruit **Cellular**, fractale **FBm**, Lacunarity 2,5.
+
+### Un globe terrestre
+Projection **Equirect.**, Seamless longitude **activé**, Realistic elevation spread **activé** avec un lowland bias autour de 2.
+
+## La suite
+
+- [Sculpter](../sculpter/sculpter) — changer ce que le bruit vous a donné
+- [Masques](../reference/masques) — remplacer une bande d'altitude par une image

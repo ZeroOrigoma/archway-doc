@@ -1,0 +1,110 @@
+---
+title: Glossaire
+sidebar_position: 5
+---
+
+<PlateHead no="—" title="Référence" folio="13" />
+
+# Glossaire
+
+> Définitions des termes de World Generator.
+
+## Adjacence (graphe d')
+
+Le relevé des provinces qui partagent une frontière. Reconstruit à la demande et exporté en `adjacencies.csv`. Peindre des provinces à la main l'invalide jusqu'à ce que vous appuyiez sur **Apply new province**.
+
+## Atténuation (falloff)
+
+La douceur du bord d'un coup de pinceau. 0 donne un bord franc. Se règle aussi à `Alt` + molette.
+
+## Biome
+
+Une classification écologique — prairie, désert, océan profond. Seize existent, chacun avec une couleur, un modificateur de densité, un décalage d'altitude et un ensemble de strates qu'il a le droit d'occuper.
+
+## Bruit de base (cache)
+
+Le champ de bruit brut, stocké à part de la heightmap finale, pour que l'influence peinte puisse être réappliquée par-dessus un monde régénéré.
+
+## Calque de biome
+
+Une image importée qui peint un biome. Les calques forment une pile ordonnée ; ceux du dessus peignent par-dessus ceux du dessous.
+
+## Chaos
+
+L'irrégularité des frontières de provinces. À 0, le résultat approche une tessellation de Voronoï propre ; en montant, les frontières ont l'air dessinées plutôt que calculées.
+
+## Domain warping
+
+Déplacer les coordonnées du bruit avant de l'échantillonner. Transforme des taches arrondies en continents avec baies, péninsules et fjords. Se règle dans **Terrain → Shaping → Warped coastlines**.
+
+## FBm
+
+Mouvement brownien fractionnaire — le mode fractal par défaut. Somme des octaves de bruit d'amplitude décroissante, donnant un relief vallonné et naturel.
+
+## Gain
+
+La contribution de chaque octave successive. Plus bas donne un relief plus lisse.
+
+## Graine (seed)
+
+Le nombre qui détermine un monde. La même graine avec les mêmes réglages produit toujours la même carte, sur n'importe quelle machine.
+
+## Hypsométrique (courbe)
+
+Une redistribution de l'altitude qui fait dominer les plaines et rend les hauts sommets rares, comme dans le relief réel. La profondeur marine n'est pas touchée. S'active sous le nom **Realistic elevation spread**.
+
+## Influence (carte d')
+
+Là où est stockée la sculpture manuelle. Tenue à part du bruit, ce qui explique que régénérer le terrain n'efface pas ce que vous avez peint.
+
+## Lacunarity
+
+De combien chaque octave est plus fine que la précédente. 2,0 est la valeur classique — chaque octave a le double de la fréquence de la précédente.
+
+## Masque
+
+Une image qui pilote une partie du monde à la place du bruit. Deux sortes : les **surcharges de strate**, qui remplacent la forme d'une bande d'altitude, et les **calques de biome**, qui peignent des biomes.
+
+## Micro-province
+
+Une province sous un seuil de taille, généralement une écharde le long d'une côte. Retirée par **Provinces → Cleanup**.
+
+## Niveau
+
+Un palier de la hiérarchie de territoires. Bâti sur les provinces ou sur un autre niveau. Chaque niveau s'exporte dans son propre CSV, nommé d'après lui.
+
+## Octave
+
+Une couche de bruit. Plus d'octaves signifie plus de détail et plus de temps de génération.
+
+## Projection
+
+Comment la carte 2D se rapporte à une sphère. Planar (aucune), Équirectangulaire (latitude/longitude), ou Mercator (cylindrique conforme).
+
+## Province
+
+La plus petite unité de la carte. Générée en deux populations indépendantes, terre et mer. Tout ce qui est dans la hiérarchie est bâti sur elles.
+
+## Ridged
+
+Un mode fractal qui inverse et affûte chaque octave, produisant des lignes de crête et des chaînes de montagnes plutôt que des collines.
+
+## Stencil
+
+Une image importée utilisée comme référence à décalquer ou comme source pour remplir le terrain. Distinct d'un masque : un stencil est ce depuis quoi vous travaillez, un masque est ce avec quoi le générateur travaille.
+
+## Strate
+
+L'une des neuf bandes d'altitude, d'*Abyssal* à *High peaks*. Le niveau de la mer se situe entre *Coastal waters* et *Low plains*.
+
+## Stratum slope
+
+Un réglage d'export contrôlant la netteté de la limite entre bandes d'altitude dans la heightmap. 0 garde des terrasses franches ; en montant, elles sont biseautées.
+
+## Territoire
+
+Un groupe de provinces, ou un groupe de territoires plus petits, à l'intérieur d'un niveau de hiérarchie.
+
+## `.wgen`
+
+Le format de document. Un fichier binaire unique contenant l'état complet d'un monde — réglages, terrain, influence peinte, provinces, hiérarchie, masques et stencil. Actuellement en version 24.

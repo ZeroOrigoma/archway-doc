@@ -1,0 +1,101 @@
+---
+title: Qu'est-ce que World Generator
+sidebar_position: 1
+---
+
+<PlateHead no="—" title="Découvrir" folio="01" />
+
+# Qu'est-ce que World Generator
+
+**Archway World Generator** est une application de bureau autonome qui fabrique la carte sur laquelle tourne un jeu de grande stratégie.
+
+Elle génère un terrain à partir de bruit fractal, vous laisse le repeindre à la main, le découpe en provinces, groupe ces provinces en une hiérarchie de territoires, et écrit le tout en images et en tables qu'un moteur sait charger.
+
+C'est un **outil**, pas une bibliothèque : un exécutable unique, sans installateur, sans dépendance à Unreal Engine, sans projet à configurer. Vous dézippez et vous lancez.
+
+<Capture
+  src="/img/wgen/10-panneau-terrain.png"
+  caption="Le panneau Terrain, à l'ouverture"
+  fig="Fig. 1.1"
+  zoom
+/>
+
+## Ce qu'il sait faire
+
+### Terrain procédural
+
+- **Bruit fractal** en trois saveurs — Simplex, Cellular, Perlin — avec les modes FBm, Ridged et Ping pong
+- **Reproductible** : la même graine redonne toujours le même monde, sur n'importe quelle machine
+- **Trois projections** — Planar, Équirectangulaire, Mercator — avec bouclage est-ouest optionnel
+- **Domain warping**, qui transforme des taches de bruit arrondies en continents avec des baies et des péninsules
+- **Courbe hypsométrique**, qui répartit l'altitude comme le fait le relief réel : les plaines dominent, les sommets sont rares
+
+### Sculpture à la main
+
+- Pinceaux **élever, abaisser, fixer**, avec forme, taille, force, atténuation, bruit et rotation
+- **Peinture directe** des biomes et des strates dans les vues correspondantes
+- **Stencil** : charger une image, la décalquer, ou remplir le terrain à partir d'elle
+
+:::tip La sculpture survit à la régénération
+L'influence peinte est stockée à part du bruit. Vous pouvez revenir au panneau Terrain, changer la graine, régénérer — vos montagnes restent où vous les avez mises.
+:::
+
+### Provinces
+
+- Cibles **terre et mer séparées**, chacune avec sa propre irrégularité
+- **Densité par strate** — les montagnes peuvent être plus finement découpées que les plaines — et modificateurs par biome par-dessus
+- **Nettoyage des micro-provinces** avec un seuil de taille
+- **Édition à la main** : peindre les frontières, créer des provinces, prélever au clic droit
+
+### Hiérarchie de territoires
+
+- **Niveaux illimités**, chacun bâti sur les provinces ou sur le niveau du dessous — les duchés depuis les comtés, les royaumes depuis les duchés
+- **Groupement automatique** avec taille minimale et maximale, mer exclue au besoin
+- **Mode peinture** pour affecter une province à un territoire à la main
+- **Cascade de couleur** : la couleur d'un territoire se propage vers ses enfants
+
+### Masques
+
+- **Surcharges de strate** : remplacer la forme d'une bande d'altitude par une image
+- **Pile de calques de biome** : importer des images comme calques ordonnés, chacun peignant un biome
+- **Aller-retour** : exporter tous les masques, les retoucher ailleurs, les réimporter
+
+### Export prêt pour le moteur
+
+- **Heightmap 16 bits** en PNG et en RAW, avec contrôle du biseau, du lissage et de l'anticrénelage
+- **Normal map** dérivée de la heightmap finale
+- **Carte de provinces** plus `definition.csv` et `adjacencies.csv`
+- **Un CSV par niveau de hiérarchie**, avec des identifiants contigus à partir de 1
+
+## Les principes
+
+### 1. La graine est le document
+
+Un monde se reproduit depuis sa graine et ses réglages. Copiez la graine, collez-la sur une autre machine, vous obtenez le même monde. L'étagère **Graines gardées** existe parce que les mondes intéressants se trouvent par hasard, et que noter le numéro sur un papier n'est pas une méthode de travail.
+
+### 2. Rien ne bloque la fenêtre
+
+Génération, reconstruction d'aperçu et export tournent hors du fil principal. L'interface reste vivante et dit ce qu'elle fait ; les commandes qui devraient attendre une tâche de fond sont désactivées visiblement plutôt que gelées.
+
+### 3. Le travail manuel n'est pas jetable
+
+Régénérer le terrain ne jette pas ce que vous avez peint. L'annulation est un historique unique couvrant les modifications de carte et de hiérarchie, donc `Ctrl+Z` défait la dernière chose que vous avez faite, quel que soit le panneau où vous l'avez faite.
+
+### 4. Les actions destructrices demandent d'abord
+
+Jeter un monde modifié, ou lancer une génération de plusieurs gigaoctets, demandent confirmation. Rien d'autre ne le fait — une confirmation qui apparaît toujours est une confirmation qu'on apprend à écarter sans lire.
+
+### 5. Le format de fichier est une entrée non fiable
+
+Un `.wgen` se partage. Le chargeur valide la structure entière d'un fichier **avant de toucher au monde que vous avez ouvert** : un fichier corrompu ou hostile est refusé plutôt que chargé à moitié par-dessus votre travail.
+
+## Ce que ce n'est pas
+
+- **Pas un moteur de rendu.** Il produit des données ; les dessiner en jeu est le travail d'[Archway](/archway/).
+- **Pas un sculpteur de terrain 3D.** Tout est un champ 2D. Ni surplombs, ni grottes, ni maillages.
+- **Pas multi-documents.** Un monde ouvert à la fois.
+
+## La suite
+
+- [Installation](./installation) — le mettre en route
+- [Préparer votre premier monde](../generer/premier-monde) — un monde complet en dix minutes

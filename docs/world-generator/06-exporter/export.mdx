@@ -1,0 +1,131 @@
+---
+title: Exporter
+sidebar_position: 1
+---
+
+<PlateHead no="IV" title="Exporter" folio="08" />
+
+# Exporter
+
+Écrit le monde en images et en tables. Tout atterrit dans un dossier `Export/` à côté de l'exécutable, créé s'il n'existe pas.
+
+**Action principale** — *Export all maps*, dans la barre épinglée.
+
+<Capture
+  src="/img/wgen/50-panneau-export.png"
+  caption="Le panneau Export"
+  fig="Fig. 8.1"
+  zoom
+/>
+
+## Ce qu'écrit *Export all maps*
+
+| Fichier | Format | Contenu |
+|---|---|---|
+| `heightmap.png` | PNG 16 bits, niveaux de gris | Altitude finale |
+| `heightmap.raw` | RAW 16 bits | Les mêmes données, sans en-tête |
+| `normalmap.png` | PNG RVB 8 bits | Dérivée de la heightmap finale |
+| `provinces.png` | PNG RVB 8 bits | Une couleur distincte par province |
+| `definition.csv` | CSV | Identifiant de province ↔ RVB |
+| `adjacencies.csv` | CSV | Quelles provinces partagent une frontière |
+| `<Nom du niveau>.csv` | CSV | Un par niveau de hiérarchie |
+
+Avec **Heightmap only** activé, seuls la heightmap et le RAW sont écrits — utile quand vous itérez sur le terrain et ne voulez pas attendre les passes de provinces et de hiérarchie.
+
+## Heightmap
+
+*Ouvert par défaut.*
+
+| Commande | Plage | Effet |
+|---|---|---|
+| **Stratum slope** | 0 – 1 | 0 garde des terrasses franches, le mieux pour retoucher ensuite. En montant, les limites entre bandes sont biseautées, ce qui passe mieux tel quel dans un moteur |
+| **Smoothing passes** | 0 – 20 | 0 exporte la forme brute ; 20 arrondit fortement |
+| **Anti-aliasing** | oui/non | Adoucit l'escalier le long des limites de bandes |
+| **Raw noise (bypass strata)** | oui/non | Exporte le champ de bruit continu au lieu des bandes quantifiées |
+| **Heightmap only** | oui/non | Saute provinces, hiérarchie et normal map |
+| **Pad to square** | oui/non | Remplit la zone ajoutée de zéros pour conserver le rapport d'aspect |
+
+:::warning Raw noise et Stratum slope ne vont pas ensemble
+**Raw noise** exporte ce que le générateur a calculé *avant* la découpe en neuf bandes. Il ne reste donc aucune limite de bande à biseauter, et **Stratum slope** n'a plus d'effet.
+:::
+
+## Stratum heights
+
+*Replié par défaut.*
+
+Neuf curseurs, un par bande d'altitude, chacun de 0 à 1. Ils décident de la valeur de gris à laquelle chaque bande correspond dans la heightmap exportée.
+
+Les valeurs par défaut sont réparties régulièrement. Changez-les quand votre moteur attend un niveau d'eau particulier, ou quand vous voulez que les montagnes occupent une plus grande part de la plage 16 bits que le fond marin.
+
+## Biome height offsets
+
+*Replié par défaut.*
+
+Un curseur par biome activé, de −0,5 à +0,5, ajouté à l'altitude finale de tout ce qui se trouve dans ce biome.
+
+De petites valeurs ici suffisent à faire lire une forêt comme un terrain surélevé et un marais comme une dépression, sans faire passer l'un ni l'autre dans une autre bande d'altitude.
+
+## Individual files
+
+*Replié par défaut.*
+
+Exports fichier par fichier, quand vous ne voulez pas une passe complète :
+
+| Bouton | Écrit | Notes |
+|---|---|---|
+| **Export Template (Color Map)** | `template_color.png` | La vue Biome, en image |
+| **Export Topographic Map** | `topographic_view.png` | La vue Topo, en image |
+| **Export Stencil Mask** | `stencil_mask.png` | Le stencil chargé. Signale s'il n'y en a pas |
+| **Export Province Data (CSV)** | `provinces.csv` | Table par province |
+
+## Les formats CSV
+
+### `definition.csv`
+
+Une ligne par province, reliant la couleur dans `provinces.png` à un identifiant.
+
+Les identifiants sont **renumérotés de façon contiguë à partir de 1** au moment de l'export. Les trous laissés par une suppression, un nettoyage de micro-provinces ou une retouche manuelle n'atteignent jamais le moteur.
+
+### `adjacencies.csv`
+
+Une ligne par paire de provinces partageant une frontière. Construit depuis une reconstruction complète du graphe d'adjacence effectuée à l'export, donc les provinces repeintes ou supprimées sont purgées d'abord.
+
+### `<Nom du niveau>.csv`
+
+Un par niveau de hiérarchie, nommé d'après le niveau. Chaque ligne est un territoire et les unités source qu'il contient — des provinces pour le premier niveau, des territoires du niveau inférieur pour les suivants.
+
+Les niveaux sont écrits **dans l'ordre des dépendances** : le CSV d'un enfant ne référence que des identifiants que le CSV parent a déjà définis. Les territoires sans composant sont omis.
+
+## Les masques
+
+L'export des masques vit dans le panneau [Masques](../reference/masques), pas ici, et écrit dans `Export/Masks/` — un PNG en niveaux de gris par biome et par strate présents dans la carte.
+
+## Avant d'exporter
+
+Une courte liste, dans l'ordre où les choses tournent mal :
+
+1. **Vous avez peint des provinces à la main ?** Appuyez d'abord sur **Apply new province** dans *Sculpt → Province editing*. L'adjacence n'est reconstruite que sur demande.
+2. **Vous avez renommé un niveau de hiérarchie ?** Le nom est le nom du fichier. Renommez avant d'exporter.
+3. **Vous avez changé des masques ?** Appuyez sur **Apply changes** dans le panneau Masques.
+4. **Vous voulez des terrasses franches ?** **Stratum slope** à 0 et **Smoothing passes** à 0.
+
+## Vers Archway
+
+Ces fichiers sont ceux que demande le mouvement II d'Archway. Le StarterPack livré avec le plugin en est un exemplaire complet ; ce panneau produit le vôtre.
+
+| Fichier World Generator | Où il va dans Archway |
+|---|---|
+| `provinces.png` | La texture `T_DefinitionMap`, dans **Import World Assets** |
+| `definition.csv` | La table `DT_Definitions`, dans le même écran |
+| `heightmap.png` | **Landscape → Manage → Import → Heightmap File** |
+| `<Niveau>.csv` | Un **MapMode** par niveau, chacun avec sa `DT_<MapMode>_<Monde>` |
+
+:::tip Nommez vos niveaux comme vos MapModes
+Archway crée une DataTable par MapMode, suffixée du nom que vous tapez : `Baronnies` donne `DT_Baronnies_MyNewWorld`. Le CSV exporté ici porte le nom du niveau de hiérarchie. Nommer un niveau **`Baronnies`** côté World Generator vous évite de renommer un fichier à l'import.
+
+Le StarterPack numérote ses CSV dans l'ordre du palier — `00_Definition`, `01_Baronnies`, `02_Comtes` — ce qui reste une bonne habitude si vous rangez les vôtres à la main.
+:::
+
+Deux assets qu'Archway demande et que ce panneau ne produit **pas** : `T_FlatMap_Paper` et `T_FlatMap_Mask`, qui relèvent du style de la carte plate, pas de la géographie.
+
+Suite du parcours : [Préparer votre premier monde](/archway/import/premier-monde) côté Archway.

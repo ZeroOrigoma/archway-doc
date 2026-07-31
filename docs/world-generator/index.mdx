@@ -1,0 +1,59 @@
+---
+sidebar_position: 0
+---
+
+<PlateHead no="—" title="World Generator" folio="00" />
+
+# Documentation World Generator
+
+**Archway World Generator** dessine le monde qu'Archway importe : terrain, biomes, provinces et hiérarchie de territoires, exportés en heightmaps 16 bits et en tables CSV.
+
+<Sheet>
+
+**Nouveau sur World Generator ?** Suivez les quatre mouvements dans l'ordre. Ils vous mènent d'une fenêtre vide à un jeu de fichiers prêt pour le mouvement II d'Archway.
+
+</Sheet>
+
+<Capture
+  src="/img/wgen/00-fenetre.png"
+  caption="La fenêtre au démarrage : barre d'outils, panneau à gauche, carte à droite"
+  fig="Fig. 0.1"
+  zoom
+/>
+
+## Le parcours
+
+<CardGrid>
+  <PlateCard to="/world-generator/generer/premier-monde" no="I — Générer" title="Générer">
+    Trouver une graine, régler le bruit, choisir la projection et la résolution.
+  </PlateCard>
+  <PlateCard to="/world-generator/sculpter/sculpter" no="II — Sculpter" title="Sculpter">
+    Peindre le relief et les biomes à la main, tracer depuis une image.
+  </PlateCard>
+  <PlateCard to="/world-generator/decouper/provinces" no="III — Découper" title="Découper">
+    Subdiviser la carte en provinces, puis les grouper en territoires.
+  </PlateCard>
+  <PlateCard to="/world-generator/exporter/export" no="IV — Exporter" title="Exporter">
+    Écrire les heightmaps, la carte de provinces et les tables CSV.
+  </PlateCard>
+</CardGrid>
+
+## Le reste
+
+- [**Découvrir**](./overview/qu-est-ce-que) — ce que fait l'outil, et comment l'installer
+- [**Référence**](./reference/interface) — interface, raccourcis, masques, fichiers, glossaire
+- [**Dépannage**](./depannage/depannage) — les pannes courantes et leurs correctifs
+
+## Le pipeline
+
+Chaque étape lit la précédente. Vous pouvez vous arrêter n'importe où — une heightmap seule est un export valide — et revenir en arrière sans perdre le travail fait à la main.
+
+```
+Générer  ──▶  Sculpter  ──▶  Découper  ──▶  Exporter  ──▶  Archway
+ bruit         pinceau       provinces      PNG 16 bits    mouvement II
+ graine        stencil       territoires    RAW, CSV       « Importer »
+```
+
+:::info Le lien avec Archway
+Les fichiers écrits par le mouvement IV sont exactement ceux qu'Archway demande dans [Préparer votre premier monde](/archway/import/premier-monde) : `T_DefinitionMap`, `DT_Definitions`, la heightmap. Les deux outils se rejoignent là.
+:::

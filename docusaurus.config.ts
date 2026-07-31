@@ -72,17 +72,22 @@ const config: Config = {
       },
     ],
 
-    // --- Chronoscope docs plugin (placeholder — enable when ready) ---
-    // [
-    //   '@docusaurus/plugin-content-docs',
-    //   {
-    //     id: 'chronoscope',
-    //     path: 'docs/chronoscope',
-    //     routeBasePath: 'chronoscope',
-    //     sidebarPath: './sidebars/chronoscope.ts',
-    //     editUrl: 'https://github.com/ZeroOrigoma/archway-doc/tree/main/',
-    //   },
-    // ],
+    // --- Archway World Generator docs plugin ---
+    // The desktop tool that authors the province map Archway imports. Its own
+    // instance rather than a chapter of the Archway docs: it is a separate
+    // application, installed separately, and someone can have a reason to read
+    // about one without the other.
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'world-generator',
+        path: 'docs/world-generator',
+        routeBasePath: 'world-generator',
+        sidebarPath: './sidebars/world-generator.ts',
+        editUrl: 'https://github.com/ZeroOrigoma/archway-doc/tree/main/',
+        editCurrentVersion: false,
+      },
+    ],
   ],
 
   themeConfig: {
@@ -105,11 +110,10 @@ const config: Config = {
               label: 'Archway',
               to: '/archway/',
             },
-            // {
-            //   label: 'Chronoscope',
-            //   to: '/chronoscope/',
-            //   className: 'dropdown__link--disabled',
-            // },
+            {
+              label: 'World Generator',
+              to: '/world-generator/',
+            },
           ],
         },
         {
@@ -131,6 +135,7 @@ const config: Config = {
           title: 'Documentation',
           items: [
             { label: 'Archway', to: '/archway/' },
+            { label: 'World Generator', to: '/world-generator/' },
           ],
         },
         {

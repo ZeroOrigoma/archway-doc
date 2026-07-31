@@ -1,0 +1,175 @@
+---
+title: Dépannage
+sidebar_position: 1
+---
+
+<PlateHead no="—" title="Dépannage" folio="14" />
+
+# Dépannage
+
+:::tip Commencez par `debug_log.txt`
+Il se trouve à côté de l'exécutable. C'est du texte brut, complété à chaque exécution. La raison d'un fichier refusé, d'un export échoué ou d'une police manquante y est généralement écrite directement.
+:::
+
+## Démarrage
+
+### L'application ne démarre pas, une boîte de dialogue nomme une DLL
+
+L'archive n'a pas été extraite entièrement, ou l'exécutable en a été sorti seul. Les DLL de runtime — `msvcp140.dll`, `vcruntime140.dll`, `vcruntime140_1.dll`, `vcomp140.dll`, `concrt140.dll` — doivent être à côté de l'exécutable.
+
+Réextrayez l'archive complète.
+
+### Une fenêtre de console apparaît derrière l'application
+
+Vous utilisez une version antérieure. Les versions récentes sont liées au sous-système fenêtré et n'ont pas de console.
+
+### L'interface est beaucoup trop grande ou trop petite
+
+Elle suit la mise à l'échelle de l'écran au premier lancement. `Ctrl`+`0` pour suivre l'écran, ou `Ctrl`+`-` / `Ctrl`+`+` par pas de 25 %.
+
+Si c'est encore faux, supprimez `ui_scale.cfg` et relancez.
+
+### La barre de titre est blanche
+
+Windows 10. Les attributs de teinte utilisés sont propres à Windows 11 ; l'application retombe sur le titre sombre du système. `debug_log.txt` indique lequel des deux s'est produit, sur une ligne commençant par `Window: title bar`.
+
+## Enregistrer et charger
+
+### Enregistrer ne fait rien, ou signale une erreur
+
+L'application écrit à côté de son propre exécutable. Si vous l'avez extraite dans `C:\Program Files`, ce dossier est en lecture seule pour un utilisateur normal.
+
+Déplacez tout le dossier ailleurs — `Documents`, un répertoire de projet — et réessayez.
+
+### Un monde refuse de s'ouvrir
+
+Le chargeur valide la structure entière d'un fichier avant de toucher à ce que vous avez ouvert : un fichier refusé est refusé, pas chargé à moitié. `debug_log.txt` en donne la raison sur une ligne commençant par `LoadWGen:`.
+
+| Message | Sens |
+|---|---|
+| `unsupported version N` | Le fichier a été écrit par une version plus récente |
+| Erreurs de troncature ou de taille | Le fichier est incomplet ou corrompu |
+
+Votre monde ouvert reste intact dans les deux cas.
+
+## Génération
+
+### La génération est très lente
+
+Vérifiez la résolution. Le temps suit le nombre de pixels, et le préréglage Archway (8129 × 4065) représente seize fois le travail du 1080p.
+
+**Octaves** est l'autre gros coût : chaque octave est une passe complète sur la carte.
+
+Itérez en 1080p et passez en résolution de production une fois les réglages bons.
+
+### La génération échoue sur une grande carte
+
+Mémoire insuffisante. Le groupe **Resolution** indique ce que la taille choisie demande, à environ 25 octets par pixel ; au-delà de 2 Go l'application demande confirmation d'abord.
+
+Un échec d'allocation est traité proprement — le monde que vous aviez ouvert reste intact.
+
+### Régénérer a effacé mon terrain peint
+
+Cela ne devrait pas. L'influence peinte est stockée à part du bruit et réappliquée après régénération.
+
+Si elle a vraiment disparu, vérifiez que **New world** n'a pas été pressé à la place de **Generate map** : New jette le document.
+
+### Changer le niveau de la mer a déplacé mon littoral bizarrement
+
+Si **Realistic elevation spread** est actif, il s'applique avant le masque de bord et peut faire passer des échantillons de part et d'autre du niveau de la mer. Désactivez-le pour voir la répartition non modifiée.
+
+## Provinces
+
+### Aucune province n'apparaît après génération
+
+La vue bascule automatiquement. Si ce n'est pas le cas, cliquez **Provinces** dans le sélecteur — le bouton n'apparaît qu'une fois les provinces créées.
+
+### Il y a beaucoup plus, ou beaucoup moins, de provinces que la cible
+
+Les cibles sont des visées, pas des garanties. Le compte réel dépend de la quantité de terre, et de **Density per stratum** et **Biome density**, qui multiplient la densité de semis bande par bande.
+
+### De minuscules échardes de provinces le long des côtes
+
+**Provinces → Cleanup**. Réglez une taille minimale et appuyez sur **Clean micro-provinces** ; la hiérarchie est reliée ensuite.
+
+### Les données d'adjacence sont fausses après une retouche manuelle
+
+Appuyez sur **Apply new province** dans *Sculpt → Province editing*. Peindre change la carte de pixels immédiatement, mais le graphe d'adjacence et la hiérarchie ne sont reconstruits que sur demande.
+
+## Hiérarchie
+
+### Le panneau est vide et annonce une génération en cours
+
+Il est inerte pendant qu'une tâche de fond tourne. Attendez que l'indicateur de la barre d'outils s'arrête.
+
+### Les territoires sont gris, ou pointent vers des provinces disparues
+
+Appuyez sur **Force refresh** dans le groupe *Build*. Il relie le niveau à un jeu de provinces qui a changé sous lui.
+
+### Créer un niveau ne fait rien
+
+Regardez l'erreur sous le formulaire : soit aucune source n'est sélectionnée, soit *Provinces* a été choisi alors qu'aucune province n'existe.
+
+### Un CSV de hiérarchie porte le mauvais nom
+
+Le nom du fichier est le nom du niveau. Renommez le niveau dans *Levels → Rename level* avant d'exporter.
+
+## Export
+
+### L'export n'a rien écrit
+
+Cherchez une erreur de création de dossier dans `debug_log.txt`. La cause la plus fréquente est un emplacement d'installation non inscriptible — voir [Enregistrer ne fait rien](#enregistrer-ne-fait-rien-ou-signale-une-erreur).
+
+### La heightmap a des marches franches entre les altitudes
+
+C'est le comportement par défaut, et il est délibéré : des terrasses franches sont préférables si vous comptez retoucher la heightmap ensuite.
+
+Montez **Stratum slope**, ou **Smoothing passes**, ou activez **Anti-aliasing**.
+
+### La heightmap n'a aucune terrasse et ignore mes réglages
+
+**Raw noise (bypass strata)** est actif. Cela exporte le champ de bruit continu avant sa découpe en bandes : il ne reste aucune limite de bande à biseauter.
+
+### Les identifiants de province du CSV ne correspondent pas à ce qu'affichait l'application
+
+C'est attendu. L'export renumérote les identifiants de façon contiguë à partir de 1, pour que les trous laissés par une suppression, un nettoyage ou une retouche n'atteignent jamais le moteur.
+
+## Masques
+
+### Un masque importé est écrasé ou étiré
+
+Rapport d'aspect. Activez **Crop square imports** dans *Masks → Import and export* pour prendre la bande 2:1 supérieure d'une image carrée au lieu de l'écraser.
+
+### Un masque n'a rien changé
+
+Les modifications de masque ne prennent effet qu'après régénération. Cherchez l'avertissement en bas du panneau Masks et appuyez sur **Apply changes**.
+
+### Un calque de biome ne peint pas
+
+Vérifiez son interrupteur — le nom d'un calque masqué est atténué. Vérifiez sa position dans la pile : les calques du dessus peignent par-dessus. Vérifiez les **Allowed strata** du biome dans *Sculpt* — un biome ne peut pas peindre dans une bande qu'il n'a pas le droit d'occuper.
+
+## Interface
+
+### Un bouton de la barre d'outils est grisé
+
+New, Open, Undo et Redo prennent un verrou exclusif sur le monde. Pendant une génération ou une reconstruction d'aperçu, ils sont désactivés plutôt que laissés à figer la fenêtre. La capsule en bas à droite indique ce qui se recalcule.
+
+### Les raccourcis clavier ne répondent plus
+
+Un champ de texte a le focus et possède le clavier. `Échap` ou `Entrée` pour le relâcher.
+
+### Un groupe du panneau refuse de s'ouvrir
+
+Cliquez n'importe où sur la bande de son en-tête, pas seulement sur le chevron. Au clavier, `Tab` jusqu'à lui puis `Espace`.
+
+## Signaler un problème
+
+Joignez :
+
+1. `debug_log.txt`
+2. La version de l'application, depuis **Settings → About**
+3. La résolution de la carte
+4. Ce que vous avez fait, dans l'ordre
+5. Le `.wgen` si le problème se reproduit avec un monde particulier
+
+Contact : [contact@origoma.com](mailto:contact@origoma.com)

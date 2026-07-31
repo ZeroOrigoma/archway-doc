@@ -1,0 +1,161 @@
+---
+title: Préparer votre premier monde
+sidebar_position: 1
+---
+
+<PlateHead no="I" title="Générer" folio="03" />
+
+# Préparer votre premier monde
+
+<Sheet>
+
+**Objectif** — Traverser tout le pipeline une fois, en petite résolution, pour voir chaque étape avant de s'engager sur une carte pleine taille.
+
+**Durée** — 10 minutes.
+
+**Prérequis** — [Installation](../overview/installation) : l'application démarre et la carte s'affiche.
+
+</Sheet>
+
+## Partie 1 — Trouver un monde
+
+L'application s'ouvre sur le panneau **Terrain**, avec un monde déjà généré.
+
+<Capture
+  src="/img/wgen/12-barre-actions.png"
+  caption="La barre d'actions, épinglée en bas du panneau"
+  fig="Fig. 3.1"
+/>
+
+Appuyez sur le bouton **dé**, à droite de **Generate map**, pour tirer une nouvelle graine et régénérer. Recommencez jusqu'à ce qu'un littoral vous plaise.
+
+:::tip La barre ne défile pas
+Elle reste en place quelle que soit votre position dans le panneau. Vous pouvez modifier un réglage tout en bas et l'appliquer sans remonter.
+:::
+
+### Garder la graine
+
+Ouvrez le groupe **Seed**, tapez un nom dans *Name this world*, puis **Keep**.
+
+<Capture
+  src="/img/wgen/11-graine.png"
+  caption="Le groupe Seed et l'étagère des graines gardées"
+  fig="Fig. 3.2"
+/>
+
+La graine part sur l'étagère et dans `seeds.txt`. Vous pourrez revenir exactement à ce monde plus tard.
+
+## Partie 2 — Façonner le terrain
+
+Ouvrez le groupe **Noise** et essayez ceci, en appuyant sur **Generate map** après chaque changement :
+
+| Réglage | Effet |
+|---|---|
+| **Scale** | Bas = peu de grandes masses continentales ; haut = archipel |
+| **Octaves** | Le détail. 3 est lisse et rond, 8 est accidenté |
+| **Sea level** | Montez-le pour noyer la carte, descendez-le pour découvrir le fond |
+| **Edge mask** | Estompe la carte vers ses bords, pour que les continents ne sortent pas du cadre |
+
+Ouvrez ensuite **Shaping** et activez **Warped coastlines**. Le bruit fractal seul fait des taches arrondies ; le déplacer avant de l'échantillonner donne des baies, des péninsules et des fjords.
+
+## Partie 3 — Choisir la résolution
+
+Ouvrez le groupe **Resolution**. Pour ce parcours, restez en **1080p** : la génération prend quelques secondes au lieu de quelques minutes, et toutes les étapes ci-dessous se comportent à l'identique.
+
+La note sous les préréglages indique ce que cette taille coûte en mémoire. Revenez à **Archway** (8129 × 4065) une fois que vous connaissez les réglages voulus.
+
+## Partie 4 — Peindre à la main
+
+Passez à l'onglet **Sculpt**, l'icône pinceau.
+
+<Capture
+  src="/img/wgen/20-panneau-sculpt.png"
+  caption="Le panneau Sculpt en vue topographique"
+  fig="Fig. 3.3"
+  zoom
+/>
+
+Le sélecteur de vue en haut du panneau décide de ce qu'affiche la carte. En vue **Topo**, le pinceau peint directement les bandes d'altitude :
+
+1. Ouvrez **Paint** et choisissez une strate cible — *Mountainous*, par exemple.
+2. Ouvrez **Brush** et donnez une **Size** que vous voyez à l'écran.
+3. Cliquez-glissez sur la carte.
+
+Utile pendant que vous peignez, sans quitter la toile :
+
+| Raccourci | Effet |
+|---|---|
+| `Ctrl` + molette | Taille du pinceau |
+| `Alt` + molette | Atténuation — vers le haut pour plus doux |
+| `Ctrl`+`Alt` + molette | Rotation |
+| Molette | Zoom |
+| Clic milieu glissé | Déplacement |
+| `Ctrl`+`Z` | Annuler |
+
+:::tip Régénérer n'efface pas ceci
+L'influence peinte est conservée quand le bruit sous-jacent est régénéré. Vous pouvez revenir à Terrain, changer la graine, et vos montagnes restent en place.
+:::
+
+## Partie 5 — Découper en provinces
+
+Passez à l'onglet **Provinces**.
+
+<Capture
+  src="/img/wgen/30-panneau-provinces.png"
+  caption="Le panneau Provinces"
+  fig="Fig. 3.4"
+  zoom
+/>
+
+1. Ouvrez **Counts** et mettez **Land target** à quelque chose de modeste — 800 pour un premier essai.
+2. Appuyez sur **Generate provinces** dans la barre épinglée.
+
+La vue bascule automatiquement sur les provinces, chacune avec sa propre couleur.
+
+Si le résultat est trop régulier, ouvrez **Irregularity** et montez **Land chaos**. Si les montagnes doivent être plus finement découpées que les plaines, ouvrez **Density per stratum** et montez le multiplicateur des bandes hautes.
+
+## Partie 6 — Grouper en territoires
+
+Passez à l'onglet **Hierarchy**.
+
+1. Ouvrez **Build**, appuyez sur **New territory level**.
+2. Nommez-le — *Comtés* — et laissez **Built from** sur *Provinces*.
+3. **Create level**. Le groupement se lance tout seul.
+
+Recommencez pour le palier suivant : créez *Duchés*, mais choisissez cette fois **Comtés** comme source. Chaque niveau groupe celui du dessous.
+
+**Min size** et **Max size** décident du nombre d'unités source par territoire. Pour en affecter une à la main : sélectionnez un niveau, activez **Paint mode** dans le groupe **Selected territory**, cliquez gauche sur un territoire pour le sélectionner, puis clic droit sur les provinces à y verser.
+
+## Partie 7 — Exporter
+
+Passez à l'onglet **Export** et appuyez sur **Export all maps** dans la barre épinglée.
+
+Tout atterrit dans un dossier `Export/` à côté de l'exécutable :
+
+| Fichier | Contenu |
+|---|---|
+| `heightmap.png` | Altitude en niveaux de gris 16 bits |
+| `heightmap.raw` | Les mêmes données en RAW 16 bits |
+| `normalmap.png` | Dérivée de la heightmap finale |
+| `provinces.png` | Carte de couleurs des provinces |
+| `definition.csv` | Table identifiant ↔ couleur |
+| `adjacencies.csv` | Quelles provinces se touchent |
+| `Comtés.csv`, `Duchés.csv`, … | Un par niveau de hiérarchie |
+
+Avant d'exporter, le groupe **Heightmap** mérite un coup d'œil. **Stratum slope** à 0 garde des terrasses franches — le mieux si vous comptez retoucher la heightmap ensuite. En le montant, les limites entre bandes sont biseautées, ce qui passe mieux tel quel dans un moteur.
+
+## Partie 8 — Sauvegarder
+
+`Ctrl`+`S` écrit le monde dans `saves/`. Le nom du document en haut de la fenêtre cesse d'indiquer *Untitled*.
+
+Un `.wgen` contient tout : terrain, influence peinte, provinces, hiérarchie complète, masques et stencil. Le rouvrir vous remet exactement où vous en étiez.
+
+## La suite
+
+| Vous voulez… | Lisez |
+|---|---|
+| Comprendre chaque réglage de terrain | [Terrain](./terrain) |
+| Tirer davantage du pinceau | [Sculpter](../sculpter/sculpter) |
+| Piloter le terrain depuis une image | [Masques](../reference/masques) |
+| Savoir ce que contient chaque fichier exporté | [Export](../exporter/export) |
+| Travailler sans la souris | [Raccourcis](../reference/raccourcis) |

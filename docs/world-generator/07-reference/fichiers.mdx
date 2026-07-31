@@ -1,0 +1,121 @@
+---
+title: Fichiers et formats
+sidebar_position: 4
+---
+
+<PlateHead no="—" title="Référence" folio="12" />
+
+# Fichiers et formats
+
+Tout ce que l'application lit ou écrit vit à côté de l'exécutable. Pas de dossier `AppData`, pas de clé de registre, aucun état caché.
+
+## Le dossier
+
+```
+ArchwayWorldGenerator/
+├── ArchwayWorldGenerator.exe
+├── *.dll                       ← runtimes livrés
+├── resources/                  ← icône et polices
+│
+├── saves/                      ← vos mondes
+│   └── Aldenmark.wgen
+│
+├── Export/                     ← Export all maps
+│   ├── heightmap.png
+│   ├── heightmap.raw
+│   ├── normalmap.png
+│   ├── provinces.png
+│   ├── definition.csv
+│   ├── adjacencies.csv
+│   ├── Comtes.csv
+│   └── Masks/                  ← Export all masks
+│       ├── Forest.png
+│       └── Low Plains.png
+│
+├── seeds.txt                   ← étagère des graines
+├── ui_scale.cfg                ← taille d'interface
+├── debug_log.txt               ← complété à chaque exécution
+└── screenshot_001.png          ← écrit par F12
+```
+
+Aucun de ces fichiers n'existe avant d'être nécessaire, et en supprimer un est sans danger : vous perdez cette donnée, pas l'application.
+
+## Enregistrer et ouvrir
+
+| Action | Raccourci | Comportement |
+|---|---|---|
+| **Save** | `Ctrl`+`S` | Enregistre sur place. Demande un nom la première fois |
+| **Save as…** | — | Demande toujours un nom |
+| **Open…** | — | Liste le contenu de `saves/` |
+| **New world** | — | Demande confirmation s'il y a des modifications non enregistrées |
+
+Les feuilles **Open** et **Save** affichent une liste filtrable des mondes enregistrés. Cliquer une ligne déjà sélectionnée valide, comme le fait un sélecteur de fichiers.
+
+## Le format `.wgen`
+
+Un fichier binaire unique contenant l'état complet d'un monde.
+
+| Propriété | Valeur |
+|---|---|
+| **Signature** | `WGEN` |
+| **Version courante** | 24 |
+| **Rétrocompatible** | Oui — les fichiers plus anciens sont migrés au chargement |
+| **Compatible en avant** | Non — un fichier plus récent est refusé avec un message clair |
+
+### Ce qu'il contient
+
+- Tous les réglages de génération : résolution, graine, bruit, projection, façonnage
+- La heightmap et le cache de bruit de base
+- **L'influence peinte** — votre sculpture, stockée à part du bruit
+- L'affectation des biomes
+- La carte de provinces et le graphe d'adjacence
+- La hiérarchie complète : niveaux, territoires, noms, couleurs
+- Toutes les données de masque : surcharges et pile de calques, images comprises
+- Le stencil chargé, s'il y en a un
+- Les réglages de pinceau et d'export
+
+Un monde sauvegardé ne dépend d'aucun fichier externe. Déplacez le `.wgen` sur une autre machine, il s'ouvre à l'identique.
+
+### Refuser les mauvais fichiers
+
+Un `.wgen` se partage, ce qui en fait une entrée non fiable.
+
+Le chargeur **parcourt la structure entière d'un fichier avant de toucher au monde que vous avez ouvert** : chaque compte, chaque longueur de chaîne, chaque taille d'image est vérifiée contre la taille du fichier. Un fichier tronqué, corrompu ou hostile est refusé d'emblée, et le monde sur lequel vous travailliez reste exactement tel qu'il était.
+
+:::info Ce n'est pas théorique
+Une version antérieure reconstruisait la géométrie à mi-chargement. Un fichier qui passait son en-tête et échouait plus loin avait déjà remplacé votre travail au moment où l'erreur s'affichait.
+:::
+
+Une corruption **légitimement lisible** — un bit retourné dans une couleur — se charge normalement. Ce qui est garanti, c'est qu'un mauvais fichier ne peut ni faire planter, ni bloquer, ni détruire ce que vous aviez ouvert.
+
+## `seeds.txt`
+
+L'étagère des graines, en texte brut, une graine par ligne avec une étiquette facultative.
+
+Modifiable à la main et partageable. Les lignes mal formées sont ignorées une par une plutôt que de faire jeter le fichier.
+
+Se gère depuis **Terrain → Seed → Saved seeds**.
+
+## `ui_scale.cfg`
+
+Un seul nombre : la taille de l'interface, entre 0,75 et 3,0. Écrit quand vous changez l'échelle, lu au démarrage.
+
+Le supprimer fait revenir au suivi de la mise à l'échelle de l'écran.
+
+## `debug_log.txt`
+
+Complété à chaque exécution. Consigne les temps de génération, les opérations de fichier, les échecs de chargement et les diagnostics de démarrage.
+
+**C'est la première pièce à joindre à un rapport de bug.** C'est du texte brut : lisez-le d'abord vous-même, la raison d'un fichier refusé ou d'un export échoué y est généralement écrite directement.
+
+Le fichier grossit sans limite. Le supprimer est sans danger et en démarre un neuf.
+
+## Captures d'écran
+
+`F12` écrit `screenshot_001.png`, `screenshot_002.png` et ainsi de suite, à côté de l'exécutable, en capturant la fenêtre telle qu'elle est dessinée.
+
+## Emplacements en lecture seule
+
+L'application écrit dans son propre dossier. **Ne l'extrayez pas dans `C:\Program Files`** : ce dossier est en lecture seule pour un utilisateur normal, et sauvegardes, exports et préférences échoueront tous.
+
+Un dossier sous `Documents`, un répertoire de projet ou un disque amovible conviennent.
