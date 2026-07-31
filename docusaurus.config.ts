@@ -27,9 +27,19 @@ const config: Config = {
     },
   },
 
+  // Le contenu est écrit en français : c'est donc lui la locale par défaut,
+  // celle servie sans préfixe. L'anglais est une traduction, sous /en/.
+  //
+  // C'était déclaré à l'envers — defaultLocale 'en' avec des sources
+  // françaises — ce qui servait du français étiqueté anglais à la racine et
+  // resservait exactement les mêmes fichiers sous /fr/.
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'fr'],
+    defaultLocale: 'fr',
+    locales: ['fr', 'en'],
+    localeConfigs: {
+      fr: { label: 'Français', htmlLang: 'fr-FR' },
+      en: { label: 'English', htmlLang: 'en-US' },
+    },
   },
 
   // Same three faces as the product site, loaded the same way, so the docs
@@ -115,6 +125,10 @@ const config: Config = {
               to: '/world-generator/',
             },
           ],
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
         {
           href: `${PRODUCT_URL}/#pricing`,

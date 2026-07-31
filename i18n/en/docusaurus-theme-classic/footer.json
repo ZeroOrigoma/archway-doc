@@ -1,0 +1,62 @@
+{
+  "link.title.Documentation": {
+    "message": "Documentation",
+    "description": "The title of the footer links column with title=Documentation in the footer"
+  },
+  "link.title.Produit": {
+    "message": "Product",
+    "description": "The title of the footer links column with title=Produit in the footer"
+  },
+  "link.title.Légal & support": {
+    "message": "Legal & support",
+    "description": "The title of the footer links column with title=Légal & support in the footer"
+  },
+  "link.item.label.Archway": {
+    "message": "Archway",
+    "description": "The label of footer link with label=Archway linking to /archway/"
+  },
+  "link.item.label.World Generator": {
+    "message": "World Generator",
+    "description": "The label of footer link with label=World Generator linking to /world-generator/"
+  },
+  "link.item.label.archway.origoma.com": {
+    "message": "archway.origoma.com",
+    "description": "The label of footer link with label=archway.origoma.com linking to https://archway.origoma.com"
+  },
+  "link.item.label.Licences": {
+    "message": "Licences",
+    "description": "The label of footer link with label=Licences linking to https://archway.origoma.com/#pricing"
+  },
+  "link.item.label.Activation": {
+    "message": "Activation",
+    "description": "The label of footer link with label=Activation linking to https://archway.origoma.com/activate"
+  },
+  "link.item.label.Renvoyer une licence": {
+    "message": "Reissue a licence",
+    "description": "The label of footer link with label=Renvoyer une licence linking to https://archway.origoma.com/reissue"
+  },
+  "link.item.label.EULA": {
+    "message": "EULA",
+    "description": "The label of footer link with label=EULA linking to https://archway.origoma.com/eula"
+  },
+  "link.item.label.Confidentialité": {
+    "message": "Privacy",
+    "description": "The label of footer link with label=Confidentialité linking to https://archway.origoma.com/privacy"
+  },
+  "link.item.label.Remboursement": {
+    "message": "Refunds",
+    "description": "The label of footer link with label=Remboursement linking to https://archway.origoma.com/refund"
+  },
+  "link.item.label.contact@origoma.com": {
+    "message": "contact@origoma.com",
+    "description": "The label of footer link with label=contact@origoma.com linking to mailto:contact@origoma.com"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/ZeroOrigoma"
+  },
+  "copyright": {
+    "message": "© 2026 ORIGOMA. All rights reserved.",
+    "description": "The footer copyright"
+  }
+}

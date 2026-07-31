@@ -1,0 +1,34 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.worldGeneratorSidebar.category.Découvrir": {
+    "message": "Discover",
+    "description": "The label for category 'Découvrir' in sidebar 'worldGeneratorSidebar'"
+  },
+  "sidebar.worldGeneratorSidebar.category.I — Générer": {
+    "message": "I — Generate",
+    "description": "The label for category 'I — Générer' in sidebar 'worldGeneratorSidebar'"
+  },
+  "sidebar.worldGeneratorSidebar.category.II — Sculpter": {
+    "message": "II — Sculpt",
+    "description": "The label for category 'II — Sculpter' in sidebar 'worldGeneratorSidebar'"
+  },
+  "sidebar.worldGeneratorSidebar.category.III — Découper": {
+    "message": "III — Subdivide",
+    "description": "The label for category 'III — Découper' in sidebar 'worldGeneratorSidebar'"
+  },
+  "sidebar.worldGeneratorSidebar.category.IV — Exporter": {
+    "message": "IV — Export",
+    "description": "The label for category 'IV — Exporter' in sidebar 'worldGeneratorSidebar'"
+  },
+  "sidebar.worldGeneratorSidebar.category.Référence": {
+    "message": "Reference",
+    "description": "The label for category 'Référence' in sidebar 'worldGeneratorSidebar'"
+  },
+  "sidebar.worldGeneratorSidebar.category.Dépannage": {
+    "message": "Troubleshooting",
+    "description": "The label for category 'Dépannage' in sidebar 'worldGeneratorSidebar'"
+  }
+}

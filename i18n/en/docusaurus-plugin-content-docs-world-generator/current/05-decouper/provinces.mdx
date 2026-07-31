@@ -1,0 +1,120 @@
+---
+title: Provinces
+sidebar_position: 1
+---
+
+<PlateHead no="III" title="Subdivide" folio="06" />
+
+# Provinces
+
+Divides the map into the smallest unit a strategy game plays on. Everything in the [Hierarchy](./hierarchie) panel is built on them.
+
+**Primary action** — *Generate provinces*, in the pinned bar. The brush button beside it jumps to hand editing.
+
+<Capture
+  src="/img/wgen/30-panneau-provinces.png"
+  caption="The Provinces panel"
+  fig="Fig. 6.1"
+  zoom
+/>
+
+## How it works
+
+Provinces are seeded across the map and grow until they meet, in **two independent populations** — land and sea — so an ocean is not chopped into the same fine mesh as a continent.
+
+Seeding density is modulated twice: once per **elevation stratum**, again per **biome**. That is how you get finely cut mountains and coarse plains out of a single pass.
+
+## Counts
+
+*Open by default.*
+
+| Read-out | Meaning |
+|---|---|
+| **Land provinces** | How many exist right now |
+| **Sea provinces** | Likewise for water |
+
+| Control | Range | Notes |
+|---|---|---|
+| **Land target** | 50 – 50,000 | Roughly how many land provinces to aim for |
+| **Sea target** | 10 – 50,000 | Likewise for water |
+
+These are targets, not guarantees. The actual count depends on how much land there is and on the density modifiers below.
+
+:::tip Start small
+800 land provinces generate in seconds and tell you whether the shape is right. Move to production numbers once you are happy.
+:::
+
+## Irregularity
+
+*Collapsed by default.*
+
+| Control | Range | Effect |
+|---|---|---|
+| **Land chaos** | 0 – 10 | Irregularity of land boundaries |
+| **Sea chaos** | 0 – 10 | Likewise for water |
+
+At 0 the result is close to a clean Voronoi tessellation — provinces read as geometric cells. Raising it perturbs the boundaries into something that looks drawn rather than computed.
+
+## Cleanup
+
+*Collapsed by default. Requires provinces.*
+
+Generation leaves slivers: one-pixel provinces wedged between larger ones, mostly along coastlines.
+
+| Control | Range |
+|---|---|
+| **Minimum size in pixels** | 1 – 100 |
+
+**Clean micro-provinces** absorbs everything below that threshold into its neighbours and relinks the hierarchy afterwards, so no territory points at a province that has gone.
+
+The notification reports how many were removed.
+
+## Density per stratum
+
+*Collapsed by default.*
+
+One row per elevation band, each showing in brackets how many provinces it holds.
+
+| Control | Range | Effect |
+|---|---|---|
+| **Density** | 0.01 – 3 | Seeding-density multiplier for that band |
+
+Below 1, larger and sparser provinces. Above, smaller and denser.
+
+Each row also carries a **Regenerate** button that re-runs generation **for that band only**, leaving the rest of the map alone. That is what makes tuning practical: adjust the mountains without waiting for the oceans.
+
+The button reads *Generate first* and stays disabled until provinces exist.
+
+## Biome density
+
+*Collapsed by default.*
+
+A second multiplier, applied on top of the stratum density, one row per enabled biome.
+
+| Control | Range |
+|---|---|
+| **Modifier** | 0.1 – 5 |
+
+1.0 leaves the stratum density alone. Use it when the distinction you want is ecological rather than topographic — dense provinces through farmland, sparse through desert, though both sit in the same elevation band.
+
+## Hand editing
+
+The brush button in the action bar takes you to [Sculpt → Province editing](../sculpter/sculpter#province-editing), edit mode already on.
+
+Remember to press **Apply new province** on the way out: painting changes the pixel map immediately, but adjacency and the hierarchy are only rebuilt on request.
+
+## What gets exported
+
+| File | Contents |
+|---|---|
+| `provinces.png` | Colour map, one distinct colour per province |
+| `definition.csv` | ID ↔ RGB, contiguous IDs from 1 |
+| `adjacencies.csv` | Which provinces share a border |
+| `provinces.csv` | Per-province data, via *Export → Individual files* |
+
+IDs are **renumbered contiguously from 1** at export time, so gaps left by deletion or hand editing never reach the engine.
+
+## Next
+
+- [Hierarchy](./hierarchie) — group these provinces into realms
+- [Export](../exporter/export) — the exact contents of each file

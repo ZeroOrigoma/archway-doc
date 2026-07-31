@@ -1,0 +1,125 @@
+---
+title: Shortcuts
+sidebar_position: 2
+---
+
+<PlateHead no="—" title="Reference" folio="10" />
+
+# Shortcuts
+
+The complete list. A short version lives in the application, under **Settings → Shortcuts**.
+
+## Document
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl` + `S` | Save. Asks for a name the first time |
+| `Ctrl` + `Z` | Undo |
+| `Ctrl` + `W` | Undo — the AZERTY-friendly alternative |
+| `Ctrl` + `Y` | Redo |
+
+Undo is a **single history** covering map edits and hierarchy edits alike. It reverses the last thing you did, whichever panel you did it in.
+
+:::info These stay silent inside a text field
+`Ctrl`+`Z` in a territory-name field is the reflex for "undo my typo". It must not throw away sculpting work instead.
+:::
+
+## The map
+
+| Input | Action |
+|---|---|
+| **Scroll** | Zoom, centred on the pointer. Range 10 % – 5000 % |
+| **Middle-drag** | Pan |
+| **Left-click / drag** | Paint, or select — depends on the active tool |
+| **Right-click** | Pick, or stop painting |
+
+## The brush
+
+These work anywhere, without moving the pointer off the canvas:
+
+| Shortcut | Adjusts | Range |
+|---|---|---|
+| `Ctrl` + scroll | Brush size | Radius 1.5 – 500 |
+| `Alt` + scroll | Falloff — scroll **up** for a softer edge | 0 – 10 |
+| `Ctrl` + `Alt` + scroll | Rotation, 5° per step | 0 – 360° |
+
+Holding `Ctrl` or `Alt` suppresses zoom, so a brush adjustment never moves the camera.
+
+## Views
+
+| Input | Action |
+|---|---|
+| **Click** a view button | Switches the map to that view |
+| `Ctrl` + **click** a view button | Pins that view as a translucent layer |
+| `Ctrl` + **click** the pinned view | Removes the layer |
+
+## Keyboard navigation
+
+The application is fully operable without a mouse.
+
+| Shortcut | Action |
+|---|---|
+| `Tab` | Next control |
+| `Shift` + `Tab` | Previous control |
+| `Space` or `Enter` | Activate the control — button, switch, open or close a group |
+| `←` `→` | Move the selection within a segmented picker |
+| `Escape` | Close a sheet, or release focus |
+
+Focus follows the order controls are drawn in, which is the order they appear on screen. The focused control is drawn with a ring around it.
+
+`Escape` never quits the application.
+
+### Inside a text field
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl` + `A` | Select all |
+| `Ctrl` + `C` / `X` / `V` | Copy / cut / paste |
+| `Shift` + arrows | Extend the selection |
+| `Home` / `End` | Start / end of the field |
+| `Enter` | Commit and release focus |
+| `Escape` | Release focus |
+| Double-click | Select a word |
+| Triple-click | Select the line |
+
+A field owns the keyboard while it is being edited: typing an `s` into a name does not trigger Save.
+
+## Interface size
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl` + `+` | Increase by 25 % |
+| `Ctrl` + `-` | Decrease by 25 % |
+| `Ctrl` + `0` | Match the display's own scaling |
+
+They clamp at 75 % and 300 %. The numpad keys work too.
+
+## Utility
+
+| Shortcut | Action |
+|---|---|
+| `F12` | Writes `screenshot_NNN.png` next to the executable |
+
+## Full table
+
+All of the above in one place, to print or pin up.
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl` + `S` | Save |
+| `Ctrl` + `Z` / `Ctrl` + `W` | Undo |
+| `Ctrl` + `Y` | Redo |
+| Scroll | Zoom |
+| Middle-drag | Pan |
+| Left-click | Paint / select |
+| Right-click | Pick / stop painting |
+| `Ctrl` + scroll | Brush size |
+| `Alt` + scroll | Falloff |
+| `Ctrl` + `Alt` + scroll | Rotation |
+| `Ctrl` + click a view | Pin as a layer |
+| `Tab` / `Shift` + `Tab` | Move focus |
+| `Space` / `Enter` | Activate the control |
+| `←` / `→` | Segmented picker |
+| `Escape` | Close a sheet, release focus |
+| `Ctrl` + `+` / `-` / `0` | Interface size |
+| `F12` | Screenshot |

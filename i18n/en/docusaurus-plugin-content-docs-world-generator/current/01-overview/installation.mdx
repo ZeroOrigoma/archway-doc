@@ -1,0 +1,117 @@
+---
+title: Installation
+sidebar_position: 2
+---
+
+<PlateHead no="—" title="Discover" folio="02" />
+
+# Installation
+
+<Sheet>
+
+**Goal** — Launch World Generator and check that it works.
+
+**Duration** — 2 minutes.
+
+**Prerequisites** — Windows 10 or 11, 64-bit.
+
+</Sheet>
+
+World Generator ships as a self-contained ZIP. No installer, no registry entry, nothing to uninstall.
+
+## Prerequisites
+
+| Item | Detail |
+|---|---|
+| **Operating system** | Windows 10 or 11, 64-bit |
+| **Graphics** | OpenGL 3.3 — effectively anything since 2010 |
+| **Memory** | 4 GB for a 1080p world; see [the memory budget](#memory-budget) for larger ones |
+| **Disk** | ~5 MB for the application, plus your exports |
+
+Nothing else. The Visual C++ and OpenMP runtimes are in the archive, so a machine that has never seen Visual Studio still starts the application.
+
+## 1. Extract the archive
+
+Unzip `ArchwayWorldGenerator-<version>-win64.zip` into a folder you can write to — a folder in `Documents`, a project directory, a USB stick.
+
+```
+ArchwayWorldGenerator/
+├── ArchwayWorldGenerator.exe    ← run this
+├── msvcp140.dll                 ← Visual C++ runtime
+├── vcruntime140.dll
+├── vcruntime140_1.dll
+├── vcomp140.dll                 ← OpenMP runtime, for parallel generation
+├── concrt140.dll
+└── resources/
+```
+
+:::danger Do not extract into `C:\Program Files`
+The application writes its saves, exports and preferences **next to its executable**, and that folder is read-only for a normal user. Everything will fail.
+:::
+
+## 2. Run it
+
+Double-click `ArchwayWorldGenerator.exe`. The window opens immediately and the first world generates in the background — you see a progress bar, not a black window.
+
+## 3. Set the interface size
+
+On a high-density display the application follows the system scaling. If the interface is too large or too small, open **Settings → Interface size** and pick a preset, or press `Ctrl` `+` / `Ctrl` `-`.
+
+<Capture
+  src="/img/wgen/60-panneau-reglages.png"
+  caption="Settings → Interface size"
+  fig="Fig. 2.1"
+  zoom
+/>
+
+The choice is saved to `ui_scale.cfg` and restored at the next start.
+
+## Verifying the installation
+
+Four points, if you want to be sure before trusting a copy with real work:
+
+1. The **title bar is dark** and blends into the toolbar below it — the window reads as one surface, with no white strip on top.
+2. **No console window** appears behind it.
+3. The map finishes generating within a few seconds and fills the view.
+4. `F12` drops a `screenshot_001.png` next to the executable.
+
+If any of these fail, see [Troubleshooting](../depannage/depannage).
+
+## Where files go
+
+Everything the application writes lands **next to the executable**:
+
+| Path | Contents |
+|---|---|
+| `saves/*.wgen` | Your saved worlds |
+| `Export/` | Everything **Export all maps** writes |
+| `Export/Masks/` | Everything **Export all masks** writes |
+| `seeds.txt` | Your seed shelf — plain text, editable by hand |
+| `ui_scale.cfg` | The chosen interface size |
+| `debug_log.txt` | Appended on every run; the first thing to attach to a bug report |
+| `screenshot_*.png` | Written by `F12` |
+
+None of these exist before they are needed, and deleting any of them is safe — you lose that data, not the application.
+
+## Memory budget
+
+Map resolution is **independent of window size**. The generator needs roughly **25 bytes per pixel**, and the **Resolution** group in the Terrain panel shows the figure for the size you chose.
+
+| Resolution | Approximate memory |
+|---|---|
+| 1920 × 1080 (1080p preset) | ~50 MB |
+| 3840 × 2160 (4K preset) | ~200 MB |
+| 8129 × 4065 (Archway preset) | ~790 MB |
+| 16384 × 16384 | ~6.3 GB |
+
+Above **2 GB** the application asks for confirmation before generating: that is the point where it stops being something you start by accident.
+
+If a generation cannot allocate what it needs, it fails cleanly and leaves the world you had open intact.
+
+## Uninstalling
+
+Delete the folder. That is the whole procedure.
+
+## Next
+
+- [Preparing your first world](../generer/premier-monde)

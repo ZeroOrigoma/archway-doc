@@ -1,0 +1,110 @@
+---
+title: Glossary
+sidebar_position: 5
+---
+
+<PlateHead no="—" title="Reference" folio="13" />
+
+# Glossary
+
+> Definitions of World Generator's terms.
+
+## Adjacency graph
+
+The record of which provinces share a border. Rebuilt on demand and exported as `adjacencies.csv`. Painting provinces by hand invalidates it until you press **Apply new province**.
+
+## Base noise cache
+
+The raw noise field, stored separately from the final heightmap so painted influence can be reapplied over a regenerated world.
+
+## Biome
+
+An ecological classification — grassland, desert, deep ocean. Sixteen exist, each with a colour, a density modifier, a height offset and a set of strata it is allowed to occupy.
+
+## Biome layer
+
+An imported image that paints one biome. Layers form an ordered stack; those above paint over those below.
+
+## Chaos
+
+The irregularity of province boundaries. At 0 the result approaches a clean Voronoi tessellation; raising it makes borders look drawn rather than computed.
+
+## Domain warping
+
+Displacing noise coordinates before sampling. Turns rounded blobs into continents with inlets, peninsulas and fjords. Set in **Terrain → Shaping → Warped coastlines**.
+
+## Falloff
+
+The softness of a brush stroke's edge. 0 gives a hard edge. Also adjustable with `Alt` + scroll.
+
+## FBm
+
+Fractional Brownian motion — the default fractal mode. Sums octaves of noise at decreasing amplitude, giving rolling, natural terrain.
+
+## Gain
+
+How much each successive octave contributes. Lower gives smoother terrain.
+
+## Hypsometric curve
+
+A redistribution of elevation that makes plains dominate and high peaks rare, as in real terrain. Sea depth is left alone. Enabled under the name **Realistic elevation spread**.
+
+## Influence map
+
+Where hand sculpting is stored. Kept separate from the noise, which is why regenerating terrain does not erase what you painted.
+
+## Lacunarity
+
+How much finer each octave is than the last. 2.0 is the classical value — each octave has twice the frequency of the one before.
+
+## Level
+
+One tier of the territory hierarchy. Built on provinces or on another level. Each level exports to its own CSV, named after it.
+
+## Mask
+
+An image that drives part of the world instead of the noise. Two kinds: **stratum overrides**, which replace an elevation band's shape, and **biome layers**, which paint biomes.
+
+## Micro-province
+
+A province below a size threshold, usually a sliver along a coastline. Removed by **Provinces → Cleanup**.
+
+## Octave
+
+One layer of noise. More octaves means more detail and more generation time.
+
+## Projection
+
+How the 2D map relates to a sphere. Planar (none), Equirectangular (latitude/longitude), or Mercator (conformal cylindrical).
+
+## Province
+
+The smallest unit of the map. Generated in two independent populations, land and sea. Everything in the hierarchy is built on them.
+
+## Ridged
+
+A fractal mode that inverts and sharpens each octave, producing ridgelines and mountain chains rather than hills.
+
+## Seed
+
+The number that determines a world. The same seed with the same settings always produces the same map, on any machine.
+
+## Stencil
+
+An imported image used as a reference to trace, or as a source for flood-filling terrain. Distinct from a mask: a stencil is what you work *from*, a mask is what the generator works *with*.
+
+## Stratum
+
+One of the nine elevation bands, from *Abyssal* to *High peaks*. Sea level sits between *Coastal waters* and *Low plains*.
+
+## Stratum slope
+
+An export setting controlling how sharp the boundary between elevation bands is in the heightmap. 0 keeps hard terraces; raising it bevels them.
+
+## Territory
+
+A group of provinces, or a group of smaller territories, within one hierarchy level.
+
+## `.wgen`
+
+The document format. A single binary file holding a world's complete state — settings, terrain, painted influence, provinces, hierarchy, masks and stencil. Currently version 24.

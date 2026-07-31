@@ -1,0 +1,131 @@
+---
+title: Export
+sidebar_position: 1
+---
+
+<PlateHead no="IV" title="Export" folio="08" />
+
+# Export
+
+Writes the world out as images and tables. Everything lands in an `Export/` folder next to the executable, created if it does not exist.
+
+**Primary action** — *Export all maps*, in the pinned bar.
+
+<Capture
+  src="/img/wgen/50-panneau-export.png"
+  caption="The Export panel"
+  fig="Fig. 8.1"
+  zoom
+/>
+
+## What *Export all maps* writes
+
+| File | Format | Contents |
+|---|---|---|
+| `heightmap.png` | 16-bit greyscale PNG | Final elevation |
+| `heightmap.raw` | 16-bit RAW | The same data, headerless |
+| `normalmap.png` | 8-bit RGB PNG | Derived from the final heightmap |
+| `provinces.png` | 8-bit RGB PNG | One distinct colour per province |
+| `definition.csv` | CSV | Province ID ↔ RGB |
+| `adjacencies.csv` | CSV | Which provinces share a border |
+| `<Level name>.csv` | CSV | One per hierarchy level |
+
+With **Heightmap only** on, only the heightmap and the RAW are written — useful while iterating on terrain when you do not want to wait for the province and hierarchy passes.
+
+## Heightmap
+
+*Open by default.*
+
+| Control | Range | Effect |
+|---|---|---|
+| **Stratum slope** | 0 – 1 | 0 keeps hard terraces, best for editing afterwards. Raising it bevels the boundaries between bands, which reads better dropped straight into an engine |
+| **Smoothing passes** | 0 – 20 | 0 exports the raw shape; 20 rounds it heavily |
+| **Anti-aliasing** | on/off | Softens the stair-stepping along band boundaries |
+| **Raw noise (bypass strata)** | on/off | Exports the continuous noise field instead of the quantised bands |
+| **Heightmap only** | on/off | Skips provinces, hierarchy and the normal map |
+| **Pad to square** | on/off | Fills the added area with zeroes to keep the aspect ratio |
+
+:::warning Raw noise and Stratum slope do not go together
+**Raw noise** exports what the generator computed *before* it was cut into nine bands. No band boundaries are left to bevel, so **Stratum slope** has no effect.
+:::
+
+## Stratum heights
+
+*Collapsed by default.*
+
+Nine sliders, one per elevation band, each 0 – 1. They decide which grey value each band maps to in the exported heightmap.
+
+Defaults are evenly spread. Change them when your engine expects a particular water level, or when you want the mountains to occupy more of the 16-bit range than the seabed does.
+
+## Biome height offsets
+
+*Collapsed by default.*
+
+One slider per enabled biome, −0.5 to +0.5, added to the final elevation of everything in that biome.
+
+Small values here are enough to make a forest read as raised ground and a swamp as a depression, without moving either into a different elevation band.
+
+## Individual files
+
+*Collapsed by default.*
+
+Single-file exports, for when you do not want a full pass:
+
+| Button | Writes | Notes |
+|---|---|---|
+| **Export Template (Color Map)** | `template_color.png` | The Biome view, as an image |
+| **Export Topographic Map** | `topographic_view.png` | The Topo view, as an image |
+| **Export Stencil Mask** | `stencil_mask.png` | The loaded stencil. Reports if there is none |
+| **Export Province Data (CSV)** | `provinces.csv` | Per-province table |
+
+## The CSV formats
+
+### `definition.csv`
+
+One row per province, tying the colour in `provinces.png` to an ID.
+
+IDs are **renumbered contiguously from 1** at export time. Gaps left by deletion, micro-province cleanup or hand editing never reach the engine.
+
+### `adjacencies.csv`
+
+One row per pair of provinces sharing a border. Built from a full rebuild of the adjacency graph performed at export time, so repainted or deleted provinces are purged first.
+
+### `<Level name>.csv`
+
+One per hierarchy level, named after the level. Each row is a territory and the source units it holds — provinces for the first level, territories from the level below for the rest.
+
+Levels are written **in dependency order**: a child's CSV only references IDs the parent's CSV has already defined. Territories with no components are omitted.
+
+## Masks
+
+Mask export lives in the [Masks](../reference/masques) panel, not here, and writes to `Export/Masks/` — one greyscale PNG per biome and per stratum present in the map.
+
+## Before exporting
+
+A short list, in the order things go wrong:
+
+1. **Painted provinces by hand?** Press **Apply new province** in *Sculpt → Province editing* first. Adjacency is only rebuilt on request.
+2. **Renamed a hierarchy level?** The name is the file name. Rename before exporting.
+3. **Changed masks?** Press **Apply changes** in the Masks panel.
+4. **Want hard terraces?** **Stratum slope** to 0 and **Smoothing passes** to 0.
+
+## Onward to Archway
+
+These files are the ones Archway's movement II asks for. The StarterPack shipped with the plugin is one complete example; this panel produces yours.
+
+| World Generator file | Where it goes in Archway |
+|---|---|
+| `provinces.png` | The `T_DefinitionMap` texture, in **Import World Assets** |
+| `definition.csv` | The `DT_Definitions` table, in the same screen |
+| `heightmap.png` | **Landscape → Manage → Import → Heightmap File** |
+| `<Level>.csv` | One **MapMode** per level, each with its `DT_<MapMode>_<World>` |
+
+:::tip Name your levels the way you name your MapModes
+Archway creates one DataTable per MapMode, suffixed with the name you type: `Baronnies` gives `DT_Baronnies_MyNewWorld`. The CSV exported here carries the hierarchy level's name. Naming a level **`Baronnies`** on the World Generator side saves you renaming a file at import.
+
+The StarterPack numbers its CSVs in tier order — `00_Definition`, `01_Baronnies`, `02_Comtes` — which remains a good habit if you organise yours by hand.
+:::
+
+Two assets Archway asks for that this panel does **not** produce: `T_FlatMap_Paper` and `T_FlatMap_Mask`, which are about the flat map's styling, not its geography.
+
+The journey continues in [Preparing your first world](/en/archway/import/premier-monde) on the Archway side.

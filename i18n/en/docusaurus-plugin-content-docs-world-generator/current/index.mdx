@@ -1,0 +1,59 @@
+---
+sidebar_position: 0
+---
+
+<PlateHead no="—" title="World Generator" folio="00" />
+
+# World Generator Documentation
+
+**Archway World Generator** draws the world Archway imports: terrain, biomes, provinces and a territory hierarchy, exported as 16-bit heightmaps and CSV tables.
+
+<Sheet>
+
+**New to World Generator?** Follow the four movements in order. They take you from an empty window to a set of files ready for Archway's movement II.
+
+</Sheet>
+
+<Capture
+  src="/img/wgen/00-fenetre.png"
+  caption="The window at startup: toolbar, panel on the left, map on the right"
+  fig="Fig. 0.1"
+  zoom
+/>
+
+## The journey
+
+<CardGrid>
+  <PlateCard to="/en/world-generator/generer/premier-monde" no="I — Generate" title="Generate">
+    Find a seed, tune the noise, choose a projection and a resolution.
+  </PlateCard>
+  <PlateCard to="/en/world-generator/sculpter/sculpter" no="II — Sculpt" title="Sculpt">
+    Paint elevation and biomes by hand, trace from an image.
+  </PlateCard>
+  <PlateCard to="/en/world-generator/decouper/provinces" no="III — Subdivide" title="Subdivide">
+    Cut the map into provinces, then group them into territories.
+  </PlateCard>
+  <PlateCard to="/en/world-generator/exporter/export" no="IV — Export" title="Export">
+    Write the heightmaps, the province map and the CSV tables.
+  </PlateCard>
+</CardGrid>
+
+## The rest
+
+- [**Discover**](./overview/qu-est-ce-que) — what the tool does, and how to install it
+- [**Reference**](./reference/interface) — interface, shortcuts, masks, files, glossary
+- [**Troubleshooting**](./depannage/depannage) — common failures and their fixes
+
+## The pipeline
+
+Each stage reads the one before it. You can stop anywhere — a heightmap alone is a valid export — and go back without losing hand-made work.
+
+```
+Generate ──▶  Sculpt  ──▶  Subdivide ──▶  Export  ──▶  Archway
+ noise         brush       provinces      16-bit PNG   movement II
+ seed          stencil     territories    RAW, CSV     "Import"
+```
+
+:::info The link with Archway
+The files written by movement IV are exactly the ones Archway asks for in [Preparing your first world](/en/archway/import/premier-monde): `T_DefinitionMap`, `DT_Definitions`, the heightmap. That is where the two tools meet.
+:::

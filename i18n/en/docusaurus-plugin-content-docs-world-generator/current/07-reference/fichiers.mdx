@@ -1,0 +1,121 @@
+---
+title: Files and formats
+sidebar_position: 4
+---
+
+<PlateHead no="—" title="Reference" folio="12" />
+
+# Files and formats
+
+Everything the application reads or writes lives next to the executable. No `AppData` folder, no registry key, no hidden state.
+
+## The folder
+
+```
+ArchwayWorldGenerator/
+├── ArchwayWorldGenerator.exe
+├── *.dll                       ← bundled runtimes
+├── resources/                  ← icon and fonts
+│
+├── saves/                      ← your worlds
+│   └── Aldenmark.wgen
+│
+├── Export/                     ← Export all maps
+│   ├── heightmap.png
+│   ├── heightmap.raw
+│   ├── normalmap.png
+│   ├── provinces.png
+│   ├── definition.csv
+│   ├── adjacencies.csv
+│   ├── Counties.csv
+│   └── Masks/                  ← Export all masks
+│       ├── Forest.png
+│       └── Low Plains.png
+│
+├── seeds.txt                   ← seed shelf
+├── ui_scale.cfg                ← interface size
+├── debug_log.txt               ← appended on every run
+└── screenshot_001.png          ← written by F12
+```
+
+None of these exist before they are needed, and deleting one is safe: you lose that data, not the application.
+
+## Saving and opening
+
+| Action | Shortcut | Behaviour |
+|---|---|---|
+| **Save** | `Ctrl`+`S` | Saves in place. Asks for a name the first time |
+| **Save as…** | — | Always asks for a name |
+| **Open…** | — | Lists the contents of `saves/` |
+| **New world** | — | Asks for confirmation if there are unsaved changes |
+
+The **Open** and **Save** sheets show a filterable list of saved worlds. Clicking an already-selected row confirms, the way a file picker does.
+
+## The `.wgen` format
+
+A single binary file holding a world's complete state.
+
+| Property | Value |
+|---|---|
+| **Magic** | `WGEN` |
+| **Current version** | 24 |
+| **Backward compatible** | Yes — older files are migrated on load |
+| **Forward compatible** | No — a newer file is refused with a clear message |
+
+### What it contains
+
+- Every generation setting: resolution, seed, noise, projection, shaping
+- The heightmap and the base noise cache
+- **Painted influence** — your sculpting, stored separately from the noise
+- Biome assignment
+- The province map and the adjacency graph
+- The full hierarchy: levels, territories, names, colours
+- All mask data: overrides and the layer stack, images included
+- The loaded stencil, if there is one
+- Brush and export settings
+
+A saved world depends on no external file. Move the `.wgen` to another machine and it opens identically.
+
+### Refusing bad files
+
+A `.wgen` gets shared, which makes it untrusted input.
+
+The loader **walks a file's entire structure before touching the world you have open**: every count, every string length, every image size is checked against the file's size. A truncated, corrupt or hostile file is refused outright, and the world you were working on stays exactly as it was.
+
+:::info This is not theoretical
+An earlier version rebuilt geometry partway through loading. A file that passed its header and failed later had already replaced your work by the time the error appeared.
+:::
+
+Corruption that is **legitimately readable** — a flipped bit in a colour — loads normally. What is guaranteed is that a bad file cannot crash, hang, or destroy what you had open.
+
+## `seeds.txt`
+
+The seed shelf, as plain text, one seed per line with an optional label.
+
+Editable by hand and shareable. Malformed lines are skipped one by one rather than causing the file to be discarded.
+
+Managed from **Terrain → Seed → Saved seeds**.
+
+## `ui_scale.cfg`
+
+A single number: the interface size, between 0.75 and 3.0. Written when you change the scale, read at startup.
+
+Deleting it goes back to following the display's own scaling.
+
+## `debug_log.txt`
+
+Appended on every run. Records generation timings, file operations, load failures and startup diagnostics.
+
+**This is the first thing to attach to a bug report.** It is plain text: read it yourself first, the reason for a refused file or a failed export is usually written there directly.
+
+The file grows without bound. Deleting it is safe and starts a fresh one.
+
+## Screenshots
+
+`F12` writes `screenshot_001.png`, `screenshot_002.png` and so on, next to the executable, capturing the window exactly as drawn.
+
+## Read-only locations
+
+The application writes into its own folder. **Do not extract it into `C:\Program Files`**: that folder is read-only for a normal user, and saves, exports and preferences will all fail.
+
+A folder under `Documents`, a project directory, or a removable drive all work.

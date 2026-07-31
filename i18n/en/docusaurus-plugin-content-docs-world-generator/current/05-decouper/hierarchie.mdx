@@ -1,0 +1,161 @@
+---
+title: Territory hierarchy
+sidebar_position: 2
+---
+
+<PlateHead no="III" title="Subdivide" folio="07" />
+
+# Territory hierarchy
+
+Groups provinces into territories, and territories into larger territories. This is where a province map becomes a political one.
+
+The panel is inert while a generation is running, and says so.
+
+<Capture
+  src="/img/wgen/31-panneau-hierarchie.png"
+  caption="The Hierarchy panel, before any level exists"
+  fig="Fig. 7.1"
+  zoom
+/>
+
+## The model
+
+A **level** is one tier of the political map. Each level is built either on **provinces** or on **another level**:
+
+```
+Provinces  ──▶  Counties  ──▶  Duchies  ──▶  Kingdoms  ──▶  Empires
+                level 1       level 2      level 3        level 4
+```
+
+No depth is imposed. Two levels is fine; six is fine. Each level exports to its own CSV.
+
+## Levels
+
+*Open by default.*
+
+Lists every level, showing what each is built on. Click to select — the view switches to territories and shows that level.
+
+With a level selected:
+
+| Control | Effect |
+|---|---|
+| **Rename level** | Type a new name; **Rename** or `Enter` |
+| **Delete level** | Removes the level. The view falls back to provinces |
+
+:::warning The level name becomes the file name
+A level called *Duchies* exports as `Duchies.csv`. Rename before exporting, not after.
+:::
+
+## Display
+
+*Collapsed by default.*
+
+| Control | Effect |
+|---|---|
+| **Dim the map behind the selection** | Darkens everything except the selected territory |
+| **Highlight quality** | *Off* / *Low* / *High* — precision of the selection outline |
+
+Highlight quality costs time on a large map. *Low* is enough to see what is selected; *High* is for checking a border is exactly where you meant it.
+
+## Build
+
+*Open by default.*
+
+### Grouping settings
+
+| Control | Range | Effect |
+|---|---|---|
+| **Min size** | 1 – 100 | Fewest source units per territory |
+| **Max size** | 1 – 500 | Most |
+
+**Merge territories below the minimum** picks up territories that came out under **Min size** and folds them into a neighbour. Useful after hand editing.
+
+**Exclude Sea** leaves water provinces out of grouping — usually what you want for a political map, where the sea belongs to nobody.
+
+### Creating a level
+
+**New territory level** opens an inline form:
+
+1. **Name** — becomes the exported file name
+2. **Built from** — *Provinces*, or an existing level
+3. **Create level**
+
+Grouping runs automatically on creation, and the view switches to the result.
+
+The form refuses to create a level with no source selected, or built on provinces that do not exist yet, and says which of the two.
+
+### Regenerating
+
+With a level selected:
+
+| Action | Effect |
+|---|---|
+| **REGENERATE** | Re-runs grouping for this level with the current min/max |
+| **Regenerate colours** | Reassigns colours without touching the grouping |
+| **Force refresh** | Rebuilds the links between this level and its source |
+
+**Force refresh** is the one to reach for after hand-painting provinces: it relinks the level to a province set that has changed under it.
+
+:::info Grouping is idempotent
+Running it twice gives the same result; it does not accumulate stale links from one pass to the next.
+:::
+
+## Selected territory
+
+*Open by default. Appears once a territory is selected in the view.*
+
+Left-click a territory in the view to select it.
+
+| Read-out | Meaning |
+|---|---|
+| **Territory** | Its internal ID |
+| **Children** | How many source units it holds |
+
+### Renaming
+
+Type into **Rename territory**, then **Rename** or `Enter`.
+
+### Dominant colour
+
+Three sliders — **Hue**, **Sat**, **Val** — and a swatch showing the result.
+
+Changing the colour **propagates down the hierarchy**: setting a kingdom's colour re-tints its duchies and counties as a local gradient around it, so the map reads as a political map rather than a random palette.
+
+### Creating and painting
+
+| Control | Effect |
+|---|---|
+| **Create territory** | The next left-click in the view starts an empty territory |
+| **Paint mode** | Left-click selects a territory, right-click pours the province under the pointer into it |
+
+While paint mode is on, the panel says what you are painting into.
+
+### History
+
+**Undo** / **Redo**, going through the same single history as `Ctrl`+`Z` and the toolbar. Hierarchy and map edits undo in the order you made them, not in two separate stacks.
+
+## Reference overlay
+
+*Collapsed by default.*
+
+Draws the borders of **another** level on top of the one you are editing — duchy borders while you edit counties, to see where the tier above expects its boundaries.
+
+| Control | Effect |
+|---|---|
+| **None** / *level name* | Which level to draw |
+| **Opacity** | 0 – 1 |
+| **Border** | Black or white, whichever stands out against your palette |
+| **Keep when switching level** | Pins the overlay so it does not follow the selection |
+
+By default the overlay follows the selected level. Pinning it keeps one reference fixed while you move around.
+
+## Export
+
+Each level exports as `<Level name>.csv`, IDs renumbered contiguously from 1, each row listing the source units it holds.
+
+Levels are written **in dependency order**: a child level's CSV only references IDs the parent's CSV has already defined. Empty territories — those that ended up with no components — are omitted.
+
+## Next
+
+- [Export](../exporter/export) — the CSV formats in detail
+- [Masks](../reference/masques) — driving terrain from images

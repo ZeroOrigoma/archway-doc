@@ -1,0 +1,101 @@
+---
+title: What is World Generator
+sidebar_position: 1
+---
+
+<PlateHead no="—" title="Discover" folio="01" />
+
+# What is World Generator
+
+**Archway World Generator** is a standalone desktop application that builds the map a grand strategy game runs on.
+
+It generates terrain from fractal noise, lets you repaint it by hand, cuts the result into provinces, groups those provinces into a hierarchy of territories, and writes the whole thing out as images and tables an engine can load.
+
+It is a **tool**, not a library: a single executable, no installer, no dependency on Unreal Engine, no project to configure. You unzip it and run it.
+
+<Capture
+  src="/img/wgen/10-panneau-terrain.png"
+  caption="The Terrain panel, as it opens"
+  fig="Fig. 1.1"
+  zoom
+/>
+
+## What it can do
+
+### Procedural terrain
+
+- **Fractal noise** in three flavours — Simplex, Cellular, Perlin — with FBm, Ridged and Ping-pong fractal modes
+- **Reproducible**: the same seed always gives the same world, on any machine
+- **Three projections** — Planar, Equirectangular, Mercator — with optional east-to-west wrapping
+- **Domain warping**, which turns rounded noise blobs into continents with inlets and peninsulas
+- **Hypsometric curve**, distributing elevation the way real terrain does: plains dominate, peaks are rare
+
+### Hand sculpting
+
+- **Raise, lower and set** brushes, with shape, size, strength, falloff, noise and rotation
+- **Direct painting** of biomes and strata in the matching views
+- **Stencil**: load an image, trace it, or flood-fill terrain from it
+
+:::tip Sculpting survives regeneration
+Painted influence is stored separately from the noise. You can go back to the Terrain panel, change the seed, regenerate — your mountains stay where you put them.
+:::
+
+### Provinces
+
+- Separate **land and sea targets**, each with its own irregularity
+- **Per-stratum density** — mountains can be more finely cut than plains — and per-biome modifiers on top
+- **Micro-province cleanup** with a size threshold
+- **Hand editing**: paint boundaries, create provinces, pick with the right button
+
+### Territory hierarchy
+
+- **Unlimited levels**, each built from provinces or from the level below — duchies from counties, kingdoms from duchies
+- **Automatic grouping** with minimum and maximum size, sea excluded if wanted
+- **Paint mode** to assign a province to a territory by hand
+- **Colour cascade**: a territory's colour propagates down to its children
+
+### Masks
+
+- **Stratum overrides**: replace an elevation band's shape with an image
+- **Biome layer stack**: import images as ordered layers, each painting one biome
+- **Round trip**: export every mask, edit it elsewhere, bring it back
+
+### Engine-ready export
+
+- **16-bit heightmap** as PNG and RAW, with control over bevelling, smoothing and anti-aliasing
+- **Normal map** derived from the final heightmap
+- **Province map** plus `definition.csv` and `adjacencies.csv`
+- **One CSV per hierarchy level**, with contiguous IDs from 1
+
+## The principles
+
+### 1. The seed is the document
+
+A world is reproducible from its seed and its settings. Copy the seed, paste it on another machine, you get the same world. The **Saved seeds** shelf exists because interesting worlds are found by chance, and writing the number on paper is not a workflow.
+
+### 2. Nothing blocks the window
+
+Generation, preview rebuilds and exports all run off the main thread. The interface stays alive and says what it is doing; controls that would have to wait on a background job are visibly disabled rather than frozen.
+
+### 3. Hand work is not disposable
+
+Regenerating terrain does not throw away what you painted. Undo is a single history covering map edits and hierarchy edits alike, so `Ctrl+Z` reverses the last thing you did, whichever panel you did it in.
+
+### 4. Destructive actions ask first
+
+Discarding an edited world, or starting a multi-gigabyte generation, both prompt. Nothing else does — a prompt that always appears is a prompt people learn to dismiss without reading.
+
+### 5. The file format is untrusted input
+
+A `.wgen` gets shared. The loader validates a file's entire structure **before touching the world you have open**: a corrupt or hostile file is refused rather than half-loaded over your work.
+
+## What it is not
+
+- **Not a renderer.** It produces data; drawing it in-game is [Archway](/en/archway/)'s job.
+- **Not a 3D terrain sculptor.** Everything is a 2D field. No overhangs, caves or meshes.
+- **Not multi-document.** One world open at a time.
+
+## Next
+
+- [Installation](./installation) — get it running
+- [Preparing your first world](../generer/premier-monde) — a complete world in ten minutes

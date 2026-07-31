@@ -1,0 +1,175 @@
+---
+title: Troubleshooting
+sidebar_position: 1
+---
+
+<PlateHead no="—" title="Troubleshooting" folio="14" />
+
+# Troubleshooting
+
+:::tip Start with `debug_log.txt`
+It sits next to the executable. Plain text, appended on every run. The reason for a refused file, a failed export or a missing font is usually written there directly.
+:::
+
+## Startup
+
+### The application will not start, and a dialog names a DLL
+
+The archive was not fully extracted, or the executable was taken out of it on its own. The runtime DLLs — `msvcp140.dll`, `vcruntime140.dll`, `vcruntime140_1.dll`, `vcomp140.dll`, `concrt140.dll` — must sit next to the executable.
+
+Re-extract the whole archive.
+
+### A console window appears behind the application
+
+You are running an older build. Recent builds are linked for the windows subsystem and have no console.
+
+### The interface is far too large or far too small
+
+It follows the display's scaling on first run. `Ctrl`+`0` to match the display, or `Ctrl`+`-` / `Ctrl`+`+` in 25 % steps.
+
+If it is still wrong, delete `ui_scale.cfg` and restart.
+
+### The title bar is white
+
+Windows 10. The tinting attributes used are Windows 11 only; the application falls back to the system dark caption. `debug_log.txt` records which happened, on a line beginning `Window: title bar`.
+
+## Saving and loading
+
+### Saving does nothing, or reports an error
+
+The application writes next to its own executable. If you extracted it into `C:\Program Files`, that folder is read-only for a normal user.
+
+Move the whole folder somewhere else — `Documents`, a project directory — and try again.
+
+### A world will not open
+
+The loader validates a file's entire structure before touching what you have open: a refused file is refused, not half-loaded. `debug_log.txt` gives the reason on a line beginning `LoadWGen:`.
+
+| Message | Meaning |
+|---|---|
+| `unsupported version N` | The file was written by a newer build |
+| Truncation or size errors | The file is incomplete or corrupt |
+
+Your open world stays intact either way.
+
+## Generation
+
+### Generation is very slow
+
+Check the resolution. Time follows pixel count, and the Archway preset (8129 × 4065) is sixteen times the work of 1080p.
+
+**Octaves** is the other big cost: each octave is a full pass over the map.
+
+Iterate at 1080p and move to production resolution once the settings are right.
+
+### Generation fails on a large map
+
+Out of memory. The **Resolution** group reports what the chosen size needs, at roughly 25 bytes per pixel; above 2 GB the application asks for confirmation first.
+
+A failed allocation is handled cleanly — the world you had open stays intact.
+
+### Regenerating erased my painted terrain
+
+It should not. Painted influence is stored separately from the noise and reapplied after regeneration.
+
+If it really vanished, check that **New world** was not pressed instead of **Generate map**: New discards the document.
+
+### Changing sea level moved my coastline oddly
+
+If **Realistic elevation spread** is on, it is applied before the edge mask and can move samples across sea level. Switch it off to see the unmodified distribution.
+
+## Provinces
+
+### No provinces appear after generating
+
+The view switches automatically. If it did not, click **Provinces** in the switcher — the button only appears once provinces exist.
+
+### There are far more, or far fewer, provinces than the target
+
+Targets are aims, not guarantees. The actual count depends on how much land there is, and on **Density per stratum** and **Biome density**, which multiply seeding density band by band.
+
+### Tiny slivers of provinces along the coast
+
+**Provinces → Cleanup**. Set a minimum size and press **Clean micro-provinces**; the hierarchy is relinked afterwards.
+
+### Adjacency data is wrong after hand editing
+
+Press **Apply new province** in *Sculpt → Province editing*. Painting changes the pixel map immediately, but the adjacency graph and the hierarchy are only rebuilt on request.
+
+## Hierarchy
+
+### The panel is empty and says a generation is running
+
+It is inert while a background job runs. Wait for the toolbar spinner to stop.
+
+### Territories are grey, or point at provinces that have gone
+
+Press **Force refresh** in the *Build* group. It relinks the level to a province set that has changed under it.
+
+### Creating a level does nothing
+
+Look at the error under the form: either no source is selected, or *Provinces* was chosen when no provinces exist.
+
+### A hierarchy CSV has the wrong name
+
+The file name is the level name. Rename the level in *Levels → Rename level* before exporting.
+
+## Export
+
+### The export wrote nothing
+
+Look for a directory-creation error in `debug_log.txt`. The most common cause is an unwritable install location — see [Saving does nothing](#saving-does-nothing-or-reports-an-error).
+
+### The heightmap has hard steps between elevations
+
+That is the default, and it is deliberate: hard terraces are preferable if you are going to edit the heightmap afterwards.
+
+Raise **Stratum slope**, or **Smoothing passes**, or switch on **Anti-aliasing**.
+
+### The heightmap has no terraces at all and ignores my settings
+
+**Raw noise (bypass strata)** is on. That exports the continuous noise field before it is cut into bands: no band boundaries are left to bevel.
+
+### Province IDs in the CSV do not match what the application showed
+
+Expected. Export renumbers IDs contiguously from 1, so gaps left by deletion, cleanup or editing never reach the engine.
+
+## Masks
+
+### An imported mask is squashed or stretched
+
+Aspect ratio. Switch on **Crop square imports** in *Masks → Import and export* to take the top 2:1 band of a square image instead of squashing it.
+
+### A mask changed nothing
+
+Mask edits only take effect after regeneration. Look for the warning at the bottom of the Masks panel and press **Apply changes**.
+
+### A biome layer is not painting
+
+Check its switch — a hidden layer's name is dimmed. Check its position in the stack: layers above paint over. Check the biome's **Allowed strata** in *Sculpt* — a biome cannot paint into a band it is not allowed to occupy.
+
+## Interface
+
+### A toolbar button is greyed out
+
+New, Open, Undo and Redo take an exclusive lock on the world. During a generation or a preview rebuild they are disabled rather than left to freeze the window. The capsule in the bottom-right corner says what is being recomputed.
+
+### Keyboard shortcuts stopped responding
+
+A text field has focus and owns the keyboard. `Escape` or `Enter` to release it.
+
+### A panel group will not open
+
+Click anywhere along its header strip, not just the chevron. From the keyboard, `Tab` to it and press `Space`.
+
+## Reporting a problem
+
+Include:
+
+1. `debug_log.txt`
+2. The application version, from **Settings → About**
+3. The map resolution
+4. What you did, in order
+5. The `.wgen` if the problem reproduces with a particular world
+
+Contact: [contact@origoma.com](mailto:contact@origoma.com)

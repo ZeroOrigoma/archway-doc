@@ -1,0 +1,30 @@
+{
+  "title": {
+    "message": "Origoma Docs",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Archway",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Produits": {
+    "message": "Products",
+    "description": "Navbar item with label Produits"
+  },
+  "item.label.Licences": {
+    "message": "Licences",
+    "description": "Navbar item with label Licences"
+  },
+  "item.label.archway.origoma.com": {
+    "message": "archway.origoma.com",
+    "description": "Navbar item with label archway.origoma.com"
+  },
+  "item.label.Archway": {
+    "message": "Archway",
+    "description": "Navbar item with label Archway"
+  },
+  "item.label.World Generator": {
+    "message": "World Generator",
+    "description": "Navbar item with label World Generator"
+  }
+}
